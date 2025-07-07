@@ -1,13 +1,41 @@
 {
   "Aluminum Alloys": [
-    { "name": "AlSi10Mg", "commercial": true },
-    "AlSi7Mg",
-    "AlSi12",
-    "Scalmalloy",
-    "F357",
-    "A2024-RAM2C",
-    "Al2139",
-    "Aheadd CP1",
+    {
+      "name": "AlSi10Mg",
+      "commercial": true
+    },
+    {
+      "name": "AlSi7Mg",
+      "commercial": true
+    },
+    {
+      "name": "AlSi12",
+      "commercial": true
+    },
+    {
+      "name": "Scalmalloy",
+      "commercial": true
+    },
+    {
+      "name": "F357",
+      "commercial": true
+    },
+    {
+      "name": "A2024-RAM2C",
+      "commercial": true
+    },
+    {
+      "name": "Al2139",
+      "commercial": true
+    },
+    {
+      "name": "Aheadd CP1",
+      "commercial": true
+    },
+    {
+      "name": "Al5X1",
+      "commercial": true
+    },
     "Al-HS1",
     "A20X",
     "Dispal S220",
@@ -15,12 +43,22 @@
     "Al6061R2",
     "Al7050R2",
     "Al7075",
-    "AMZ4"
+    "AMZ4",
+    "Al2139 AM"
   ],
   "Titanium Alloys": [
-    "Ti6Al4V Grade 5",
-    "Ti6Al4V Grade 23",
-    "TiCP",
+    {
+      "name": "Ti6Al4V Grade 5",
+      "commercial": true
+    },
+    {
+      "name": "Ti6Al4V Grade 23",
+      "commercial": true
+    },
+    {
+      "name": "TiCP",
+      "commercial": true
+    },
     "Ti5553",
     "Ti65"
   ],
@@ -37,28 +75,68 @@
     "18ct White"
   ],
   "Refractory Metals": [
-    "Tungsten",
-    "Tantalum",
-    "Molybdenum",
-    "Niobium",
-    "C103",
+    {
+      "name": "Tungsten",
+      "commercial": true
+    },
+    {
+      "name": "Tantalum",
+      "commercial": true
+    },
+    {
+      "name": "Molybdenum",
+      "commercial": true
+    },
+    {
+      "name": "Niobium",
+      "commercial": true
+    },
+    {
+      "name": "C103",
+      "commercial": true
+    },
     "LM105",
     "Rhenium",
     "Hafnium",
     "TZM"
   ],
   "Cobalt-Chrome Alloys": [
-    "CoCrMo",
-    "CoCrW",
+    {
+      "name": "CoCrMo",
+      "commercial": true
+    },
+    {
+      "name": "CoCrW",
+      "commercial": true
+    },
     "CoCrFeNi",
     "Stellite 6"
   ],
   "Copper Alloys": [
-    "Pure Copper",
-    "CuCrZr",
-    "CuNi2SiCr",
-    "GRCop-42",
-    "GRCop-84",
+    {
+      "name": "Pure Copper",
+      "commercial": true
+    },
+    {
+      "name": "CuCrZr",
+      "commercial": true
+    },
+    {
+      "name": "CuNi2SiCr",
+      "commercial": true
+    },
+    {
+      "name": "GRCop-42",
+      "commercial": true
+    },
+    {
+      "name": "GRCop-84",
+      "commercial": true
+    },
+    {
+      "name": "CuNi30",
+      "commercial": true
+    },
     "C18150",
     "CuSn10",
     "CW510",
@@ -68,52 +146,145 @@
     "Bronze"
   ],
   "Nickel Superalloys": [
-    "Inconel 625",
-    "Inconel 718",
-    "Inconel 738LC",
-    "Inconel 939",
+    {
+      "name": "Inconel 625",
+      "commercial": true
+    },
+    {
+      "name": "Inconel 718",
+      "commercial": true
+    },
+    {
+      "name": "Inconel 738LC",
+      "commercial": true
+    },
+    {
+      "name": "Inconel 939",
+      "commercial": true
+    },
+    {
+      "name": "Hastelloy X",
+      "commercial": true
+    },
+    {
+      "name": "Hastelloy C-22",
+      "commercial": true
+    },
+    {
+      "name": "Haynes 282",
+      "commercial": true
+    },
+    {
+      "name": "Haynes 214",
+      "commercial": true
+    },
+    {
+      "name": "Waspaloy",
+      "commercial": true
+    },
+    {
+      "name": "Invar 36",
+      "commercial": true
+    },
+    {
+      "name": "K500",
+      "commercial": true
+    },
+    {
+      "name": "Ni-Cp",
+      "commercial": true
+    },
     "InvHard",
-    "Hastelloy X",
-    "Hastelloy C-22",
-    "Haynes 282",
-    "Haynes 214",
-    "Waspaloy",
-    "Invar 36",
     "GH230",
     "GH99",
-    "K500",
-    "Ni-Cp",
     "ABD900",
     "ABD1000",
     "AD730"
   ],
   "Tool Steel & Others": [
-    "H11",
-    "H13",
-    "1.2709",
-    "M300",
-    "M789",
-    "18Ni300",
+    {
+      "name": "H11",
+      "commercial": true
+    },
+    {
+      "name": "H13",
+      "commercial": true
+    },
+    {
+      "name": "1.2709",
+      "commercial": true
+    },
+    {
+      "name": "M300",
+      "commercial": true
+    },
+    {
+      "name": "M789",
+      "commercial": true
+    },
+    {
+      "name": "18Ni300",
+      "commercial": true
+    },
+    {
+      "name": "Corrax",
+      "commercial": true
+    },
     "16MnCr5",
     "4130",
     "Alloy 6",
-    "Corrax",
     "4340",
     "TS700"
   ],
   "Stainless Steel": [
-    "316L",
-    "304L",
-    "410L",
-    "420A",
-    "430L",
-    "415",
-    "17-4PH",
-    "15-5PH",
-    "42CrMo4",
-    "254SMO",
-    "1.4404",
-    "1.4828",
+    {
+      "name": "316L",
+      "commercial": true
+    },
+    {
+      "name": "304L",
+      "commercial": true
+    },
+    {
+      "name": "410L",
+      "commercial": true
+    },
+    {
+      "name": "420A",
+      "commercial": true
+    },
+    {
+      "name": "430L",
+      "commercial": true
+    },
+    {
+      "name": "415",
+      "commercial": true
+    },
+    {
+      "name": "17-4PH",
+      "commercial": true
+    },
+    {
+      "name": "15-5PH",
+      "commercial": true
+    },
+    {
+      "name": "42CrMo4",
+      "commercial": true
+    },
+    {
+      "name": "254SMO",
+      "commercial": true
+    },
+    {
+      "name": "1.4404",
+      "commercial": true
+    },
+    {
+      "name": "1.4828",
+      "commercial": true
+    },
     "X15TN",
     "THOR44"
   ],
