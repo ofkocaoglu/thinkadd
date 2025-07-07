@@ -23,89 +23,50 @@
   </div>
 
   <script>
-    // JSON data for LPBF Material Universe
-    const materialData = {
-      "Aluminum Alloys": [
-        "AlSi10Mg","AlSi7Mg","AlSi12","Scalmalloy","F357",
-        "A2024-RAM2C","Al2139","Aheadd CP1","Al-HS1","A20X",
-        "Dispal S220","Dispal S260","Al6061R2","Al7050R2","Al7075","AMZ4"
-      ],
-      "Titanium Alloys": [
-        "Ti6Al4V Grade 5","Ti6Al4V Grade 23","TiCP","Ti5553","Ti65"
-      ],
-      "Precious Metals": [
-        "24K Gold","18K Yellow Gold","Silver","Palladium","Rhodium",
-        "Iridium","950Pt-Au-In","Platinum 950","18ct Red","18ct White"
-      ],
-      "Refractory Metals": [
-        "Tungsten","Tantalum","Molybdenum","Niobium","C103",
-        "LM105","Rhenium","Hafnium","TZM"
-      ],
-      "Cobalt-Chrome Alloys": [
-        "CoCrMo","CoCrW","CoCrFeNi","Stellite 6"
-      ],
-      "Copper Alloys": [
-        "Pure Copper","CuCrZr","CuNi2SiCr","GRCop-42","GRCop-84",
-        "C18150","CuSn10","CW510","CW713R","CW724R","OFHC-Cu","Bronze"
-      ],
-      "Nickel Superalloys": [
-        "Inconel 625","Inconel 718","Inconel 738LC","Inconel 939",
-        "Invar 36","Hastelloy X","Hastelloy C-22","Haynes 282",
-        "Haynes 214","Waspaloy","InvHard","GH230","GH99","K500",
-        "Ni-Cp","ABD900","ABD1000","AD730"
-      ],
-      "Tool Steel & Others": [
-        "H11","H13","1.2709","M300","M789","18Ni300",
-        "16MnCr5","4130","Alloy 6","Corrax","4340","TS700"
-      ],
-      "Stainles Steel": [
-        "316L","304L","410L","420A","430L","415",
-        "17-4PH","15-5PH","42CrMo4","254SMO","1.4404","1.4828",
-        "X15TN","THOR44"
-      ],
-      "Magnesium Alloys": [
-        "WE43","AZ91D","ZK60"
-      ]
-    };
+    // Load material data from external JSON file
+    fetch('materialData.json')
+      .then(response => response.json())
+      .then(materialData => {
+        // Once data is loaded, initialize chart and lists
+        const categories = Object.keys(materialData);
+        const dataValues = categories.map(() => 1);
+        const colors = ['#e63946','#f4a261','#e9c46a','#a8dadc','#2a9d8f','#b87333','#1d3557','#6a4c93','#9d4edd','#8ac926'];
+        const abbreviations = {
+          'Aluminum Alloys':'Al','Titanium Alloys':'Ti','Precious Metals':'PM',
+          'Refractory Metals':'RM','Cobalt-Chrome Alloys':'Co','Copper Alloys':'Cu',
+          'Nickel Superalloys':'Ni','Tool Steel & Others':'TS','Stainless Steel':'SS',
+          'Magnesium Alloys':'Mg'
+        };
 
-    // Prepare chart data
-    const categories = Object.keys(materialData);
-    const dataValues = categories.map(() => 1);
-    const colors = ['#e63946','#f4a261','#e9c46a','#a8dadc','#2a9d8f','#b87333','#1d3557','#6a4c93','#9d4edd','#8ac926'];
-    const abbreviations = {
-      'Aluminum Alloys':'Al','Titanium Alloys':'Ti','Precious Metals':'PM',
-      'Refractory Metals':'RM','Cobalt-Chrome Alloys':'Co','Copper Alloys':'Cu',
-      'Nickel Superalloys':'Ni','Tool Steel & Others':'TS','Stainles Steel':'SS',
-      'Magnesium Alloys':'Mg'
-    };
+        // Initialize Chart.js
+        const ctx = document.getElementById('materialChart').getContext('2d');
+        Chart.register(ChartDataLabels);
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: { labels: categories, datasets:[{ data: dataValues, backgroundColor: colors, borderWidth:1 }]},
+          options: {
+            responsive:true, cutout:'50%',
+            plugins:{
+              legend:{ display:false },
+              datalabels:{ color:'#fff',font:{weight:'bold',size:14},formatter:(value,ctx)=> abbreviations[ctx.chart.data.labels[ctx.dataIndex]] || '' },
+              tooltip:{ callbacks:{ title:items=>items[0].label, label:item=>materialData[item.label].join(', ') }}
+            }
+          }
+        });
 
-    // Initialize Chart.js
-    const ctx = document.getElementById('materialChart').getContext('2d');
-    Chart.register(ChartDataLabels);
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: { labels: categories, datasets:[{ data: dataValues, backgroundColor: colors, borderWidth:1 }]},
-      options: {
-        responsive:true, cutout:'50%',
-        plugins:{
-          legend:{ display:false },
-          datalabels:{ color:'#fff',font:{weight:'bold',size:14},formatter:(value,ctx)=> abbreviations[ctx.chart.data.labels[ctx.dataIndex]] || '' },
-          tooltip:{ callbacks:{ title:items=>items[0].label, label:item=>materialData[item.label].join(', ') }}
-        }
-      }
-    });
-
-    // Render lists below chart
-    const listContainer = document.getElementById('materialLists');
-    categories.forEach(cat=>{
-      const box = document.createElement('div'); box.className='bg-white p-4 rounded shadow';
-      const title = document.createElement('h2'); title.className='font-semibold mb-2'; title.textContent=cat;
-      box.appendChild(title);
-      const ul = document.createElement('ul'); ul.className='list-disc list-inside text-sm';
-      materialData[cat].forEach(item=>{ const li=document.createElement('li'); li.textContent=item; ul.appendChild(li); });
-      box.appendChild(ul);
-      listContainer.appendChild(box);
-    });
+        // Render lists below chart
+        const listContainer = document.getElementById('materialLists');
+        categories.forEach(cat=>{
+          const box = document.createElement('div'); box.className='bg-white p-4 rounded shadow';
+          const title = document.createElement('h2'); title.className='font-semibold mb-2'; title.textContent=cat;
+          box.appendChild(title);
+          const ul = document.createElement('ul'); ul.className='list-disc list-inside text-sm';
+          materialData[cat].forEach(item=>{ const li=document.createElement('li'); li.textContent=item; ul.appendChild(li); });
+          box.appendChild(ul);
+          listContainer.appendChild(box);
+        });
+      })
+      .catch(err => console.error('Error loading materialData.json:', err));
   </script>
 </body>
 </html>
