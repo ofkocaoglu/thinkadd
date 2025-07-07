@@ -1,6 +1,6 @@
 {
   "Aluminum Alloys": [
-    "AlSi10Mg",
+    { "name": "AlSi10Mg", "commercial": true },
     "AlSi7Mg",
     "AlSi12",
     "Scalmalloy",

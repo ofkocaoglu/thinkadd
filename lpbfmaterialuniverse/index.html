@@ -59,7 +59,7 @@
       .then(materialData => {
         const categories = Object.keys(materialData);
         const dataValues = categories.map(() => 1);
-        // Initial vibrant color palette
+        // Color palette
         const colors = ['#e63946','#f4a261','#e9c46a','#a8dadc','#2a9d8f','#b87333','#1d3557','#6a4c93','#9d4edd','#8ac926'];
         const abbreviations = {
           'Aluminum Alloys':'Al','Titanium Alloys':'Ti','Precious Metals':'PM',
@@ -73,31 +73,28 @@
         Chart.register(ChartDataLabels);
         new Chart(ctx, {
           type: 'doughnut',
-          data: {
-            labels: categories,
-            datasets: [{ data: dataValues, backgroundColor: colors, borderWidth: 1 }]
-          },
+          data: { labels: categories, datasets: [{ data: dataValues, backgroundColor: colors, borderWidth:1 }] },
           options: {
-            responsive: true,
-            cutout: '50%',
-            plugins: {
-              legend: { display: false },
-              datalabels: {
-                color: '#fff',
-                font: { family: 'Poppins', weight: 'bold', size: 14 },
-                formatter: (value, ctx) => abbreviations[ctx.chart.data.labels[ctx.dataIndex]] || ''
+            responsive:true,
+            cutout:'50%',
+            plugins:{
+              legend:{ display:false },
+              datalabels:{
+                color:'#fff',
+                font:{ family:'Poppins', weight:'700', size:14 },
+                formatter:(value,ctx) => abbreviations[ctx.chart.data.labels[ctx.dataIndex]] || ''
               },
-              tooltip: {
-                backgroundColor: 'rgba(33, 33, 33, 0.85)',
-                titleColor: '#ffffff',
-                bodyColor: '#f1f1f1',
-                titleFont: { family: 'Poppins', weight: '700', size: 14 },
-                bodyFont: { family: 'Open Sans', size: 12 },
-                padding: 8,
-                cornerRadius: 6,
-                displayColors: false,
-                bodySpacing: 4,
-                callbacks: {
+              tooltip:{
+                backgroundColor:'rgba(33,33,33,0.85)',
+                titleColor:'#ffffff',
+                bodyColor:'#f1f1f1',
+                titleFont:{ family:'Open Sans', weight:'700', size:14 },
+                bodyFont:{ family:'Open Sans', size:12 },
+                padding:8,
+                cornerRadius:6,
+                displayColors:false,
+                bodySpacing:4,
+                callbacks:{
                   title: items => items[0].label,
                   label: item => materialData[item.label]
                 }
@@ -108,6 +105,13 @@
 
         // Render lists below chart with colored headings
         const listContainer = document.getElementById('materialLists');
+
+        // Legend note for commercial availability
+        const legendNote = document.createElement('p');
+        legendNote.className = 'text-sm mb-2 italic';
+        legendNote.textContent = 'Commercially available materials are highlighted in blue.';
+        listContainer.parentNode.insertBefore(legendNote, listContainer);
+
         categories.forEach((cat, idx) => {
           const box = document.createElement('div');
           box.className = 'bg-white p-4 rounded shadow';
@@ -120,9 +124,18 @@
 
           const ul = document.createElement('ul');
           ul.className = 'list-disc list-inside text-sm';
-          materialData[cat].forEach(item => {
+
+          materialData[cat].forEach(entry => {
+            let name, isCommercial = false;
+            if (typeof entry === 'object') {
+              name = entry.name;
+              isCommercial = entry.commercial;
+            } else {
+              name = entry;
+            }
             const li = document.createElement('li');
-            li.textContent = item;
+            li.textContent = name;
+            if (isCommercial) li.classList.add('text-blue-600','font-semibold');
             ul.appendChild(li);
           });
           box.appendChild(ul);
