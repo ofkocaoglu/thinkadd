@@ -27,7 +27,6 @@
     fetch('materialData.json')
       .then(response => response.json())
       .then(materialData => {
-        // Once data is loaded, initialize chart and lists
         const categories = Object.keys(materialData);
         const dataValues = categories.map(() => 1);
         const colors = ['#e63946','#f4a261','#e9c46a','#a8dadc','#2a9d8f','#b87333','#1d3557','#6a4c93','#9d4edd','#8ac926'];
@@ -45,24 +44,47 @@
           type: 'doughnut',
           data: { labels: categories, datasets:[{ data: dataValues, backgroundColor: colors, borderWidth:1 }]},
           options: {
-            responsive:true, cutout:'50%',
+            responsive:true,
+            cutout:'50%',
             plugins:{
               legend:{ display:false },
-              datalabels:{ color:'#fff',font:{weight:'bold',size:14},formatter:(value,ctx)=> abbreviations[ctx.chart.data.labels[ctx.dataIndex]] || '' },
-              tooltip:{ callbacks:{ title:items=>items[0].label, label:item=>materialData[item.label].join(', ') }}
+              datalabels:{
+                color:'#fff',
+                font:{weight:'bold',size:14},
+                formatter:(value,ctx) => abbreviations[ctx.chart.data.labels[ctx.dataIndex]] || ''
+              },
+              tooltip:{
+                maxWidth: 400,
+                callbacks:{
+                  title: items => items[0].label,
+                  label: item => materialData[item.label] // return array for multi-line
+                }
+              }
             }
           }
         });
 
-        // Render lists below chart
+        // Render lists below chart with colored headings
         const listContainer = document.getElementById('materialLists');
-        categories.forEach(cat=>{
-          const box = document.createElement('div'); box.className='bg-white p-4 rounded shadow';
-          const title = document.createElement('h2'); title.className='font-semibold mb-2'; title.textContent=cat;
+        categories.forEach((cat, idx) => {
+          const box = document.createElement('div');
+          box.className = 'bg-white p-4 rounded shadow';
+
+          const title = document.createElement('h2');
+          title.textContent = cat;
+          title.className = 'font-semibold mb-2 p-2 rounded text-white';
+          title.style.backgroundColor = colors[idx];
           box.appendChild(title);
-          const ul = document.createElement('ul'); ul.className='list-disc list-inside text-sm';
-          materialData[cat].forEach(item=>{ const li=document.createElement('li'); li.textContent=item; ul.appendChild(li); });
+
+          const ul = document.createElement('ul');
+          ul.className = 'list-disc list-inside text-sm';
+          materialData[cat].forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            ul.appendChild(li);
+          });
           box.appendChild(ul);
+
           listContainer.appendChild(box);
         });
       })
