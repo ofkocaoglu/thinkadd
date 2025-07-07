@@ -37,7 +37,7 @@
       <a href="mailto:omerfkocaoglu@gmail.com" class="contact-button bg-[#808080] text-white text-base py-2 px-4 rounded transform scale-90 transition hover:bg-[#404040]">Contact Author</a>
       <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="linkedin-button bg-blue-600 text-white text-base py-2 px-4 rounded transform scale-90 transition hover:bg-blue-700">Follow on LinkedIn</a>
     </div>
-    <h1 class="text-4xl text-center mb-8">LPBF Material Universe</h1>
+    <h1 class="text-3xl text-center mb-8">LPBF Material Universe</h1>
     <!-- Chart + Center Image Container -->
     <div class="relative max-w-md mx-auto">
       <canvas id="materialChart" class="relative z-10"></canvas>
@@ -95,9 +95,12 @@
                 cornerRadius:6,
                 displayColors:false,
                 bodySpacing:4,
-                callbacks:{
+                callbacks: {
                   title: items => items[0].label,
-                  label: item => materialData[item.label]
+                  label: context => {
+                    const entries = materialData[context.label];
+                    return entries.map(entry => typeof entry === 'object' ? entry.name : entry);
+                  }
                 }
               }
             }
