@@ -54,10 +54,21 @@
         }
 
 
-      span.tooltip:hover::after {
-        display: block;
-      }
-  
+              span.tooltip:hover::after {
+                display: block;
+              }
+          @media (max-width: 600px) {
+          span.tooltip::after {
+            /* Hâlâ sağda kalsın */
+            left: 100%;
+            margin-left: 6px;
+            /* Bir satıra sığmayan kısmı alttaki satıra at */
+            white-space: normal;
+            /* Maksimum genişlik ver, örn ekranın %70’i kadar */
+            max-width: 70vw;
+          }
+}
+
   
   </style>
 </head>
