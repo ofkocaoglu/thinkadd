@@ -57,22 +57,28 @@
       span.tooltip:hover::after {
         display: block;
       }
+  
+  
   </style>
 </head>
 <body class="bg-gray-50">
   <div id="page-content" class="container mx-auto p-4 relative">
-    <!-- Export Buttons (Top Left) -->
-    <div class="absolute top-4 left-4 flex space-x-2">
+ <!-- Export Buttons (Top Left) -->
+ <div class="flex flex-wrap space-x-2 mt-4 sm:mt-0 sm:absolute sm:top-4 sm:left-4">
       <button id="download-pdf" class="btn bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700">Download PDF</button>
       <button id="download-jpeg" class="btn bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700">Download JPEG</button>
     </div>
-    <!-- Contact & LinkedIn (Top Right) -->
-    <div class="absolute top-4 right-4 flex space-x-2">
+ <!-- Contact & LinkedIn (Top Right) -->
+ <div class="flex flex-wrap space-x-2 mt-2 sm:mt-0 sm:absolute sm:top-4 sm:right-4">
       <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700">Contact Author</a>
       <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Follow on LinkedIn</a>
     </div>
 
-    <h1 class="text-3xl text-center mb-8">LPBF Material Universe</h1>
+    <h1 class="text-4xl text-center mb-4">LPBF Material Universe</h1>
+    <p class="text-xs text-gray-500 text-center max-w-3xl mx-auto mb-8">
+      Laser Powder Bed Fusion (LPBF) is a metal additive manufacturing process that uses a laser to melt thin layers of metal powder, building parts layer by layer. This site is a neutral, non-commercial resource that lists both commercial and research-stage LPBF powders, summarizing their compositions, properties, and typical applications, independent of any supplier or machine brand.
+    </p>
+
 
     <!-- Chart Container -->
     <div id="chart-container" class="relative max-w-md mx-auto mb-8">
@@ -143,13 +149,13 @@
           plugins: {
             legend: { display: false },
             datalabels: {
-              color: '#fff', font: { family: 'Poppins', weight: '700', size: 14 },
+              color: '#fff', font: { family: 'Poppins', weight: '700', size: 24 },
               formatter: (v, ctx) => abbreviations[ctx.chart.data.labels[ctx.dataIndex]] || ''
             },
             tooltip: {
               backgroundColor: 'rgba(33,33,33,0.85)',
               titleColor: '#ffffff',
-              titleFont: { family: 'Poppins', weight: '700', size: 14 },
+              titleFont: { family: 'Poppins', weight: '700', size: 12 },
               bodyColor: '#f1f1f1',
               bodyFont: { family: 'Open Sans', size: 12 },
               padding: 8,
