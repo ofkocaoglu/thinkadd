@@ -16,8 +16,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     html, body, p, ul, li, a { font-family: 'Open Sans', sans-serif; }
-    h1, h2 { font-family: 'Poppins', sans-serif; font-weight:700; }
+    h1, h2, h3 { font-family: 'Poppins', sans-serif; font-weight:700; }
     .btn { font-family: 'Poppins', sans-serif; font-weight:700; }
+    /* Checkbox accent color */
+    input[type="checkbox"] {
+      width: 1rem;
+      height: 1rem;
+      accent-color: #2563EB;
+    }
   </style>
 </head>
 <body class="bg-gray-50">
@@ -37,10 +43,11 @@
     <h1 class="text-4xl text-center mb-4">LPBF Material Universe</h1>
     <!-- Description -->
     <p class="text-xs text-gray-500 text-center max-w-3xl mx-auto mb-8">
-      Laser Powder Bed Fusion (LPBF) is a metal additive manufacturing process that uses a laser to melt thin layers of
-      metal powder, building parts layer by layer. This neutral, non-commercial resource compiles data on commercial and
-      research-stage LPBF powders, sourced from trusted OEMs, material distributors, and databases, and summarizes their
-      compositions, properties, and typical applications independently of any supplier or machine brand.
+      Laser Powder Bed Fusion (LPBF) is a metal additive manufacturing process that uses a high-powered
+      laser to fuse thin layers of metal powder, building parts layer by layer. This independent,
+      non-commercial platform summarizes data on commercial and research-grade LPBF materials.
+      Information on composition, properties and typical applications is sourced from trusted OEMs,
+      material suppliers and databases, without ties to any specific brand or machine.
     </p>
 
     <!-- Chart Container -->
@@ -65,15 +72,17 @@
 
   <!-- Detail Modal -->
   <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-    <div class="bg-white rounded-lg w-11/12 md:w-3/4 lg:w-1/2 p-6 relative">
-      <button id="modal-close" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+    <div class="bg-white rounded-lg shadow-xl overflow-y-auto max-h-[80vh] max-w-2xl w-full mx-4 md:mx-auto p-6 relative">
+      <button id="modal-close" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
       <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
-      <div id="modal-content" class="space-y-2 text-sm"></div>
+      <div id="modal-content" class="space-y-6 text-sm">
+        <!-- Dynamic content inserted here -->
+      </div>
     </div>
   </div>
 
   <script>
-    // Export handlers
+    // Export Handlers
     const page = document.getElementById('page-content');
     document.getElementById('download-pdf').onclick = async () => {
       const { jsPDF } = window.jspdf;
@@ -91,13 +100,13 @@
       const link = document.createElement('a'); link.href = img; link.download = 'LPBF_Material_Universe.jpeg'; link.click();
     };
 
-    // Modal elements
+    // Modal Elements
     const modal = document.getElementById('detail-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalContent = document.getElementById('modal-content');
     document.getElementById('modal-close').onclick = () => modal.classList.add('hidden');
 
-    // Load DB and render
+    // Load and Render Data
     fetch('materialDatabase.json')
       .then(r => r.json())
       .then(db => {
@@ -106,56 +115,90 @@
         const materialsByCategory = {};
         categories.forEach(cat => materialsByCategory[cat] = cleanDb.filter(item => item['Alloy Type'] === cat));
 
-        // Colors & abbreviations
+        // Pie Chart
         const colors = ['#e63946','#f4a261','#e9c46a','#a8dadc','#2a9d8f','#b87333','#1d3557','#6a4c93','#9d4edd','#8ac926'];
         const abbreviations = {'Aluminium Alloys':'Al','Titanium Alloys':'Ti','Precious Metals':'PM','Refractory Metals':'RM','Cobalt-Chrome Alloys':'Co','Copper Alloys':'Cu','Nickel Superalloys':'Ni','Tool Steels & Others':'TS','Stainless Steels':'SS','Magnesium Alloys':'Mg'};
-
-        // Doughnut Chart
         const ctx = document.getElementById('materialChart').getContext('2d'); Chart.register(ChartDataLabels);
         new Chart(ctx, {
           type:'doughnut',
           data:{ labels:categories, datasets:[{ data:categories.map(()=>1), backgroundColor:colors }] },
-          options:{ cutout:'50%', responsive:true, plugins:{ legend:{display:false}, datalabels:{ color:'#fff', font:{family:'Poppins',weight:'700',size:24}, formatter:(v,ctx)=>abbreviations[ctx.chart.data.labels[ctx.dataIndex]]||'' }, tooltip:{ backgroundColor:'rgba(33,33,33,0.85)', titleColor:'#ffffff', titleFont:{family:'Poppins',weight:'700',size:14}, bodyColor:'#f1f1f1', bodyFont:{family:'Open Sans',size:12}, displayColors:false, padding:8, cornerRadius:6, bodySpacing:4, callbacks:{ title:items=>items[0].label, label:context=>materialsByCategory[context.label].map(item=>item['Material']) } } } }
+          options:{ cutout:'50%', responsive:true, plugins:{ legend:{display:false}, 
+          datalabels:{ color:'#fff', font:{family:'Poppins',weight:'700',size:24}, formatter:(v,ctx)=>abbreviations[ctx.chart.data.labels[ctx.dataIndex]]||'' }, 
+          tooltip:{ backgroundColor:'rgba(33,33,33,0.85)', titleColor:'#ffffff',
+          titleFont:{family:'Poppins',weight:'700',size:12}, bodyColor:'#f1f1f1',
+          bodyFont:{family:'Open Sans',size:12}, displayColors:false, padding:8, cornerRadius:6, bodySpacing:4, callbacks:
+          {title:items=>items[0].label, label:context=>materialsByCategory[context.label].map(item=>item['Material']) } } } }
         });
 
-        // Render lists and attach click for modal
+        // Render Lists & Modal Hooks
         const container = document.getElementById('materialLists');
-        cleanDb.reduce((acc, item) => {
-          if (!acc[item['Alloy Type']]) acc[item['Alloy Type']] = [];
-          acc[item['Alloy Type']].push(item);
-          return acc;
-        }, {}).forEach = null; // prevent misuse
         categories.forEach((cat,i) => {
           const box = document.createElement('div'); box.className='bg-white p-4 rounded shadow';
           const h2 = document.createElement('h2'); h2.textContent=cat; h2.className='mb-2 p-2 rounded text-white'; h2.style.backgroundColor=colors[i]; box.appendChild(h2);
           const ul = document.createElement('ul'); ul.className='list-disc list-inside text-sm';
-
           materialsByCategory[cat].forEach(item => {
-            const li = document.createElement('li');
-            const name = item['Material'];
-            li.textContent = name;
-            if (item['Commercially Available'] === '1') li.classList.add('text-blue-600','font-semibold');
+            const li = document.createElement('li'); li.textContent=item['Material'];
+            if(item['Commercially Available']==='1') li.classList.add('text-blue-600','font-semibold');
             li.classList.add('cursor-pointer');
             li.onclick = () => {
-              modalTitle.textContent = name;
-              const fields = [
-                ['Commercially Available', `<input type=\"checkbox\" ${item['Commercially Available']==='1'?'checked':''} disabled />`],
-                ['Chemical Composition', item['Chemical Composition'] || '–'],
-                ['Density (g/cm³)', item['Density (g/cm³)'] || '–'],
-                ['Yield Strength (MPa)', item['Yield Strength (MPa)'] || '–'],
-                ['Ultimate Tensile Strength (MPa)', item['Ultimate Tensile Strength (MPa)'] || '–'],
-                ['Elongation at Break (%)', item['Elongation at Break (%)'] || '–'],
-                ['Hardness (HV)', item['Hardness (HV)'] || '–'],
-                ['Modulus of Elasticity (GPa)', item['Modulus of Elasticity (GPa)'] || '–'],
-                ['Definition', item['Definition'] || '–'],
-                ['Key Features', item['Key Features'] || '–'],
-                ['Industries & Applications', item['Industries & Applications'] || '–'],
-                ['Thermal Conductivity (W/m·K @25 °C)', item['Thermal Conductivity (W/m·K @25 °C)'] || '–'],
-                ['Electrical Conductivity (MS/m or %IACS)', item['Electrical Conductivity (MS/m or %IACS)'] || '–']
-              ];
-              modalContent.innerHTML = fields.map(([label, val]) => `
-                <div><strong>${label}:</strong> ${val}</div>
-              `).join('');
+              modalTitle.textContent = item['Material'];
+              modalContent.innerHTML = `
+                <div class="space-y-6">
+                  <div>
+                    <h3 class="text-lg font-semibold flex items-center">
+                    Commercially Available
+                    ${item['Commercially Available'] === '1' ? 
+                      `<svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879A1 1 0 003.293 9.293l4 4a1 1 0 001.414 0l8-8z" clip-rule="evenodd" />
+                      </svg>` :
+                      `<svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
+                      </svg>`
+                    }
+                  </h3>
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-semibold border-b pb-1">Definition</h3>
+                    <p class="mt-1">${item['Definition']||'–'}</p>
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-semibold border-b pb-1">Key Features</h3>
+                    <p class="mt-1">${item['Key Features']||'–'}</p>
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-semibold border-b pb-1">Industries & Applications</h3>
+                    <p class="mt-1">${item['Industries & Applications']||'–'}</p>
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-semibold border-b pb-1">Chemical Composition</h3>
+                    <p class="mt-1">${item['Chemical Composition']||'–'}</p>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 class="text-lg font-semibold border-b pb-1">Mechanical Properties</h3>
+                      <table class="min-w-full text-sm mt-2">
+                        <tbody>
+                          <tr><td class="py-1">Yield strength</td><td class="py-1 pl-4">${item['Yield Strength (MPa)']||'–'}</td></tr>
+                          <tr><td class="py-1">Tensile strength</td><td class="py-1 pl-4">${item['Ultimate Tensile Strength (MPa)']||'–'}</td></tr>
+                          <tr><td class="py-1">Elongation at break</td><td class="py-1 pl-4">${item['Elongation at Break (%)']||'–'}</td></tr>
+                          <tr><td class="py-1">Hardness (HV)</td><td class="py-1 pl-4">${item['Hardness (HV)']||'–'}</td></tr>
+                          <tr><td class="py-1">Modulus of elasticity</td><td class="py-1 pl-4">${item['Modulus of Elasticity (GPa)']||'–'}</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <h3 class="text-lg font-semibold border-b pb-1">Physical Properties</h3>
+                      <table class="min-w-full text-sm mt-2">
+                        <tbody>
+                          <tr><td class="py-1">Density</td><td class="py-1 pl-4">${item['Density (g/cm³)']||'–'}</td></tr>
+                          <tr><td class="py-1">Electrical conductivity</td><td class="py-1 pl-4">${item['Electrical Conductivity (MS/m or %IACS)']||'–'}</td></tr>
+                          <tr><td class="py-1">Thermal conductivity</td><td class="py-1 pl-4">${item['Thermal Conductivity (W/m·K @25 °C)']||'–'}</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              `;
               modal.classList.remove('hidden');
             };
             ul.appendChild(li);
