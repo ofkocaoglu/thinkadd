@@ -1,120 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LPBF Material Universe</title>
-  <!-- Google Fonts: Open Sans & Poppins -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
-
   <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-
   <!-- Chart.js & DataLabels -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-
   <!-- html2canvas & jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
   <style>
     html, body, p, ul, li, a { font-family: 'Open Sans', sans-serif; }
-    h1, h2 { font-family: 'Poppins', sans-serif; font-weight: 700; }
-    .btn { font-family: 'Poppins', sans-serif; font-weight: 700; }
-
-      /* Tooltip span’leri hedefliyoruz */
-      span.tooltip {
-        position: relative;
-        cursor: help;
-        display: inline-block;        /* sadece span kadar genişlik alır */
-      }
-
-        span.tooltip::after {
-          content: attr(data-tooltip);
-          position: absolute;
-          top: 50%;
-          left: 100%;
-          margin-left: 6px;
-          transform: translateY(-50%);
-          background-color: rgba(33,33,33,0.85);
-          color: #f1f1f1;
-          padding: 8px;
-          font-family: 'Open Sans', sans-serif;
-          font-size: 12px;
-          line-height: 1.4;
-          border-radius: 6px;
-          /* --> aşağısını güncelledik: */
-          white-space: nowrap;    /* satır kaydırmayı kapat */
-          min-width: auto;        /* içeriğe uyumlu */
-          /* gerekirse bir max genişlik koyabilirsin, örn: max-width: 400px; */
-          box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-          z-index: 10;
-          display: none;
-        }
-
-
-              span.tooltip:hover::after {
-                display: block;
-              }
-          @media (max-width: 600px) {
-          span.tooltip::after {
-            /* Hâlâ sağda kalsın */
-            left: 100%;
-            margin-left: 6px;
-            /* Bir satıra sığmayan kısmı alttaki satıra at */
-            white-space: normal;
-            /* Maksimum genişlik ver, örn ekranın %70’i kadar */
-            max-width: 70vw;
-          }
-}
-
-  
+    h1, h2 { font-family: 'Poppins', sans-serif; font-weight:700; }
+    .btn { font-family: 'Poppins', sans-serif; font-weight:700; }
   </style>
 </head>
 <body class="bg-gray-50">
   <div id="page-content" class="container mx-auto p-4 relative">
-<!-- Export Buttons (Top Left) -->
-<div class="flex flex-wrap space-x-2 mt-4 sm:mt-0 sm:absolute sm:top-4 sm:left-4">
-  <button id="download-pdf" class="btn bg-gray-600 text-white py-1 px-3 rounded text-sm hover:bg-gray-700">Download PDF</button>
-  <button id="download-jpeg" class="btn bg-gray-600 text-white py-1 px-3 rounded text-sm hover:bg-gray-700">Download JPEG</button>
-</div>
-<!-- Contact & LinkedIn (Top Right) -->
-<div class="flex flex-wrap space-x-2 mt-2 sm:mt-0 sm:absolute sm:top-4 sm:right-4">
-  <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-gray-600 text-white py-1 px-3 rounded text-sm hover:bg-gray-700">Contact Author</a>
-  <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-blue-600 text-white py-1 px-3 rounded text-sm hover:bg-blue-700">Follow on LinkedIn</a>
-</div>
+    <!-- Export Buttons -->
+    <div class="absolute top-4 left-4 flex space-x-2">
+      <button id="download-pdf" class="btn bg-gray-600 text-white text-sm py-1 px-3 rounded hover:bg-gray-700">Download PDF</button>
+      <button id="download-jpeg" class="btn bg-gray-600 text-white text-sm py-1 px-3 rounded hover:bg-gray-700">Download JPEG</button>
+    </div>
+    <!-- Contact & LinkedIn -->
+    <div class="absolute top-4 right-4 flex space-x-2">
+      <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-gray-600 text-white text-sm py-1 px-3 rounded hover:bg-gray-700">Contact Author</a>
+      <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-blue-600 text-white text-sm py-1 px-3 rounded hover:bg-blue-700">Follow on LinkedIn</a>
+    </div>
 
-
+    <!-- Main Title -->
     <h1 class="text-4xl text-center mb-4">LPBF Material Universe</h1>
+    <!-- Description -->
     <p class="text-xs text-gray-500 text-center max-w-3xl mx-auto mb-8">
-      Laser Powder Bed Fusion (LPBF) is a metal additive manufacturing process that uses a laser to melt thin layers of metal powder, building parts layer by layer. This site is a neutral, non-commercial resource that lists both commercial and research-stage LPBF powders, summarizing their compositions, properties, and typical applications, independent of any supplier or machine brand.
+      Laser Powder Bed Fusion (LPBF) is a metal additive manufacturing process that uses a laser to melt thin layers of
+      metal powder, building parts layer by layer. This neutral, non-commercial resource compiles data on commercial and
+      research-stage LPBF powders, sourced from trusted OEMs, material distributors, and databases, and summarizes their
+      compositions, properties, and typical applications independently of any supplier or machine brand.
     </p>
-
 
     <!-- Chart Container -->
     <div id="chart-container" class="relative max-w-md mx-auto mb-8">
       <canvas id="materialChart" class="relative z-10"></canvas>
-      <img src="lpbf.svg" alt="LPBF Logo" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 pointer-events-none z-0" />
+      <img src="lpbf.svg" alt="LPBF Logo" class="absolute inset-0 m-auto w-24 h-24 pointer-events-none z-0" />
     </div>
 
-    <p class="text-sm italic mb-2">Commercially available materials are highlighted in blue; hover list items to see composition.</p>
+    <!-- Note -->
+    <p class="text-sm italic mb-2">Commercially available materials are highlighted in blue; click a material to view details.</p>
+
+    <!-- Material Lists -->
     <div id="materialLists" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"></div>
 
-    <div class="mt-12 text-xs text-gray-600 space-y-2 text-center">
+    <!-- Disclaimer -->
+    <div class="mt-12 text-xs text-gray-600 space-y-2">
       <p class="font-semibold">Disclaimer:</p>
-      <p>
-          The material list above has been compiled from publicly available sources and manufacturer datasheets as of the date of publication.<br>
-    It includes both commercially released and research-stage powders claimed to be compatible with Laser Powder Bed Fusion (LPBF) technology.<br>
-    This information is provided "as is" and without any representation or warranty, express or implied, regarding its accuracy, completeness, or fitness for any particular purpose.
-      </p>
-      <p class="font-semibold">
-        Prepared by: <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="text-blue-600 hover:underline">Ömer Faruk Kocaoglu</a> | Contact: <a href="mailto:omerfkocaoglu@gmail.com" class="text-blue-600 hover:underline">omerfkocaoglu@gmail.com</a>
-      </p>
+      <p>The material list above has been compiled from publicly available sources and manufacturer datasheets as of the date of publication. It includes both commercially released and research-stage powders claimed to be compatible with Laser Powder Bed Fusion (LPBF) technology. This information is provided “as is” and without any representation or warranty—express or implied—regarding its accuracy, completeness, or fitness for any particular purpose.</p>
+      <p class="font-semibold">Prepared by: <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="text-blue-600 hover:underline">Ömer Faruk Kocaoglu</a> | Contact: <a href="mailto:omerfkocaoglu@gmail.com" class="text-blue-600 hover:underline">omerfkocaoglu@gmail.com</a></p>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg w-11/12 md:w-3/4 lg:w-1/2 p-6 relative">
+      <button id="modal-close" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+      <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
+      <div id="modal-content" class="space-y-2 text-sm"></div>
     </div>
   </div>
 
   <script>
+    // Export handlers
     const page = document.getElementById('page-content');
     document.getElementById('download-pdf').onclick = async () => {
       const { jsPDF } = window.jspdf;
@@ -129,95 +88,83 @@
     document.getElementById('download-jpeg').onclick = async () => {
       const canvas = await html2canvas(page, { scale: 2 });
       const img = canvas.toDataURL('image/jpeg', 0.9);
-      const link = document.createElement('a');
-      link.href = img;
-      link.download = 'LPBF_Material_Universe.jpeg';
-      link.click();
+      const link = document.createElement('a'); link.href = img; link.download = 'LPBF_Material_Universe.jpeg'; link.click();
     };
 
-    Promise.all([
-      fetch('materialData.json').then(r => r.json()),
-      fetch('compositionData.json').then(r => r.json())
-    ])
-    .then(([materialData, compositionData]) => {
-      const categories = Object.keys(materialData);
-      const colors = ['#e63946','#f4a261','#e9c46a','#a8dadc','#2a9d8f','#b87333','#1d3557','#6a4c93','#9d4edd','#8ac926'];
-      const abbreviations = {
-        'Aluminum Alloys':'Al','Titanium Alloys':'Ti','Precious Metals':'PM','Refractory Metals':'RM',
-        'Cobalt-Chrome Alloys':'Co','Copper Alloys':'Cu','Nickel Superalloys':'Ni','Tool Steel & Others':'TS',
-        'Stainless Steel':'SS','Magnesium Alloys':'Mg'
-      };
+    // Modal elements
+    const modal = document.getElementById('detail-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+    document.getElementById('modal-close').onclick = () => modal.classList.add('hidden');
 
-      // Initialize Chart
-      const ctx = document.getElementById('materialChart').getContext('2d');
-      Chart.register(ChartDataLabels);
-      new Chart(ctx, {
-        type: 'doughnut',
-        data: { labels: categories, datasets: [{ data: categories.map(_ => 1), backgroundColor: colors }] },
-        options: {
-          cutout: '50%',
-          plugins: {
-            legend: { display: false },
-            datalabels: {
-              color: '#fff', font: { family: 'Poppins', weight: '700', size: 24 },
-              formatter: (v, ctx) => abbreviations[ctx.chart.data.labels[ctx.dataIndex]] || ''
-            },
-            tooltip: {
-              backgroundColor: 'rgba(33,33,33,0.85)',
-              titleColor: '#ffffff',
-              titleFont: { family: 'Poppins', weight: '700', size: 12 },
-              bodyColor: '#f1f1f1',
-              bodyFont: { family: 'Open Sans', size: 12 },
-              padding: 8,
-              cornerRadius: 6,
-              displayColors: false,
-              bodySpacing: 4,
-              callbacks: {
-                title: items => items[0].label,
-                label: context => materialData[context.label].map(e => typeof e === 'object' ? e.name : e)
-              }
-            }
-          }
-        }
-      });
+    // Load DB and render
+    fetch('materialDatabase.json')
+      .then(r => r.json())
+      .then(db => {
+        const cleanDb = db.filter(item => item['Alloy Type'] && item['Alloy Type'] !== 'Alloy Type');
+        const categories = [...new Set(cleanDb.map(item => item['Alloy Type']))];
+        const materialsByCategory = {};
+        categories.forEach(cat => materialsByCategory[cat] = cleanDb.filter(item => item['Alloy Type'] === cat));
 
-      // Render lists
-      const container = document.getElementById('materialLists');
-      categories.forEach(cat => {
-        const box = document.createElement('div');
-        box.className = 'bg-white p-4 rounded shadow';
-        const h2 = document.createElement('h2');
-        h2.textContent = cat;
-        h2.className = 'mb-2 p-2 rounded text-white';
-        h2.style.backgroundColor = colors[categories.indexOf(cat)];
-        box.appendChild(h2);
+        // Colors & abbreviations
+        const colors = ['#e63946','#f4a261','#e9c46a','#a8dadc','#2a9d8f','#b87333','#1d3557','#6a4c93','#9d4edd','#8ac926'];
+        const abbreviations = {'Aluminium Alloys':'Al','Titanium Alloys':'Ti','Precious Metals':'PM','Refractory Metals':'RM','Cobalt-Chrome Alloys':'Co','Copper Alloys':'Cu','Nickel Superalloys':'Ni','Tool Steels & Others':'TS','Stainless Steels':'SS','Magnesium Alloys':'Mg'};
 
-        const ul = document.createElement('ul'); ul.className = 'list-disc list-inside text-sm';
-                  materialData[cat].forEach(entry => {
-              const name = typeof entry === 'object' ? entry.name : entry;
-              const li = document.createElement('li');
-              li.textContent = name;
-              if (entry.commercial) li.classList.add('text-blue-600', 'font-semibold');
+        // Doughnut Chart
+        const ctx = document.getElementById('materialChart').getContext('2d'); Chart.register(ChartDataLabels);
+        new Chart(ctx, {
+          type:'doughnut',
+          data:{ labels:categories, datasets:[{ data:categories.map(()=>1), backgroundColor:colors }] },
+          options:{ cutout:'50%', responsive:true, plugins:{ legend:{display:false}, datalabels:{ color:'#fff', font:{family:'Poppins',weight:'700',size:24}, formatter:(v,ctx)=>abbreviations[ctx.chart.data.labels[ctx.dataIndex]]||'' }, tooltip:{ backgroundColor:'rgba(33,33,33,0.85)', titleColor:'#ffffff', titleFont:{family:'Poppins',weight:'700',size:14}, bodyColor:'#f1f1f1', bodyFont:{family:'Open Sans',size:12}, displayColors:false, padding:8, cornerRadius:6, bodySpacing:4, callbacks:{ title:items=>items[0].label, label:context=>materialsByCategory[context.label].map(item=>item['Material']) } } } }
+        });
 
-              if (compositionData[name]) {
-                // 1) Bir <span> oluştur, içine ismi ve tooltip bilgisini koy
-                const span = document.createElement('span');
-                span.classList.add('tooltip');
-                span.textContent = name;
-                span.setAttribute('data-tooltip', compositionData[name]);
+        // Render lists and attach click for modal
+        const container = document.getElementById('materialLists');
+        cleanDb.reduce((acc, item) => {
+          if (!acc[item['Alloy Type']]) acc[item['Alloy Type']] = [];
+          acc[item['Alloy Type']].push(item);
+          return acc;
+        }, {}).forEach = null; // prevent misuse
+        categories.forEach((cat,i) => {
+          const box = document.createElement('div'); box.className='bg-white p-4 rounded shadow';
+          const h2 = document.createElement('h2'); h2.textContent=cat; h2.className='mb-2 p-2 rounded text-white'; h2.style.backgroundColor=colors[i]; box.appendChild(h2);
+          const ul = document.createElement('ul'); ul.className='list-disc list-inside text-sm';
 
-                // 2) li'nin önceki metnini temizle, span'i onun yerine ekle
-                li.textContent = '';
-                li.appendChild(span);
-              }
-
-
-              ul.appendChild(li);
-            });
-        box.appendChild(ul);
-        container.appendChild(box);
-      });
-    }).catch(console.error);
+          materialsByCategory[cat].forEach(item => {
+            const li = document.createElement('li');
+            const name = item['Material'];
+            li.textContent = name;
+            if (item['Commercially Available'] === '1') li.classList.add('text-blue-600','font-semibold');
+            li.classList.add('cursor-pointer');
+            li.onclick = () => {
+              modalTitle.textContent = name;
+              const fields = [
+                ['Commercially Available', `<input type=\"checkbox\" ${item['Commercially Available']==='1'?'checked':''} disabled />`],
+                ['Chemical Composition', item['Chemical Composition'] || '–'],
+                ['Density (g/cm³)', item['Density (g/cm³)'] || '–'],
+                ['Yield Strength (MPa)', item['Yield Strength (MPa)'] || '–'],
+                ['Ultimate Tensile Strength (MPa)', item['Ultimate Tensile Strength (MPa)'] || '–'],
+                ['Elongation at Break (%)', item['Elongation at Break (%)'] || '–'],
+                ['Hardness (HV)', item['Hardness (HV)'] || '–'],
+                ['Modulus of Elasticity (GPa)', item['Modulus of Elasticity (GPa)'] || '–'],
+                ['Definition', item['Definition'] || '–'],
+                ['Key Features', item['Key Features'] || '–'],
+                ['Industries & Applications', item['Industries & Applications'] || '–'],
+                ['Thermal Conductivity (W/m·K @25 °C)', item['Thermal Conductivity (W/m·K @25 °C)'] || '–'],
+                ['Electrical Conductivity (MS/m or %IACS)', item['Electrical Conductivity (MS/m or %IACS)'] || '–']
+              ];
+              modalContent.innerHTML = fields.map(([label, val]) => `
+                <div><strong>${label}:</strong> ${val}</div>
+              `).join('');
+              modal.classList.remove('hidden');
+            };
+            ul.appendChild(li);
+          });
+          box.appendChild(ul);
+          container.appendChild(box);
+        });
+      })
+      .catch(console.error);
   </script>
 </body>
 </html>
