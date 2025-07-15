@@ -14,7 +14,7 @@
     "Key Features": "High strength even at ~200 °C; good corrosion resistance; good fatigue strength (~110 MPa); good weldability and low hot-cracking tendency; decent thermal conductivity.",
     "Industries & Applications": "Widely used for lightweight parts in automotive, aerospace, machinery (e.g. engine components, housings). Also used in motorsport and general engineering prototypes.",
     "Thermal Conductivity (W/m·K @25 °C)": "130–150 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~21 MS/m (≈36% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~21 MS/m (~36% IACS)"
   },
   {
     "Alloy Type": "Aluminium Alloys",
@@ -31,7 +31,7 @@
     "Key Features": "Light-weight with good mechanical strength and fatigue resistance; high weldability and corrosion resistance; good thermal conductivity.",
     "Industries & Applications": "Aerospace and automotive structural parts requiring light weight and dynamic load capacity (e.g. housings, engine parts, frames). Also for mold/tooling inserts.",
     "Thermal Conductivity (W/m·K @25 °C)": "~150 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~23 MS/m (≈39% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~23 MS/m (~39% IACS)"
   },
   {
     "Alloy Type": "Aluminium Alloys",
@@ -130,10 +130,10 @@
     "Hardness (HV)": "98 HV",
     "Modulus of Elasticity (GPa)": "70 GPa",
     "Definition": "High-performance Al-Fe-Zr alloy for AM, developed by Constellium. Designed to combine 6000-series-like strength with superior thermal/electrical conductivity. Simplified heat treatment yields robust, isotropic properties.",
-    "Key Features": "High strength & ductility (≈6061-T6 level); excellent thermal/electrical conductivity (much higher than AlSi10Mg); stable up to ~300 °C with minimal property degradation; good corrosion resistance and anodizability; high productivity in LPBF (fast print speeds).",
+    "Key Features": "High strength & ductility (~6061-T6 level); excellent thermal/electrical conductivity (much higher than AlSi10Mg); stable up to ~300 °C with minimal property degradation; good corrosion resistance and anodizability; high productivity in LPBF (fast print speeds).",
     "Industries & Applications": "Motorsports (Formula 1) heat exchangers and thermal-loaded parts; aerospace structural and cooling components; defense electronics housings; any application needing high strength plus heat dissipation.",
     "Thermal Conductivity (W/m·K @25 °C)": "~170 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~25 MS/m (≈43% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~25 MS/m (~43% IACS)"
   },
   {
     "Alloy Type": "Aluminium Alloys",
@@ -188,7 +188,7 @@
   },
   {
     "Alloy Type": "Aluminium Alloys",
-    "Material": "Dispal® S220 (AlSi35) ",
+    "Material": "AlSi35",
     "Commercially Available": "0",
     "Chemical Composition": "Al balance, 34–36% Si",
     "Density (g/cm³)": "2.54 g/cm³",
@@ -205,7 +205,7 @@
   },
   {
     "Alloy Type": "Aluminium Alloys",
-    "Material": "Dispal® S260",
+    "Material": "AlSi25Cu4Mg",
     "Commercially Available": "0",
     "Chemical Composition": "Al balance, 25% Si, 4% Cu, 1% Mg",
     "Density (g/cm³)": "~2.68 g/cm³",
@@ -235,7 +235,7 @@
     "Key Features": "Balanced strength and ductility (comparable to 6061-T6); good thermal conductivity and corrosion resistance (like 6061); excellent surface finish and 2× faster print speeds than casting alloys; weldable and machinable.",
     "Industries & Applications": "General-purpose engineering structures in aerospace and automotive (brackets, mounts, tooling) where standard 6061 is desired but needed in AM form. Also for heat exchangers and housings (high thermal cond.).",
     "Thermal Conductivity (W/m·K @25 °C)": "~167 W/m·K (similar 6061-T6)",
-    "Electrical Conductivity (MS/m or %IACS)": "~23 MS/m (≈40% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~23 MS/m (~40% IACS)"
   },
   {
     "Alloy Type": "Aluminium Alloys",
@@ -252,7 +252,7 @@
     "Key Features": "Very high strength (near wrought 7050-T76 levels) with good toughness; retains strength at moderately high temps; poor as-printed ductility but reasonable after aging (~8–10%); requires heat treatment to reach full strength; susceptible to corrosion (requires coatings) like other 7xxx.",
     "Industries & Applications": "Aerospace structural parts (e.g. fittings, spars) that traditionally use 7050-T7x, now produced by AM; motorsport components needing maximum strength-to-weight; not generally for corrosive environments without protection.",
     "Thermal Conductivity (W/m·K @25 °C)": "~130 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~18 MS/m (≈30% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~18 MS/m (~30% IACS)"
   },
   {
     "Alloy Type": "Aluminium Alloys",
@@ -286,7 +286,7 @@
     "Key Features": "Highest strength aluminium for LPBF (~500 MPa); retains properties at 50–200 °C; one-step heat treat (no complex aging); still anodizable and polishable. Slightly lower conductivity due to Cu/Ag content, and like other 2xxx needs corrosion protection.",
     "Industries & Applications": "Aerospace (structural parts requiring strength at temperature, e.g. engine bay or supersonic aircraft parts); racing and high-performance automotive (lightweight frames, suspension); defense systems where high-strength Al can replace steel for weight savings.",
     "Thermal Conductivity (W/m·K @25 °C)": "~120 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~15–20 MS/m (≈25–34% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~15–20 MS/m (~25–34% IACS)"
   },
   {
     "Alloy Type": "Alloy Type",
@@ -320,7 +320,7 @@
     "Key Features": "High strength-to-weight ratio and corrosion resistance; biocompatibility and good fatigue resistance. Machining can be difficult due to its low thermal conductivity.",
     "Industries & Applications": "Aerospace (airframe structures, engine components), biomedical (implants, prosthetics), marine (ship structures, offshore equipment), chemical industry (corrosion-exposed tanks/valves), etc.",
     "Thermal Conductivity (W/m·K @25 °C)": "~6.7 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "≈0.6 MS/m"
+    "Electrical Conductivity (MS/m or %IACS)": "~0.6 MS/m"
   },
   {
     "Alloy Type": "Titanium Alloys",
@@ -337,7 +337,7 @@
     "Key Features": "Excellent biocompatibility and corrosion resistance (even in body fluids); strength comparable to Grade 5, but with improved fracture toughness and ductility at low temperatures.",
     "Industries & Applications": "Medical implants and devices (surgically implantable parts, orthopedic implants); cryogenic applications in aerospace and welded structures requiring high toughness.",
     "Thermal Conductivity (W/m·K @25 °C)": "~6.7 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "≈0.6 MS/m"
+    "Electrical Conductivity (MS/m or %IACS)": "~0.6 MS/m"
   },
   {
     "Alloy Type": "Titanium Alloys",
@@ -354,7 +354,7 @@
     "Key Features": "Excellent corrosion resistance; good formability, weldability, and biocompatibility; low strength compared to alloyed titanium grades.",
     "Industries & Applications": "Chemical processing industry (acidic environments), marine applications, medical implants (Grade 2 and 4), heat exchangers, and desalination systems.",
     "Thermal Conductivity (W/m·K @25 °C)": "~16 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~1.9 MS/m (≈ %3.6 IACS )"
+    "Electrical Conductivity (MS/m or %IACS)": "~1.9 MS/m (~ %3.6 IACS )"
   },
   {
     "Alloy Type": "Titanium Alloys",
@@ -371,7 +371,7 @@
     "Key Features": "Very high strength (especially after aging heat treatment); good fatigue and crack propagation resistance; weldable; moderate corrosion resistance.",
     "Industries & Applications": "Aerospace and defense (landing gear, structural parts), motorsports, high-performance mechanical components requiring lightweight and strength.",
     "Thermal Conductivity (W/m·K @25 °C)": "~7 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "≈0.5–0.6 MS/m"
+    "Electrical Conductivity (MS/m or %IACS)": "~0.5–0.6 MS/m"
   },
   {
     "Alloy Type": "Titanium Alloys",
@@ -383,12 +383,29 @@
     "Ultimate Tensile Strength (MPa)": "1030 MPa",
     "Elongation at Break (%)": "0.1",
     "Hardness (HV)": "380 HV",
-    "Modulus of Elasticity (GPa)": "125 Gpa",
+    "Modulus of Elasticity (GPa)": "125 GPa",
     "Definition": "Near-α type high-temperature alloy (Timetal 64-1); maintains strength up to ~520 °C. Used in aerospace applications involving prolonged high-temperature exposure.",
     "Key Features": "Maintains high strength up to 520 °C, excellent creep resistance, and good oxidation resistance. Lower ductility and difficult to weld.",
     "Industries & Applications": "Aerospace (gas turbine engine parts, compressor components), power generation, and industrial gas turbines.",
     "Thermal Conductivity (W/m·K @25 °C)": "~4.2 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "≈0.6 MS/m"
+    "Electrical Conductivity (MS/m or %IACS)": "~0.6 MS/m"
+  },
+  {
+    "Alloy Type": "Titanium Alloys",
+    "Material": "Ti–21 Zr–27 Nb",
+    "Commercially Available": "0",
+    "Chemical Composition": "Ti balance, 21% Zr, 27% Nb",
+    "Density (g/cm³)": "4.6 g/cm³",
+    "Yield Strength (MPa)": "~700 MPa",
+    "Ultimate Tensile Strength (MPa)": "~800 MPa",
+    "Elongation at Break (%)": "~10 %",
+    "Hardness (HV)": "~250 HV",
+    "Modulus of Elasticity (GPa)": "~26 GPa",
+    "Definition": "Beta‑Ti alloy tailored for biomedical additive manufacturing",
+    "Key Features": "Low elastic modulus close to bone; high strength‑ductility balance; biocompatible; Al/V free",
+    "Industries & Applications": "Orthopedic implants, bone plates/screws, dental implants, AM biomedical components",
+    "Thermal Conductivity (W/m·K @25 °C)": "~11–18 W/m·K",
+    "Electrical Conductivity (MS/m or %IACS)": "~1–2.5 MS/m (~1–4 % IACS)"
   },
   {
     "Alloy Type": "Alloy Type",
@@ -413,7 +430,7 @@
     "Commercially Available": "0",
     "Chemical Composition": "≥99.9% Au",
     "Density (g/cm³)": "19.3 g/cm³",
-    "Yield Strength (MPa)": "~30 Mpa",
+    "Yield Strength (MPa)": "~30 MPa",
     "Ultimate Tensile Strength (MPa)": "~120 MPa",
     "Elongation at Break (%)": "~35–50%",
     "Hardness (HV)": "~25 HV",
@@ -430,13 +447,13 @@
     "Commercially Available": "0",
     "Chemical Composition": "75% Au, 12.5% Ag, 12.5% Cu",
     "Density (g/cm³)": "~15.5 g/cm³",
-    "Yield Strength (MPa)": "~150 Mpa",
+    "Yield Strength (MPa)": "~150 MPa",
     "Ultimate Tensile Strength (MPa)": "~300–350 MPa",
     "Elongation at Break (%)": "~20% ",
     "Hardness (HV)": "~120 HV",
     "Modulus of Elasticity (GPa)": "~90 GPa (est.)",
     "Definition": "18 karat yellow gold – an alloy of ~75% Au with silver and copper (typical ~12–15% each) giving a yellow hue.",
-    "Key Features": "Good corrosion resistance (noble metal content ≈75%); improved strength/hardness over pure gold due to alloying; excellent electrical/thermal conductivity for an alloy (still high, but lower than pure gold); ideal balance of rich gold color and durability.",
+    "Key Features": "Good corrosion resistance (noble metal content ~75%); improved strength/hardness over pure gold due to alloying; excellent electrical/thermal conductivity for an alloy (still high, but lower than pure gold); ideal balance of rich gold color and durability.",
     "Industries & Applications": "Fine jewelry and watches (the most common gold alloy in high-end jewelry), decorative artifacts. Occasionally used in electronics or dental alloys when a combination of gold content and strength is needed.",
     "Thermal Conductivity (W/m·K @25 °C)": "~300 W/m·K (high)",
     "Electrical Conductivity (MS/m or %IACS)": "~20 MS/m"
@@ -507,7 +524,7 @@
     "Key Features": "Most corrosion-resistant metal (unaffected by virtually all acids, even aqua regia); extremely high hardness and stiffness; brittle in bulk (low ductility, can crack under stress); high melting point (used in high-temp applications). Its electrical and thermal conductivity are decent but lower than Rh/Pt (due to its resistivity).",
     "Industries & Applications": "Specialized uses: electrical spark plugs electrodes (fine wires of Ir for durability), crucibles for high-temperature crystal growth, electrodes in the chlor-alkali process, alloyed with platinum for standard weights and measures (e.g. the 90%Pt–10%Ir kilogram standard), and in medical devices (e.g. radiation therapy sources, small Ir wires).",
     "Thermal Conductivity (W/m·K @25 °C)": "~145 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~18 MS/m (≈30% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~18 MS/m (~30% IACS)"
   },
   {
     "Alloy Type": "Precious Metals",
@@ -515,7 +532,7 @@
     "Commercially Available": "0",
     "Chemical Composition": "Pt 95%, Au 3.5%, In 1.5%",
     "Density (g/cm³)": "~21.2 g/cm³ (est.)",
-    "Yield Strength (MPa)": "~250 Mpa",
+    "Yield Strength (MPa)": "~250 MPa",
     "Ultimate Tensile Strength (MPa)": "~500 MPa (UTS as cast)",
     "Elongation at Break (%)": "~20%",
     "Hardness (HV)": "~160 HV",
@@ -609,7 +626,7 @@
     "Key Features": "Exceptional high-temperature strength and hardness, highest modulus among metals, low thermal expansion, excellent corrosion resistance to acids.",
     "Industries & Applications": "Used in lamp filaments, TIG welding electrodes, evaporation crucibles, high-speed tool alloys, radiation shielding, X-ray targets, and rocket nozzles.",
     "Thermal Conductivity (W/m·K @25 °C)": "~170 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~18 MS/m (≈31% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~18 MS/m (~31% IACS)"
   },
   {
     "Alloy Type": "Refractory Metals",
@@ -626,7 +643,7 @@
     "Key Features": "Highly corrosion-resistant (inert to acids), biocompatible (non-toxic, used in implants), very ductile (can be drawn into fine wire), and good high-temperature strength retention.",
     "Industries & Applications": "Used in electrolytic capacitors, chemical processing equipment, medical implants, vacuum furnace components, and nuclear reactors (alloyed in superalloys).",
     "Thermal Conductivity (W/m·K @25 °C)": "~57 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~7.7 MS/m (≈13% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~7.7 MS/m (~13% IACS)"
   },
   {
     "Alloy Type": "Refractory Metals",
@@ -643,7 +660,7 @@
     "Key Features": "High melting point and strength at elevated temperatures, low thermal expansion, good thermal and electrical conductivity, and resistance to softening under heat.",
     "Industries & Applications": "Used in high-temperature furnace parts, aerospace and military components (armor, aircraft parts), electrical contacts, light bulb filaments, and as an alloying element in steels (e.g. 316 stainless).",
     "Thermal Conductivity (W/m·K @25 °C)": "~138 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~19 MS/m (≈33% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~19 MS/m (~33% IACS)"
   },
   {
     "Alloy Type": "Refractory Metals",
@@ -660,7 +677,7 @@
     "Key Features": "Excellent ductility and toughness (like iron), good corrosion resistance (resists many chemicals), superconducting at cryogenic temperatures, and biocompatible/hypoallergenic.",
     "Industries & Applications": "Used in superconducting magnets and particle accelerator components, jet and rocket engine parts (in alloy form like C-103), chemical processing equipment, as a micro-alloy in steels, and in jewelry/implants (anodized for color).",
     "Thermal Conductivity (W/m·K @25 °C)": "~54 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~6.6 MS/m (≈11% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~6.6 MS/m (~11% IACS)"
   },
   {
     "Alloy Type": "Refractory Metals",
@@ -694,7 +711,7 @@
     "Key Features": "Higher creep resistance and tensile strength than pure Mo at elevated temperatures, improved ductility after exposure to heat (less embrittlement), and good wear resistance.",
     "Industries & Applications": "Used in furnace heating elements, high-temperature structural parts, hot glass handling equipment, and aerospace furnace hardware where pure Mo would embrittle – Mo–La retains strength and ductility longer at 1000–1400 °C.",
     "Thermal Conductivity (W/m·K @25 °C)": "~135 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~18 MS/m (≈30% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~18 MS/m (~30% IACS)"
   },
   {
     "Alloy Type": "Refractory Metals",
@@ -711,7 +728,7 @@
     "Key Features": "Exceptional high-temperature strength (used to strengthen W alloys) and creep resistance, very high stiffness, good wear resistance, and inert against many corrosive environments. However, it has relatively low thermal/electrical conductivity for a metal.",
     "Industries & Applications": "Used in jet engine turbine blades (Re is alloyed in Ni-based superalloys) and rocket thrusters for added high-temp strength, in filaments/thermocouples (W-Re wires), electrical contact points, and as a catalyst (e.g. Re-Pt catalytic reforming in petrochemistry).",
     "Thermal Conductivity (W/m·K @25 °C)": "~48 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~5.6 MS/m (≈9% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~5.6 MS/m (~9% IACS)"
   },
   {
     "Alloy Type": "Refractory Metals",
@@ -728,7 +745,7 @@
     "Key Features": "Notable for its corrosion resistance (forms a stable oxide), excellent ability to absorb neutrons (used in control rods), good mechanical properties at high temperatures, and biocompatibility. It oxidizes above ~400 °C, so handling must consider oxygen reactivity.",
     "Industries & Applications": "Used in nuclear reactors (control rods and shielding), plasma torch electrodes, high-temperature ceramics and superalloys, and electronics (gate oxides and capacitors). Also used in alloys to strengthen metals like Niobium and Titanium.",
     "Thermal Conductivity (W/m·K @25 °C)": "~23 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~3.3 MS/m (≈5.7% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~3.3 MS/m (~5.7% IACS)"
   },
   {
     "Alloy Type": "Refractory Metals",
@@ -745,7 +762,7 @@
     "Key Features": "~30% stronger than pure Mo at room and elevated temps, with better creep resistance and weldability. Maintains strength up to ~1100–1300 °C, has low vapor pressure and good thermal conductivity, though slightly less than pure Mo.",
     "Industries & Applications": "Used in die casting molds, extrusion dies, furnace structural parts, nuclear reactor components, and aerospace applications such as nozzle throat inserts and high-temperature fasteners – wherever high-strength, high-temp stability is required.",
     "Thermal Conductivity (W/m·K @25 °C)": "~130 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~15 MS/m (≈25% IACS)"
+    "Electrical Conductivity (MS/m or %IACS)": "~15 MS/m (~25% IACS)"
   },
   {
     "Alloy Type": "Alloy Type",
@@ -768,7 +785,7 @@
     "Alloy Type": "Cobalt-Chrome Alloys",
     "Material": "CoCrMo",
     "Commercially Available": "1",
-    "Chemical Composition": "~60% Co, 27–30% Cr, 5–7% Mo, Mn ≤1%, C ≤0.35%",
+    "Chemical Composition": "Co balance, 27–30% Cr, 5–7% Mo, Mn ≤1%, C ≤0.35%",
     "Density (g/cm³)": "~8.4  g/cm³",
     "Yield Strength (MPa)": "590–940 MPa",
     "Ultimate Tensile Strength (MPa)": "1000–1340 MPa",
@@ -785,12 +802,12 @@
     "Alloy Type": "Cobalt-Chrome Alloys",
     "Material": "CoCrW",
     "Commercially Available": "1",
-    "Chemical Composition": "~58% Co, 28–30% Cr, 4–6% W, C ~1.0%, Ni ≤3%",
+    "Chemical Composition": "Co balance, 28–30% Cr, 4–6% W, C ~1.0%, Ni ≤3%",
     "Density (g/cm³)": "~8.5  g/cm³",
     "Yield Strength (MPa)": "~580 MPa",
     "Ultimate Tensile Strength (MPa)": "~1010 MPa",
     "Elongation at Break (%)": "~9%",
-    "Hardness (HV)": "≈37 HRC",
+    "Hardness (HV)": "~37 HRC",
     "Modulus of Elasticity (GPa)": "~220 GPa",
     "Definition": "Ni-free Co–28Cr–5W alloy (~0.25–1% C). Solidifies as Co–Cr solid solution with carbides. Designed for castability and ceramic bonding. Moderate strength, good corrosion resistance.",
     "Key Features": "High corrosion and oxidation resistance, improved high-temp wear resistance, non-magnetic, biocompatible.",
@@ -800,13 +817,30 @@
   },
   {
     "Alloy Type": "Cobalt-Chrome Alloys",
+    "Material": "CoCrWMo",
+    "Commercially Available": "1",
+    "Chemical Composition": "Co balance, 24-26% Cr, 4.9-5.9% W, 4.5-5.5% Mo, 0.2-1.2% Si",
+    "Density (g/cm³)": "8.6-9.2  g/cm³",
+    "Yield Strength (MPa)": "~950-1450 MPa",
+    "Ultimate Tensile Strength (MPa)": "1300-1650 MPa",
+    "Elongation at Break (%)": "8-15%",
+    "Hardness (HV)": "~400-540 HV",
+    "Modulus of Elasticity (GPa)": "240–310 GPa",
+    "Definition": "Cobalt-chrome-molybdenum-tungsten alloy for LPBF with high strength and biocompatibility.",
+    "Key Features": "High hardness, wear resistance, biocompatibility, excellent LPBF processability.",
+    "Industries & Applications": "Orthopedic implants, surgical tools, aerospace components, automotive valves.",
+    "Thermal Conductivity (W/m·K @25 °C)": "16 W/m·K",
+    "Electrical Conductivity (MS/m or %IACS)": "10.4 MS/m (~18% IACS)"
+  },
+  {
+    "Alloy Type": "Cobalt-Chrome Alloys",
     "Material": "CoCrFeNi",
     "Commercially Available": "0",
     "Chemical Composition": "~25% each of Co, Cr, Fe, Ni (equiatomic), Mn ≤1%",
     "Density (g/cm³)": "~7.5–8.0  g/cm³",
     "Yield Strength (MPa)": "200–1100 MPa",
     "Ultimate Tensile Strength (MPa)": "500–1300 MPa",
-    "Elongation at Break (%)": "10–60%",
+    "Elongation at Break (%)": "10–60% (various)",
     "Hardness (HV)": "~250–400 HV",
     "Modulus of Elasticity (GPa)": "150–250 GPa",
     "Definition": "High-entropy alloy with Co, Cr, Fe, Ni. Single-phase FCC solid solution. High strength-to-weight, toughness, thermal stability, cryo-temp performance. Research stage material.",
@@ -817,20 +851,37 @@
   },
   {
     "Alloy Type": "Cobalt-Chrome Alloys",
-    "Material": "Stellite 6",
+    "Material": "Grade 6",
     "Commercially Available": "0",
-    "Chemical Composition": "~60% Co, 28–32% Cr, 4–6% W, 1% C, Ni ≤3%",
-    "Density (g/cm³)": "~8.4  g/cm³",
-    "Yield Strength (MPa)": "~540 MPa",
-    "Ultimate Tensile Strength (MPa)": "~900 MPa",
-    "Elongation at Break (%)": "~1%",
-    "Hardness (HV)": "~40 HRC",
-    "Modulus of Elasticity (GPa)": "~220 GPa",
-    "Definition": "High-carbon Co–Cr–W alloy (~28% Cr, ~5% W, ~1.1% C). High hardness and wear resistance due to Cr/W carbides. Not structural; used for hardfacing/tooling. Retains hardness at high temp.",
-    "Key Features": "Extreme wear and erosion resistance, retains hardness up to 500 °C, corrosion/oxidation resistance. Tough but brittle (no ductility).",
-    "Industries & Applications": "Used in valve seats, pump parts, turbine shields, extrusion dies, hard coatings. Oil & gas, chemical processing.",
-    "Thermal Conductivity (W/m·K @25 °C)": "~14–15 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "~0.9–1.0 MS/m "
+    "Chemical Composition": "Co balance, 28% Cr, 4.5% W, ≤1% Si, ≤3% Mn, ≤1.2% Fe, ≤3% Ni, <1% C",
+    "Density (g/cm³)": "8.0–8.3 g/cm³",
+    "Yield Strength (MPa)": "~650 MPa",
+    "Ultimate Tensile Strength (MPa)": "~920 MPa",
+    "Elongation at Break (%)": "~2-3 %",
+    "Hardness (HV)": "36–45 HRC",
+    "Modulus of Elasticity (GPa)": "198–209 GPa",
+    "Definition": "A laser powder bed fusion–optimized cobalt-chrome-tungsten alloy with <0.1% porosity, delivering ~650 MPa yield strength, ~920 MPa tensile strength, and 36–45 HRC hardness. It retains excellent wear and corrosion resistance up to 500 °C, ideal for demanding components like valve trims and erosion shields.",
+    "Key Features": "Retains hardness to 500 °C; excellent wear, erosion, corrosion & galling resistance; isotropic tensile (~920 MPa) properties",
+    "Industries & Applications": "Valve trim, downhole components, erosion shields, hardfacing, petrochemical parts",
+    "Thermal Conductivity (W/m·K @25 °C)": "12–14 W/m·K ",
+    "Electrical Conductivity (MS/m or %IACS)": "~9.4 MS/m (~1.9 % IACS)"
+  },
+  {
+    "Alloy Type": "Cobalt-Chrome Alloys",
+    "Material": "Grade 21",
+    "Commercially Available": "0",
+    "Chemical Composition": "Co balance, 27.5% Cr, 5.5% Mo, 1.7% Si, <2% Mn, 0.25% Fe, 2.5% Ni, <1% C",
+    "Density (g/cm³)": "8.3 g/cm³",
+    "Yield Strength (MPa)": "~1210 MPa",
+    "Ultimate Tensile Strength (MPa)": "~1450 MPa",
+    "Elongation at Break (%)": "7–10 %",
+    "Hardness (HV)": "35–45 HRC",
+    "Modulus of Elasticity (GPa)": "200–220 GPa",
+    "Definition": "An LPBF-ready cobalt-chrome-molybdenum alloy featuring dispersed carbides, boasting up to ~1.45 GPa tensile strength and 7–12% elongation. It offers high wear, corrosion, and cavitation resistance, making it perfect for flow-control and high-wear applications.",
+    "Key Features": "Superior mechanical strength; cavitation/fatigue resistance after HT",
+    "Industries & Applications": "Valve cages, downhole flow control, petrochemical/power wear components",
+    "Thermal Conductivity (W/m·K @25 °C)": "15.1 W/m·K ",
+    "Electrical Conductivity (MS/m or %IACS)": "~10 MS/m (~17 % IACS)"
   },
   {
     "Alloy Type": "Alloy Type",
@@ -854,17 +905,17 @@
     "Material": "Pure Copper",
     "Commercially Available": "1",
     "Chemical Composition": "≥99.9% Cu",
-    "Density (g/cm³)": "8.93 g/cm³",
-    "Yield Strength (MPa)": "50–100 MPa",
-    "Ultimate Tensile Strength (MPa)": "210–250 MPa",
-    "Elongation at Break (%)": "30–50%",
+    "Density (g/cm³)": "~8.86-8.94 g/cm³",
+    "Yield Strength (MPa)": "~120 MPa",
+    "Ultimate Tensile Strength (MPa)": "~210 MPa",
+    "Elongation at Break (%)": "~40-46%",
     "Hardness (HV)": "40–50 HV",
-    "Modulus of Elasticity (GPa)": "117 GPa",
+    "Modulus of Elasticity (GPa)": "110 GPa",
     "Definition": "High-purity copper with excellent thermal and electrical conductivity, ductile and corrosion-resistant.",
     "Key Features": "Excellent electrical and thermal conductivity, ductility, corrosion resistance.",
     "Industries & Applications": "Electrical, electronics, plumbing, heat exchangers, aerospace.",
-    "Thermal Conductivity (W/m·K @25 °C)": "391 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "58 MS/m"
+    "Thermal Conductivity (W/m·K @25 °C)": "361 W/m·K",
+    "Electrical Conductivity (MS/m or %IACS)": "58 MS/m (~94 % IACS)"
   },
   {
     "Alloy Type": "Copper Alloys",
@@ -904,7 +955,7 @@
     "Alloy Type": "Copper Alloys",
     "Material": "GRCop-42",
     "Commercially Available": "1",
-    "Chemical Composition": "Cu 92–94%, 3–4% Cr, 2–4% Nb",
+    "Chemical Composition": "Cu balance, 3–4% Cr, 2–4% Nb",
     "Density (g/cm³)": "8.79 g/cm³",
     "Yield Strength (MPa)": "185–192 MPa",
     "Ultimate Tensile Strength (MPa)": "380–390 MPa",
@@ -915,31 +966,31 @@
     "Key Features": "Exceptional thermal conductivity, creep resistance at high temp, oxidation resistance.",
     "Industries & Applications": "Rocket engine parts, cooling channels, satellite thermal management.",
     "Thermal Conductivity (W/m·K @25 °C)": "323 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "≈23 MS/m"
+    "Electrical Conductivity (MS/m or %IACS)": "~23 MS/m"
   },
   {
     "Alloy Type": "Copper Alloys",
     "Material": "GRCop-84",
     "Commercially Available": "1",
-    "Chemical Composition": "Cu 88–92%, 7–9% Cr, 3–5% Nb",
-    "Density (g/cm³)": "≈8.9 g/cm³",
+    "Chemical Composition": "Cu balance, 7–9% Cr, 3–5% Nb",
+    "Density (g/cm³)": "~8.9 g/cm³",
     "Yield Strength (MPa)": "470 MPa",
     "Ultimate Tensile Strength (MPa)": "710 MPa",
     "Elongation at Break (%)": null,
     "Hardness (HV)": null,
-    "Modulus of Elasticity (GPa)": "≈110 GPa",
+    "Modulus of Elasticity (GPa)": "~110 GPa",
     "Definition": "High-strength, high-conductivity Cu-Cr-Nb alloy developed by NASA.",
     "Key Features": "High thermal and electrical conductivity, high strength, LPBF compatible.",
     "Industries & Applications": "Rocket engine liners, spacecraft thermal parts.",
-    "Thermal Conductivity (W/m·K @25 °C)": "≈260 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "≈40 MS/m"
+    "Thermal Conductivity (W/m·K @25 °C)": "~260 W/m·K",
+    "Electrical Conductivity (MS/m or %IACS)": "~40 MS/m"
   },
   {
     "Alloy Type": "Copper Alloys",
     "Material": "CuNi30",
     "Commercially Available": "1",
     "Chemical Composition": "Cu balance, 29–33% Ni, 0.8–2% Mn",
-    "Density (g/cm³)": "≈8.9 g/cm³",
+    "Density (g/cm³)": "~8.9 g/cm³",
     "Yield Strength (MPa)": "440 MPa",
     "Ultimate Tensile Strength (MPa)": "515 MPa",
     "Elongation at Break (%)": "28%",
@@ -948,25 +999,8 @@
     "Definition": "Cu-Ni alloy with excellent corrosion resistance.",
     "Key Features": "Corrosion resistance, stable properties from cryo to 400°C, LPBF friendly.",
     "Industries & Applications": "Marine, offshore, cryogenic and nuclear components.",
-    "Thermal Conductivity (W/m·K @25 °C)": "≈29 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "≈29 MS/m"
-  },
-  {
-    "Alloy Type": "Copper Alloys",
-    "Material": "CuCrZr",
-    "Commercially Available": "1",
-    "Chemical Composition": "Cu balance, 0.9–1.2% Cr, 0.05–0.2% Zr",
-    "Density (g/cm³)": "8.94 g/cm³",
-    "Yield Strength (MPa)": "300–550 MPa",
-    "Ultimate Tensile Strength (MPa)": "350–650 MPa",
-    "Elongation at Break (%)": "8–15%",
-    "Hardness (HV)": "100–200 HB",
-    "Modulus of Elasticity (GPa)": "120 GPa",
-    "Definition": "Precipitation-hardened Cu alloy with Cr and Zr.",
-    "Key Features": "High conductivity with moderate strength and thermal stability.",
-    "Industries & Applications": "Power electronics, welding, aerospace, fusion reactors.",
-    "Thermal Conductivity (W/m·K @25 °C)": "320 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "49–59 MS/m"
+    "Thermal Conductivity (W/m·K @25 °C)": "~29 W/m·K",
+    "Electrical Conductivity (MS/m or %IACS)": "~29 MS/m"
   },
   {
     "Alloy Type": "Copper Alloys",
@@ -974,9 +1008,9 @@
     "Commercially Available": "1",
     "Chemical Composition": "Cu balance, 9–11% Sn",
     "Density (g/cm³)": "8.74 g/cm³",
-    "Yield Strength (MPa)": "≈373 MPa",
-    "Ultimate Tensile Strength (MPa)": "≈495 MPa",
-    "Elongation at Break (%)": "≈16%",
+    "Yield Strength (MPa)": "~373 MPa",
+    "Ultimate Tensile Strength (MPa)": "~495 MPa",
+    "Elongation at Break (%)": "~16%",
     "Hardness (HV)": "159 HV",
     "Modulus of Elasticity (GPa)": "110 GPa",
     "Definition": "Tin bronze alloy with good wear and corrosion resistance.",
@@ -984,6 +1018,23 @@
     "Industries & Applications": "Marine, pump housings, turbine blades, gears.",
     "Thermal Conductivity (W/m·K @25 °C)": "59 W/m·K",
     "Electrical Conductivity (MS/m or %IACS)": "6–7 MS/m"
+  },
+  {
+    "Alloy Type": "Copper Alloys",
+    "Material": "CuBe2",
+    "Commercially Available": "1",
+    "Chemical Composition": "Cu balance, 1.9 Be, 0.3 Co+Ni, <0.1 Fe, <0.1 Si, <0.5 other",
+    "Density (g/cm³)": "8.3 g/cm³",
+    "Yield Strength (MPa)": "1000-1250 MPa (hardened)",
+    "Ultimate Tensile Strength (MPa)": "1150-1350 MPa  (hardened)",
+    "Elongation at Break (%)": "3–8 %  (hardened)",
+    "Hardness (HV)": "~290–430 HV  (hardened)",
+    "Modulus of Elasticity (GPa)": "135 GPa",
+    "Definition": "Precipitation-hardenable high-performance copper alloy optimized for thermal-critical SLM tool inserts",
+    "Key Features": "High strength, high wear resistance, good corrosion resistance, excellent thermal/electrical conductivity; SLM densification >99.5% feasible; thermal conductivity retained post-ageing",
+    "Industries & Applications": "Injection mold inserts, cooling channels, die-casting tools, heat exchangers",
+    "Thermal Conductivity (W/m·K @25 °C)": "160 W/m·K",
+    "Electrical Conductivity (MS/m or %IACS)": "≥16 MS/m (≥27.6 % IACS)"
   },
   {
     "Alloy Type": "Copper Alloys",
@@ -1006,7 +1057,7 @@
     "Alloy Type": "Copper Alloys",
     "Material": "CW713R",
     "Commercially Available": "0",
-    "Chemical Composition": "Cu 57–59%, Zn balance, 1.5–3% Mn, 1.3–2.3% Al, 0.3–1.3% Si, 0.2–0.8% Pb, ≤1% Fe, ≤1% Ni",
+    "Chemical Composition": "Cu balance, Zn balance, 1.5–3% Mn, 1.3–2.3% Al, 0.3–1.3% Si, 0.2–0.8% Pb, ≤1% Fe, ≤1% Ni",
     "Density (g/cm³)": "8.1 g/cm³",
     "Yield Strength (MPa)": "280–300 MPa",
     "Ultimate Tensile Strength (MPa)": "540–570 MPa",
@@ -1023,7 +1074,7 @@
     "Alloy Type": "Copper Alloys",
     "Material": "CW724R",
     "Commercially Available": "0",
-    "Chemical Composition": "Cu 75–79%, Zn 20–24%, 2.8–3.7% Si, 0.02–0.05% P",
+    "Chemical Composition": "Cu balance, Zn 20–24%, 2.8–3.7% Si, 0.02–0.05% P",
     "Density (g/cm³)": "8.25 g/cm³",
     "Yield Strength (MPa)": "≥280 MPa",
     "Ultimate Tensile Strength (MPa)": "450–500 MPa",
@@ -1033,42 +1084,8 @@
     "Definition": "Silicon red brass with good mechanical properties.",
     "Key Features": "Good strength and corrosion resistance for water service.",
     "Industries & Applications": "Plumbing, pump parts, valve components.",
-    "Thermal Conductivity (W/m·K @25 °C)": "≈85 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "≈3.6 MS/m"
-  },
-  {
-    "Alloy Type": "Copper Alloys",
-    "Material": "OFHC-Cu",
-    "Commercially Available": "0",
-    "Chemical Composition": "≥99.99% Cu",
-    "Density (g/cm³)": "8.94 g/cm³",
-    "Yield Strength (MPa)": "35–380 MPa",
-    "Ultimate Tensile Strength (MPa)": "200–400 MPa",
-    "Elongation at Break (%)": "5–40%",
-    "Hardness (HV)": "35–115 HV",
-    "Modulus of Elasticity (GPa)": "117 GPa",
-    "Definition": "High-purity copper with excellent conductivity.",
-    "Key Features": "Very high electrical and thermal conductivity.",
-    "Industries & Applications": "Electronics, RF components, thermal systems.",
-    "Thermal Conductivity (W/m·K @25 °C)": "390 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "≥58 MS/m"
-  },
-  {
-    "Alloy Type": "Copper Alloys",
-    "Material": "Bronze (CuSn10)",
-    "Commercially Available": "0",
-    "Chemical Composition": "Cu 88%, Sn 12%",
-    "Density (g/cm³)": "8.74 g/cm³",
-    "Yield Strength (MPa)": "≈373 MPa",
-    "Ultimate Tensile Strength (MPa)": "≈495 MPa",
-    "Elongation at Break (%)": "≈16%",
-    "Hardness (HV)": "159 HV",
-    "Modulus of Elasticity (GPa)": "110 GPa",
-    "Definition": "Tin bronze alloy with good wear and corrosion resistance.",
-    "Key Features": "Good strength and ductility, suitable for LPBF.",
-    "Industries & Applications": "Marine, pump housings, turbine blades, gears.",
-    "Thermal Conductivity (W/m·K @25 °C)": "59 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "6–7 MS/m"
+    "Thermal Conductivity (W/m·K @25 °C)": "~85 W/m·K",
+    "Electrical Conductivity (MS/m or %IACS)": "~3.6 MS/m"
   },
   {
     "Alloy Type": "Alloy Type",
@@ -1477,23 +1494,6 @@
     "Industries & Applications": "Corrosion-resistant molds (e.g. plastic injection inserts), precision tooling, high-hardness applications",
     "Thermal Conductivity (W/m·K @25 °C)": "14 W/m·K",
     "Electrical Conductivity (MS/m or %IACS)": "5 MS/m"
-  },
-  {
-    "Alloy Type": "Tool Steels & Others",
-    "Material": "18Ni300",
-    "Commercially Available": "1",
-    "Chemical Composition": "Fe balance, 17% Ni, 12% Co, 4% Mo, 1.0% Ti, 0.6% Al, 0.03% C",
-    "Density (g/cm³)": "8.00 g/cm³",
-    "Yield Strength (MPa)": "2135 MPa",
-    "Ultimate Tensile Strength (MPa)": "2169 MPa",
-    "Elongation at Break (%)": "7.7%",
-    "Hardness (HV)": "604 HV",
-    "Modulus of Elasticity (GPa)": "190 GPa",
-    "Definition": "18% Ni “300” maraging steel (e.g. 18Ni300), age-hardenable to ultra-high strength",
-    "Key Features": "Extremely high tensile strength and hardness; good toughness (martensitic after aging)",
-    "Industries & Applications": "High-strength structural parts (missile casings, shafts), high-load molds and dies, load cells",
-    "Thermal Conductivity (W/m·K @25 °C)": "25.3 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": "5.8 MS/m"
   },
   {
     "Alloy Type": "Tool Steels & Others",
