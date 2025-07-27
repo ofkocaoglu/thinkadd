@@ -31,6 +31,19 @@
     #materialLists li::before, #filtered-materials li::before { content: '›'; position: absolute; left: 0; color: inherit; }
     #materialLists li:hover, #filtered-materials li:hover { color: #fff; }
     #materialLists li.commercial, #filtered-materials li.commercial { color: #2563eb; }
+    /* Mobile responsive chart */
+    @media (max-width: 767px) {
+      #scatter-container .relative {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+      }
+      #scatter-container canvas {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+      }
+    }
     #materialLists li.commercial:hover, #filtered-materials li.commercial:hover { color: #5ea5ff; }
     /* Category header backgrounds matching pastel palette */
       .category-0 { background: #FF6565; }
@@ -183,11 +196,15 @@
 </head>
 <body class="antialiased">
   <div id="page-content" class="container mx-auto px-4 py-6 relative">
-    <div class="absolute top-4 right-4 flex space-x-2 z-20">
+    <div class="absolute top-4 right-4 hidden md:flex space-x-2 z-20">
       <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-[#23292b] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#31373a]">Give Feedback</a>
       <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-[#2563eb] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#1e4db3]">Follow on LinkedIn</a>
     </div>
     <h1 class="text-4xl font-bold text-center mb-4">LPBF Material Universe</h1>
+    <div class="flex justify-center space-x-2 mb-4 md:hidden">
+      <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-[#23292b] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#31373a]">Give Feedback</a>
+      <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-[#2563eb] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#1e4db3]">Follow on LinkedIn</a>
+    </div>
     <div class="flex justify-center mb-6">
       <input type="text" id="search" placeholder="Search material or property..." class="search-input w-full md:w-96 text-base" />
     </div>
@@ -210,7 +227,7 @@
       <div id="scatter-container" class="relative flex-1 min-w-0 mx-auto">
         <div class="w-full">
           <h3 class="text-base font-semibold mb-4 text-center" style="color: #1b2123; margin-top: 10px;">Material Properties Comparison</h3>
-          <div class="relative w-[540px] h-[420px]">
+          <div class="relative w-[540px] h-[420px] mx-auto">
             <canvas id="scatterChart" width="540" height="420"></canvas>
           </div>
         </div>
@@ -235,7 +252,7 @@
       <button id="comparison-close" class="absolute top-4 right-6 text-secondary hover:text-white text-2xl">&times;</button>
       <h2 class="text-base font-bold mb-6 text-center" style="font-size:1rem;">Material Comparison</h2>
       <div class="flex flex-col md:flex-row gap-6 items-start justify-center">
-        <div class="flex-1 min-w-[260px]">
+        <div class="flex-1 min-w-[260px] w-full">
           <div id="comp-panel-left" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch min-h-[340px] shadow-lg justify-center">
             <div id="left-panel-content" class="flex flex-col items-stretch justify-start flex-1 w-full h-full relative">
               <div id="left-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
@@ -246,7 +263,7 @@
             </div>
           </div>
         </div>
-        <div class="flex-1 min-w-[260px]">
+        <div class="flex-1 min-w-[260px] w-full">
           <div id="comp-panel-right" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch min-h-[340px] shadow-lg justify-center">
             <div id="right-panel-content" class="flex flex-col items-stretch justify-start flex-1 w-full h-full relative">
               <div id="right-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
@@ -260,7 +277,9 @@
       </div>
       <div id="comparison-chart-container" class="mt-8 hidden w-full flex justify-center items-stretch">
         <div class="bg-[#1b2123] rounded-2xl p-6 shadow-xl flex flex-col items-center w-full" style="max-width:none;">
-          <canvas id="comparisonRadar" style="display:block;width:100%;height:400px;"></canvas>
+          <div class="w-full" style="aspect-ratio: 16/9;">
+            <canvas id="comparisonRadar" style="display:block;width:100%;height:100%;"></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -416,13 +435,10 @@
         if (scatterChart) scatterChart.destroy();
 
         const canvas = document.getElementById('scatterChart');
-
-        // Get the display size in CSS pixels
-        const displayWidth = scatterContainer.clientWidth;
-        const displayHeight = 420; // or whatever you want
-
-        // Get the device pixel ratio
-        const dpr = window.devicePixelRatio || 1;
+        
+        // Use original fixed dimensions
+        const displayWidth = 540;
+        const displayHeight = 420;
 
         // Set the canvas pixel size (attributes)
         canvas.width = displayWidth;
@@ -432,10 +448,8 @@
         canvas.style.width = displayWidth + 'px';
         canvas.style.height = displayHeight + 'px';
 
-        // Scale the context
+        // Get the context
         const ctx2d = canvas.getContext('2d');
-        ctx2d.setTransform(1, 0, 0, 1, 0, 0); // Reset any transforms
-        // No manual scaling!
 
         scatterChart = new Chart(ctx2d, {
           type: 'scatter',
@@ -455,9 +469,8 @@
             }]
           },
           options: {
-            responsive: false,
+            responsive: true,
             maintainAspectRatio: false,
-            aspectRatio: 2,
             layout: {
               padding: { left: 90, right: 90, bottom: 70, top: 30 }
             },
@@ -1040,16 +1053,15 @@ const pastel = [
       const canvas = document.getElementById('comparisonRadar');
       if (compRadar) compRadar.destroy();
       // Reset canvas size to match parent container
-      const chartContainer = canvas.parentNode;
-      // Remove any inline width/height set by Chart.js or previous renders
-      canvas.width = 0;
-      canvas.height = 0;
-      // Set canvas width/height to match container's width (full width of both panels)
-      const containerWidth = chartContainer.offsetWidth;
+      const container = canvas.parentElement;
+      // Get the container dimensions
+      const containerWidth = container.clientWidth;
+      const containerHeight = container.clientHeight;
+      // Set canvas width/height to match container
       canvas.width = containerWidth;
-      canvas.height = 400;
+      canvas.height = containerHeight;
       canvas.style.width = '100%';
-      canvas.style.height = '400px';
+      canvas.style.height = '100%';
       const ctx = canvas.getContext('2d');
       compRadar = new Chart(ctx, {
         type: 'bar',
@@ -1084,7 +1096,7 @@ const pastel = [
         },
         options: {
           indexAxis: 'y',
-          responsive: false,
+          responsive: true,
           plugins: {
             legend: {
               position: 'top',
