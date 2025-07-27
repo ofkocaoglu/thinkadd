@@ -4,210 +4,1140 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LPBF Material Universe</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
-  <!-- TailwindCSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js & DataLabels -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-  <!-- html2canvas & jsPDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Open Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com" defer></script>
   <style>
-    html, body, p, ul, li, a { font-family: 'Open Sans', sans-serif; }
-    h1, h2, h3 { font-family: 'Poppins', sans-serif; font-weight:700; }
-    .btn { font-family: 'Poppins', sans-serif; font-weight:700; }
-    /* Checkbox accent color */
-    input[type="checkbox"] {
-      width: 1rem;
-      height: 1rem;
-      accent-color: #2563EB;
+    /* Modal heading border thicker and spacing */
+    #detail-modal > div h3 {
+      border-bottom: 2px solid #23292b;
+      padding-bottom: .25rem;
+      margin-bottom: .25rem;
+    }
+    /* Modal content spacing */
+    #detail-modal > div #modal-content { padding-top: 0.5rem; }
+    /* Global Open Sans */
+    *, html, body { font-family: 'Open Sans', sans-serif !important; }
+    body { background: #1b2123; color: #fff; }
+    .text-secondary { color: #98a1b1 !important; }
+    .search-input { background: #23292b; color: #fff; border: 1px solid #31373a; border-radius: .75rem; padding: .6rem 1rem; }
+    .search-input:focus { outline: none; border-color: #2563eb; }
+    .spinner { border: 4px solid #98a1b1; border-top: 4px solid #2563eb; border-radius: 50%; width: 44px; height: 44px; animation: spin 1s linear infinite; margin: auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .card { background: #23292b; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); padding: 1rem; }
+    /* Remove default bullets, add arrow */
+    #materialLists ul, #filtered-materials ul { list-style: none; margin:0; padding:0; }
+    #materialLists li, #filtered-materials li { position: relative; padding-left: 1rem; transition: color .2s; cursor: pointer; color: #98a1b1; }
+    #materialLists li::before, #filtered-materials li::before { content: '›'; position: absolute; left: 0; color: inherit; }
+    #materialLists li:hover, #filtered-materials li:hover { color: #fff; }
+    #materialLists li.commercial, #filtered-materials li.commercial { color: #2563eb; }
+    #materialLists li.commercial:hover, #filtered-materials li.commercial:hover { color: #5ea5ff; }
+    /* Category header backgrounds matching pastel palette */
+      .category-0 { background: #FF6565; }
+      .category-1 { background: #FFC165; }
+      .category-2 { background: #E0FF65; }
+      .category-3 { background: #84FF65; }
+      .category-4 { background: #65FFA3; }
+      .category-5 { background: #65FEFF; }
+      .category-6 { background: #65A3FF; }
+      .category-7 { background: #8465FF; }
+      .category-8 { background: #E065FF; }
+      .category-9 { background: #FF65C1; }
+
+    /* Category names color */
+    #materialLists h2, #filtered-materials h2 { color: #1b2123 !important; }
+    /* Chart container adjustments */
+    #chart-container { background: transparent !important; border: none !important; aspect-ratio: 1 / 1; }
+    #chart-container canvas { position: relative; z-index: 1; cursor: pointer; }
+    #chart-container img { position: absolute; inset: 0; margin: auto; width: 6rem; height: 6rem; pointer-events: none; z-index: 0; }
+    /* Scatter plot container */
+    #scatter-container {
+      /* Remove all width, min-width, max-width properties */
+      height: 420px;
+      padding: 1rem;
+      background: #23292b;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    #scatter-container .relative,
+    #scatter-container canvas {
+      width: 100% !important;
+      height: 420px !important;
+      display: block;
+    }
+    #scatter-container h3 {
+      color: #fff !important;
+      margin-bottom: 1rem !important;
+      font-weight: 600;
+    }
+    /* Modal content background and text */
+    #detail-modal > div { background: #1b2123 !important; }
+    #detail-modal p, #detail-modal td { color: #98a1b1; }
+    /* Modal içi bölümler arası tutarlı boşluk */
+    #detail-modal .modal-section h3 {
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    #detail-modal .modal-section p,
+    #detail-modal .modal-section ul {
+      margin-bottom: 1rem;
+}
+    /* Commercial checkmark icon size */
+    .commercial-check {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      min-height: 16px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    #scatterPlotContainer {
+      width: 1000px;   /* or whatever fixed width you want */
+      height: 500px;   /* or whatever fixed height you want */
+      position: relative;
+    }
+    #scatterPlot {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+    #filtered-view {
+      width: 1364px;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+}
+    .commercial-check-wrapper {
+      display: flex;
+      align-items: center;
+      /* Remove margin, rely on gap from parent */
+    }
+    #detail-modal {
+      transition: opacity 0.2s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #detail-modal:not(.hidden) {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .business-link {
+      position: relative;
+      color: #2563eb;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .business-link::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -2px;
+      width: 0; height: 2px;
+      background: #2563eb;
+      transition: width 0.2s cubic-bezier(.4,2,.6,1);
+    }
+    .business-link:hover::after {
+      width: 100%;
+    }
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: none;
+    }
+    /* Universal dark scrollbar for all scrollable elements */
+    *::-webkit-scrollbar {
+      width: 14px;
+      background: #31373a;
+      border-radius: 10px;
+    }
+    *::-webkit-scrollbar-thumb {
+      background: #808080;
+      border-radius: 10px;
+      border: 3px solid #31373a;
+      min-height: 40px;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+      background: #808080;
+    }
+    * {
+      scrollbar-width: thick;
+      scrollbar-color: #808080 #31373a;
+    }
+    #detail-modal > div,
+    #comparison-modal > div,
+    ul,
+    body {
+      scrollbar-color: #808080 #31373a;
+      scrollbar-width: thick;
     }
   </style>
 </head>
-<body class="bg-gray-50">
-  <div id="page-content" class="container mx-auto p-4 relative">
-    <!-- Export Buttons -->
-    <div class="absolute top-4 left-4 flex space-x-2">
-      <button id="download-pdf" class="btn bg-gray-600 text-white text-sm py-1 px-3 rounded hover:bg-gray-700">Download PDF</button>
-      <button id="download-jpeg" class="btn bg-gray-600 text-white text-sm py-1 px-3 rounded hover:bg-gray-700">Download JPEG</button>
+<body class="antialiased">
+  <div id="page-content" class="container mx-auto px-4 py-6 relative">
+    <div class="absolute top-4 right-4 flex space-x-2 z-20">
+      <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-[#23292b] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#31373a]">Give Feedback</a>
+      <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-[#2563eb] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#1e4db3]">Follow on LinkedIn</a>
     </div>
-    <!-- Contact & LinkedIn -->
-    <div class="absolute top-4 right-4 flex space-x-2">
-      <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-gray-600 text-white text-sm py-1 px-3 rounded hover:bg-gray-700">Give Feedback</a>
-      <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-blue-600 text-white text-sm py-1 px-3 rounded hover:bg-blue-700">Follow on LinkedIn</a>
+    <h1 class="text-4xl font-bold text-center mb-4">LPBF Material Universe</h1>
+    <div class="flex justify-center mb-6">
+      <input type="text" id="search" placeholder="Search material or property..." class="search-input w-full md:w-96 text-base" />
     </div>
-
-    <!-- Main Title -->
-    <h1 class="text-4xl text-center mb-4">LPBF Material Universe</h1>
-    <!-- Description -->
-    <p class="text-xs text-gray-500 text-center max-w-3xl mx-auto mb-8">
-      Laser Powder Bed Fusion (LPBF) is a metal additive manufacturing process that uses a high-powered
-      laser to fuse thin layers of metal powder, building parts layer by layer. This independent,
-      non-commercial platform summarizes data on commercial and research-grade LPBF materials.
-      Information on composition, properties and typical applications is sourced from trusted OEMs,
-      material suppliers and databases, without ties to any specific brand or machine.
-    </p>
-
-    <!-- Chart Container -->
+    <div class="flex justify-center mb-8 items-center gap-2">
+      <span class="inline-block bg-[#22c55e] text-white text-xs font-bold rounded px-2 py-1 mr-2 align-middle">NEW</span>
+      <button id="compare-btn" class="bg-[#2563eb] text-white font-semibold py-2 px-6 rounded-xl hover:bg-[#1e4db3] transition">Material Comparison</button>
+    </div>
     <div id="chart-container" class="relative max-w-md mx-auto mb-8">
-      <canvas id="materialChart" class="relative z-10"></canvas>
-      <img src="lpbf.svg" alt="LPBF Logo" class="absolute inset-0 m-auto w-24 h-24 pointer-events-none z-0" />
+      <canvas id="materialChart"></canvas>
+      <img src="lpbf.svg" alt="LPBF Logo" />
     </div>
-
-    <!-- Note -->
-    <p class="text-sm italic mb-2">Commercially available materials are highlighted in blue; click a material to view details.</p>
-
-    <!-- Material Lists -->
-    <div id="materialLists" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"></div>
-
-    <!-- Disclaimer -->
-    <div class="mt-12 text-xs text-gray-600 space-y-2">
+    
+    <p class="text-xs text-secondary text-center max-w-3xl mx-auto mb-6">
+      Commercially available materials are indicated with <span class="text-[#2563eb]">blue checkmark icons</span>; click a pie chart slice to filter materials below. Click same slice or outside to reset filter. Click a material to view details.
+    </p>
+    <div id="spinner" class="flex justify-center items-center py-12"><div class="spinner"></div></div>
+    <div id="materialLists" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-[1364px] mx-auto hidden"></div>
+    <div id="filtered-view" class="flex flex-col lg:flex-row gap-4 items-start hidden justify-center w-full max-w-[1364px] mx-auto">
+      <div id="filtered-materials" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 w-[260px]"></div>
+      <div id="scatter-container" class="relative flex-1 min-w-0 mx-auto">
+        <div class="w-full">
+          <h3 class="text-base font-semibold mb-4 text-center" style="color: #1b2123; margin-top: 10px;">Material Properties Comparison</h3>
+          <div class="relative w-[540px] h-[420px]">
+            <canvas id="scatterChart" width="540" height="420"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10 text-xs text-secondary space-y-2 max-w-3xl mx-auto text-center">
       <p class="font-semibold">Disclaimer:</p>
-      <p>The material list above has been compiled from publicly available sources and manufacturer datasheets as of the date of publication. It includes both commercially released and research-stage powders claimed to be compatible with Laser Powder Bed Fusion (LPBF) technology. This information is provided “as is” and without any representation or warranty—express or implied—regarding its accuracy, completeness, or fitness for any particular purpose.</p>
-      <p class="font-semibold">Prepared by: <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="text-blue-600 hover:underline">Ömer Faruk Kocaoglu</a> | Contact: <a href="mailto:omerfkocaoglu@gmail.com" class="text-blue-600 hover:underline">omerfkocaoglu@gmail.com</a></p>
+      <p>This independent, non-commercial platform compiles data on Laser Powder Bed Fusion powders from trusted public sources. It includes both commercial and research-stage materials and is provided as is, without warranty.</p>
+      <p>Special thanks to contributors: Evren Yasa, Çağrı Gürbüz.</p>
+      <p class="font-semibold">Prepared by: <a href="https://www.linkedin.com/in/omerfkocaoglu/" class="text-[#2563eb]">Ömer Faruk Kocaoglu</a> | Contact: <a href="mailto:omerfkocaoglu@gmail.com" class="text-[#2563eb]">omerfkocaoglu@gmail.com</a></p>
     </div>
   </div>
-
-  <!-- Detail Modal -->
-  <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-    <div class="bg-white rounded-lg shadow-xl overflow-y-auto max-h-[80vh] max-w-2xl w-full mx-4 md:mx-auto p-6 relative">
-      <button id="modal-close" class="absolute top-4 right-6 text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+  <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+    <div class="rounded-2xl shadow-2xl overflow-y-auto max-h-[80vh] max-w-2xl w-full mx-4 md:mx-auto p-6 text-white relative">
+      <button id="modal-close" class="absolute top-4 right-6 text-secondary hover:text-white text-2xl">&times;</button>
       <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
-      <div id="modal-content" class="space-y-6 text-sm">
-        <!-- Dynamic content inserted here -->
+      <div id="modal-content" class="space-y-4 text-sm"></div>
+    </div>
+  </div>
+  <div id="comparison-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+    <div class="rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh] max-w-4xl w-full mx-4 md:mx-auto p-6 text-white relative bg-[#23292b]">
+      <button id="comparison-close" class="absolute top-4 right-6 text-secondary hover:text-white text-2xl">&times;</button>
+      <h2 class="text-base font-bold mb-6 text-center" style="font-size:1rem;">Material Comparison</h2>
+      <div class="flex flex-col md:flex-row gap-6 items-start justify-center">
+        <div class="flex-1 min-w-[260px]">
+          <div id="comp-panel-left" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch min-h-[340px] shadow-lg justify-center">
+            <div id="left-panel-content" class="flex flex-col items-stretch justify-start flex-1 w-full h-full relative">
+              <div id="left-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
+                <button id="select-left" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
+                <div class="text-xs text-secondary mt-2" id="guide-left">Click “+” to add a material for comparison</div>
+              </div>
+              <div id="left-material-info" class="w-full"></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex-1 min-w-[260px]">
+          <div id="comp-panel-right" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch min-h-[340px] shadow-lg justify-center">
+            <div id="right-panel-content" class="flex flex-col items-stretch justify-start flex-1 w-full h-full relative">
+              <div id="right-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
+                <button id="select-right" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
+                <div class="text-xs text-secondary mt-2" id="guide-right">Click “+” to add a material for comparison</div>
+              </div>
+              <div id="right-material-info" class="w-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="comparison-chart-container" class="mt-8 hidden w-full flex justify-center items-stretch">
+        <div class="bg-[#1b2123] rounded-2xl p-6 shadow-xl flex flex-col items-center w-full" style="max-width:none;">
+          <canvas id="comparisonRadar" style="display:block;width:100%;height:400px;"></canvas>
+        </div>
       </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2" defer></script>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script defer>
+    window.addEventListener('DOMContentLoaded', () => {
+      let scatterChart = null;
 
-  <script>
-    // Export Handlers
-    const page = document.getElementById('page-content');
-    document.getElementById('download-pdf').onclick = async () => {
-      const { jsPDF } = window.jspdf;
-      const canvas = await html2canvas(page, { scale: 2 });
-      const img = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p','pt','a4');
-      const w = pdf.internal.pageSize.getWidth();
-      const h = (canvas.height * w) / canvas.width;
-      pdf.addImage(img, 'PNG', 0, 0, w, h);
-      pdf.save('LPBF_Material_Universe.pdf');
-    };
-    document.getElementById('download-jpeg').onclick = async () => {
-      const canvas = await html2canvas(page, { scale: 2 });
-      const img = canvas.toDataURL('image/jpeg', 0.9);
-      const link = document.createElement('a'); link.href = img; link.download = 'LPBF_Material_Universe.jpeg'; link.click();
-    };
+      function renderScatterPlot() {
+        const scatterContainer = document.getElementById('scatter-container');
+        if (selectedSlice == null) {
+          scatterContainer.classList.add('hidden');
+          if (scatterChart) scatterChart.destroy();
+          return;
+        }
+        // Filter materials for the selected group
+        const group = categories[selectedSlice];
+        const groupMaterials = cleanDb.filter(i => i['Alloy Type'] === group);
 
-    // Modal Elements
-    const modal = document.getElementById('detail-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalContent = document.getElementById('modal-content');
-    document.getElementById('modal-close').onclick = () => modal.classList.add('hidden');
+        let dataPoints, xLabel, yLabel, xKey, yKey, tooltipLabel;
+        const isSpecialGroup = group === 'Copper Alloys' || group === 'Precious Metals';
+        console.log("Group:", group, "Is special:", isSpecialGroup);
 
-    // Load and Render Data
-    fetch('materialDatabase.json')
-      .then(r => r.json())
-      .then(db => {
-        const cleanDb = db.filter(item => item['Alloy Type'] && item['Alloy Type'] !== 'Alloy Type');
-        const categories = [...new Set(cleanDb.map(item => item['Alloy Type']))];
-        const materialsByCategory = {};
-        categories.forEach(cat => materialsByCategory[cat] = cleanDb.filter(item => item['Alloy Type'] === cat));
+        if (isSpecialGroup) {
+          xKey = 'Electrical Conductivity (MS/m or %IACS)';
+          yKey = 'Thermal Conductivity (W/m·K @25 °C)'; // <-- copy this from your JSON!
+          xLabel = 'Electrical Conductivity (MS/m or %IACS)';
+          yLabel = 'Thermal Conductivity (W/m·K @25 °C)';
+          tooltipLabel = (ctx) => [
+            `Electrical: ${ctx.raw.x} MS/m or %IACS`,
+            `Thermal: ${ctx.raw.y} W/m·K`
+          ];
+          // Helper to extract the first number from a string (for both MS/m and %IACS)
+          function extractNumber(val) {
+            if (typeof val === 'number') return val;
+            if (!val) return NaN;
+            const match = String(val).match(/[-+]?\d*\.?\d+/);
+            return match ? parseFloat(match[0]) : NaN;
+          }
+          dataPoints = groupMaterials
+            .filter(m => {
+              const xVal = extractNumber(m[xKey]);
+              const yVal = extractNumber(m[yKey]);
+              return !isNaN(xVal) && !isNaN(yVal);
+            })
+            .map(m => ({
+              x: extractNumber(m[xKey]),
+              y: extractNumber(m[yKey]),
+              label: m.Material,
+              full: m
+            }));
+          console.log("Group:", group, "xKey:", xKey, "yKey:", yKey);
+          console.log("Filtered materials:", groupMaterials);
+          console.log("Special plot data:", dataPoints);
+          if (dataPoints.length === 0) {
+            console.warn(`[DEBUG] No data for group ${group} with keys: ${xKey}, ${yKey}`);
+          }
+        } else {
+          // Default axes
+          xKey = 'Elongation at Break (%)';
+          yKey = 'Ultimate Tensile Strength (MPa)';
+          xLabel = 'Elongation at Break (%)';
+          yLabel = 'Ultimate Tensile Strength (MPa)';
+          tooltipLabel = (ctx) => [
+            `Elongation: ${ctx.raw.x}%`,
+            `Strength: ${ctx.raw.y} MPa`
+          ];
+          dataPoints = groupMaterials
+            .filter(m => {
+              const xVal = m[xKey];
+              const yVal = m[yKey];
+              const xNum = parseFloat(xVal);
+              const yNum = parseFloat(yVal);
+              return xVal && yVal && !isNaN(xNum) && !isNaN(yNum) && xNum > 0 && yNum > 0;
+            })
+            .map(m => ({
+              x: parseFloat(m[xKey]),
+              y: parseFloat(m[yKey]),
+              label: m.Material,
+              full: m
+            }));
+          console.log(`[DEBUG] Group: ${group}, xKey: ${xKey}, yKey: ${yKey}, dataPoints:`, dataPoints);
+          if (dataPoints.length === 0) {
+            console.warn(`[DEBUG] No data for group ${group} with keys: ${xKey}, ${yKey}`);
+          }
+        }
 
-        // Pie Chart
-        const colors = ['#e63946','#f4a261','#e9c46a','#a8dadc','#2a9d8f','#3376B8','#1d3557','#6a4c93','#9d4edd','#8ac926'];
-        const abbreviations = {'Aluminium Alloys':'Al','Titanium Alloys':'Ti','Precious Metals':'PM','Refractory Metals':'RM','Cobalt-Chrome Alloys':'Co','Copper Alloys':'Cu','Nickel Superalloys':'Ni','Tool Steels & Others':'TS','Stainless Steels':'SS','Magnesium Alloys':'Mg'};
-        const ctx = document.getElementById('materialChart').getContext('2d'); Chart.register(ChartDataLabels);
-        new Chart(ctx, {
-          type:'doughnut',
-          data:{ labels:categories, datasets:[{ data:categories.map(()=>1), backgroundColor:colors }] },
-          options:{ cutout:'50%', responsive:true, plugins:{ legend:{display:false}, 
-          datalabels:{ color:'#fff', font:{family:'Poppins',weight:'700',size:24}, formatter:(v,ctx)=>abbreviations[ctx.chart.data.labels[ctx.dataIndex]]||'' }, 
-          tooltip:{ backgroundColor:'rgba(33,33,33,0.85)', titleColor:'#ffffff',
-          titleFont:{family:'Poppins',weight:'700',size:12}, bodyColor:'#f1f1f1',
-          bodyFont:{family:'Open Sans',size:12}, displayColors:false, padding:8, cornerRadius:6, bodySpacing:4, callbacks:
-          {title:items=>items[0].label, label:context=>materialsByCategory[context.label].map(item=>item['Material']) } } } }
-        });
+        console.log('Scatter data for group:', group, dataPoints);
+        console.log('All materials in group:', groupMaterials.map(m => ({
+          material: m.Material,
+          elongation: m['Elongation at Break (%)'],
+          strength: m['Ultimate Tensile Strength (MPa)']
+        })));
 
-        // Render Lists & Modal Hooks
-        const container = document.getElementById('materialLists');
-        categories.forEach((cat,i) => {
-          const box = document.createElement('div'); box.className='bg-white p-4 rounded shadow';
-          const h2 = document.createElement('h2'); h2.textContent=cat; h2.className='mb-2 p-2 rounded text-white'; h2.style.backgroundColor=colors[i]; box.appendChild(h2);
-          const ul = document.createElement('ul'); ul.className='list-disc list-inside text-sm';
-          materialsByCategory[cat].forEach(item => {
-            const li = document.createElement('li'); li.textContent=item['Material'];
-            if(item['Commercially Available']==='1') li.classList.add('text-blue-600','font-semibold');
-            li.classList.add('cursor-pointer');
-            li.onclick = () => {
-              modalTitle.textContent = item['Material'];
-              modalContent.innerHTML = `
-                <div class="space-y-6">
-                  <div>
-                    <h3 class="text-lg font-semibold flex items-center">
-                    Commercially Available
-                    ${item['Commercially Available'] === '1' ? 
-                      `<svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879A1 1 0 003.293 9.293l4 4a1 1 0 001.414 0l8-8z" clip-rule="evenodd" />
-                      </svg>` :
-                      `<svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
-                      </svg>`
-                    }
-                  </h3>
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-semibold border-b pb-1">Definition</h3>
-                    <p class="mt-1">${item['Definition']||'–'}</p>
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-semibold border-b pb-1">Key Features</h3>
-                    <p class="mt-1">${item['Key Features']||'–'}</p>
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-semibold border-b pb-1">Industries & Applications</h3>
-                    <p class="mt-1">${item['Industries & Applications']||'–'}</p>
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-semibold border-b pb-1">Chemical Composition</h3>
-                    <p class="mt-1">${item['Chemical Composition']||'–'}</p>
-                  </div>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <h3 class="text-lg font-semibold border-b pb-1">Mechanical Properties</h3>
-                      <table class="min-w-full text-sm mt-2">
-                        <tbody>
-                          <tr><td class="py-1">Yield strength</td><td class="py-1 pl-4">${item['Yield Strength (MPa)']||'–'}</td></tr>
-                          <tr><td class="py-1">Tensile strength</td><td class="py-1 pl-4">${item['Ultimate Tensile Strength (MPa)']||'–'}</td></tr>
-                          <tr><td class="py-1">Elongation at break</td><td class="py-1 pl-4">${item['Elongation at Break (%)']||'–'}</td></tr>
-                          <tr><td class="py-1">Hardness (HV)</td><td class="py-1 pl-4">${item['Hardness (HV)']||'–'}</td></tr>
-                          <tr><td class="py-1">Modulus of elasticity</td><td class="py-1 pl-4">${item['Modulus of Elasticity (GPa)']||'–'}</td></tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div>
-                      <h3 class="text-lg font-semibold border-b pb-1">Physical Properties</h3>
-                      <table class="min-w-full text-sm mt-2">
-                        <tbody>
-                          <tr><td class="py-1">Density</td><td class="py-1 pl-4">${item['Density (g/cm³)']||'–'}</td></tr>
-                          <tr><td class="py-1">Electrical conductivity</td><td class="py-1 pl-4">${item['Electrical Conductivity (MS/m or %IACS)']||'–'}</td></tr>
-                          <tr><td class="py-1">Thermal conductivity</td><td class="py-1 pl-4">${item['Thermal Conductivity (W/m·K @25 °C)']||'–'}</td></tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              `;
-              modal.classList.remove('hidden');
-            };
-            ul.appendChild(li);
+        if (dataPoints.length === 0) {
+          scatterContainer.classList.remove('hidden');
+          if (scatterChart) scatterChart.destroy();
+
+          // Show a message when no data is available
+          const ctx = document.getElementById('scatterChart').getContext('2d');
+          scatterChart = new Chart(ctx, {
+            type: 'scatter',
+            data: { datasets: [] },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                tooltip: { enabled: false }
+              },
+              scales: {
+                x: {
+                  display: false
+                },
+                y: {
+                  display: false
+                }
+              }
+            }
           });
-          box.appendChild(ul);
-          container.appendChild(box);
+
+          // Add a styled message overlay
+          const canvas = document.getElementById('scatterChart');
+          const ctx2d = canvas.getContext('2d');
+          ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+
+          // Draw background circle
+          ctx2d.fillStyle = '#31373a';
+          ctx2d.beginPath();
+          ctx2d.arc(canvas.width / 2, canvas.height / 2, 80, 0, 2 * Math.PI);
+          ctx2d.fill();
+
+          // Draw icon (info symbol)
+          ctx2d.fillStyle = '#98a1b1';
+          ctx2d.font = '48px Arial';
+          ctx2d.textAlign = 'center';
+          ctx2d.fillText('ℹ', canvas.width / 2, canvas.height / 2 - 20);
+
+          // Draw text
+          ctx2d.fillStyle = '#98a1b1';
+          ctx2d.font = '16px Open Sans';
+          ctx2d.textAlign = 'center';
+          ctx2d.fillText('No mechanical property data', canvas.width / 2, canvas.height / 2 + 15);
+          ctx2d.fillText('available for this group', canvas.width / 2, canvas.height / 2 + 35);
+          return;
+        }
+
+        scatterContainer.classList.remove('hidden');
+        const ctx = document.getElementById('scatterChart').getContext('2d');
+        if (scatterChart) scatterChart.destroy();
+
+        const canvas = document.getElementById('scatterChart');
+
+        // Get the display size in CSS pixels
+        const displayWidth = scatterContainer.clientWidth;
+        const displayHeight = 420; // or whatever you want
+
+        // Get the device pixel ratio
+        const dpr = window.devicePixelRatio || 1;
+
+        // Set the canvas pixel size (attributes)
+        canvas.width = displayWidth;
+        canvas.height = displayHeight;
+
+        // Set the canvas display size (CSS)
+        canvas.style.width = displayWidth + 'px';
+        canvas.style.height = displayHeight + 'px';
+
+        // Scale the context
+        const ctx2d = canvas.getContext('2d');
+        ctx2d.setTransform(1, 0, 0, 1, 0, 0); // Reset any transforms
+        // No manual scaling!
+
+        scatterChart = new Chart(ctx2d, {
+          type: 'scatter',
+          data: {
+            datasets: [{
+              label: group,
+              data: dataPoints,
+              backgroundColor: pastel[selectedSlice],
+              borderColor: 'transparent',
+              borderWidth: 0,
+              pointRadius: 6,
+              pointHoverRadius: 8,
+              pointHoverBorderWidth: 0,
+              pointHoverBackgroundColor: pastel[selectedSlice],
+              pointHoverBorderColor: 'transparent',
+              pointHitRadius: 18 // try increasing this
+            }]
+          },
+          options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            aspectRatio: 2,
+            layout: {
+              padding: { left: 90, right: 90, bottom: 70, top: 30 }
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                mode: 'nearest',
+                intersect: true,
+                backgroundColor: '#1b2123',
+                titleColor: '#fff',
+                bodyColor: '#98a1b1',
+                borderColor: '#31373a',
+                borderWidth: 2,
+                cornerRadius: 12,
+                padding: 12,
+                titleFont: { size: 16, weight: '600' },
+                bodyFont: { size: 14 },
+                callbacks: {
+                  title: (context) => context[0].raw.label,
+                  label: tooltipLabel
+                }
+              },
+              datalabels: {
+                anchor: 'end',   // Attach label to the end of the point (top)
+                align: 'start',  // Align label above the anchor
+                offset: -20,       // Optional: add a little space above the dot
+                font: {
+                  weight: '400',
+                   size: 12
+                },
+                color: '#98a1b1',   // Or any color you prefer
+                // formatter: ... // Your label formatting logic
+              }
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: xLabel,
+                  color: '#fff',
+                  font: { size: 13, weight: '600' },
+                  padding: 10
+                },
+                grid: {
+                  color: '#31373a',
+                  lineWidth: 1,
+                  drawBorder: false
+                },
+                ticks: {
+                  color: '#98a1b1',
+                  font: { size: 11 },
+                  padding: 8
+                },
+                beginAtZero: false
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: yLabel,
+                  color: '#fff',
+                  font: { size: 13, weight: '600' },
+                  padding: 10
+                },
+                grid: {
+                  color: '#31373a',
+                  lineWidth: 1,
+                  drawBorder: false
+                },
+                ticks: {
+                  color: '#98a1b1',
+                  font: { size: 11 },
+                  padding: 8
+                },
+                beginAtZero: false
+              }
+            },
+            onClick: (evt, elements) => {
+              if (elements.length) {
+                const idx = elements[0].index;
+                const mat = dataPoints[idx].full;
+                showModal(mat);
+              }
+            },
+            onHover: (evt, elements) => {
+              evt.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+            }
+          }
         });
-      })
-      .catch(console.error);
+
+
+      }
+      const spinner = document.getElementById('spinner');
+      const materialLists = document.getElementById('materialLists');
+      const modal = document.getElementById('detail-modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalContent = document.getElementById('modal-content');
+      let categories = [], materialsByCategory = {}, cleanDb = [], selectedSlice = null, searchTerm = '';
+const pastel = [
+  '#FF6565', // Canlı Kırmızı
+  '#FFC165', // Parlak Turuncu
+  '#E0FF65', // Açık Sarı
+  '#84FF65', // Neon Yeşil
+  '#65FFA3', // Nane Yeşili
+  '#65FEFF', // Parlak Camgöbeği
+  '#65A3FF', // Açık Mavi
+  '#8465FF', // Morumsu Mavi
+  '#E065FF', // Parlak Mor
+  '#FF65C1'  // Sıcak Pembe
+];
+      const abbrev = {
+        'Aluminium Alloys':'Al','Titanium Alloys':'Ti','Precious Metals':'PM','Refractory Metals':'RM',
+        'Cobalt-Chrome Alloys':'Co','Copper Alloys':'Cu','Nickel Superalloys':'Ni',
+        'Tool Steels & Others':'TS','Stainless Steels':'SS','Magnesium Alloys':'Mg'
+      };
+
+      // helper to dim colors
+      function hexToRgba(hex, alpha) {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `rgba(${r},${g},${b},${alpha})`;
+      }
+
+      document.getElementById('search').addEventListener('input', e => { searchTerm = e.target.value.toLowerCase(); renderGrid(); });
+
+      function renderGrid() {
+        const filteredView = document.getElementById('filtered-view');
+        const filteredMaterials = document.getElementById('filtered-materials');
+
+        if (selectedSlice != null) {
+          // Show filtered view with selected group and scatter plot
+          materialLists.classList.add('hidden');
+          filteredView.classList.remove('hidden');
+
+          // Render only the selected group in the filtered view
+          filteredMaterials.innerHTML = '';
+          const selectedCategory = categories[selectedSlice];
+          const selectedMaterials = cleanDb.filter(item => item['Alloy Type'] === selectedCategory);
+
+          // Filter materials based on search term
+          const matchingMaterials = selectedMaterials.filter(item => 
+            !searchTerm || JSON.stringify(item).toLowerCase().includes(searchTerm)
+          );
+
+          if (searchTerm && matchingMaterials.length === 0) {
+            // Show no results message for filtered view
+            const noResultsSection = document.createElement('div');
+            noResultsSection.className = 'card';
+            noResultsSection.innerHTML = `
+              <div class="text-center py-8">
+                <p class="text-secondary text-lg mb-2">No results found for '<span class="text-white">${searchTerm}</span>'.</p>
+                <p class="text-secondary text-sm">Try a different keyword or check your spelling.</p>
+              </div>
+            `;
+            filteredMaterials.appendChild(noResultsSection);
+          } else {
+            const section = document.createElement('div');
+            section.className = 'card section-' + selectedSlice;
+            const header = document.createElement('h2');
+            header.textContent = selectedCategory;
+            header.className = `mb-2 p-2 rounded-xl text-center font-semibold category-${selectedSlice}`;
+            section.appendChild(header);
+            const ul = document.createElement('ul');
+            section.appendChild(ul);
+
+            matchingMaterials.forEach(item => {
+              const li = document.createElement('li');
+              li.className = 'flex items-center gap-1';
+
+              const materialSpan = document.createElement('span');
+              materialSpan.textContent = item.Material;
+              li.appendChild(materialSpan);
+
+              const commercialValue = item['Commercially Available'];
+              const isCommercial = (commercialValue === '1' || commercialValue === 1 || commercialValue === true || commercialValue === 'true' || commercialValue === 'Yes' || commercialValue === 'yes');
+              if (isCommercial) {
+                const commercialIcon = document.createElement('span');
+                commercialIcon.className = 'text-xs align-middle leading-none';
+                commercialIcon.innerHTML = `
+                  <svg class="commercial-check" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="9" fill="#2563eb"/>
+                    <path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                `;
+                commercialIcon.title = 'Commercially Available';
+                li.appendChild(commercialIcon);
+              }
+
+              ul.appendChild(li);
+              li.addEventListener('click', () => showModal(item));
+            });
+
+            filteredMaterials.appendChild(section);
+          }
+        } else {
+          // Show all groups in the original 5-column layout
+          materialLists.classList.remove('hidden');
+          filteredView.classList.add('hidden');
+
+          materialLists.innerHTML = '';
+          const sectionMap = {};
+          let hasMatchingMaterials = false;
+
+          cleanDb.forEach(item => {
+            const cat = item['Alloy Type'];
+            if (searchTerm && !JSON.stringify(item).toLowerCase().includes(searchTerm)) return;
+            
+            hasMatchingMaterials = true;
+            let section = sectionMap[cat];
+            if (!section) {
+              section = document.createElement('div');
+              section.className = 'card section-' + categories.indexOf(cat);
+              const header = document.createElement('h2');
+              header.textContent = cat;
+              header.className = `mb-2 p-2 rounded-xl text-center font-semibold category-${categories.indexOf(cat)}`;
+              section.appendChild(header);
+              const ul = document.createElement('ul');
+              section.appendChild(ul);
+              materialLists.appendChild(section);
+              sectionMap[cat] = section;
+            }
+            const ul = section.querySelector('ul');
+            const li = document.createElement('li');
+            li.className = 'flex items-center gap-1';
+
+            const materialSpan = document.createElement('span');
+            materialSpan.textContent = item.Material;
+            li.appendChild(materialSpan);
+
+            const commercialValue = item['Commercially Available'];
+            const isCommercial = (commercialValue === '1' || commercialValue === 1 || commercialValue === true || commercialValue === 'true' || commercialValue === 'Yes' || commercialValue === 'yes');
+            if (isCommercial) {
+              const commercialIcon = document.createElement('span');
+              commercialIcon.className = 'text-xs align-middle leading-none';
+              commercialIcon.innerHTML = `
+                <svg class="commercial-check" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="10" cy="10" r="9" fill="#2563eb"/>
+                  <path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              `;
+              commercialIcon.title = 'Commercially Available';
+              li.appendChild(commercialIcon);
+            }
+
+            ul.appendChild(li);
+            li.addEventListener('click', () => showModal(item));
+          });
+
+          // Show no results message if no materials match the search
+          if (searchTerm && !hasMatchingMaterials) {
+            const noResultsSection = document.createElement('div');
+            noResultsSection.className = 'card col-span-full';
+            noResultsSection.innerHTML = `
+              <div class="text-center py-8">
+                <p class="text-secondary text-lg mb-2">No results found for '<span class="text-white">${searchTerm}</span>'.</p>
+                <p class="text-secondary text-sm">Try a different keyword or check your spelling.</p>
+              </div>
+            `;
+            materialLists.appendChild(noResultsSection);
+          }
+        }
+      }
+
+      function showModal(item) {
+  modalTitle.textContent = item.Material;
+  const isCommercialModal = (item['Commercially Available'] === '1' || item['Commercially Available'] === 1 || item['Commercially Available'] === true || item['Commercially Available'] === 'true' || item['Commercially Available'] === 'Yes' || item['Commercially Available'] === 'yes');
+  // Format chemical composition as plain text for consistent style
+  let chemComp = item['Chemical Composition'] || '–';
+  if (chemComp && chemComp !== '–' && typeof chemComp === 'string') {
+    chemComp = `<p class="mt-1 text-secondary">${chemComp}</p>`;
+  } else {
+    chemComp = `<p class="mt-1 text-secondary">–</p>`;
+  }
+  modalContent.innerHTML = `
+    <div class="space-y-6">
+      <h3 class="text-lg font-semibold flex items-center">
+        Commercially Available
+        ${isCommercialModal
+          ? '<svg class="ml-2 h-5 w-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" fill="#2563eb"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          : '<svg class="ml-2 h-5 w-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" fill="#98a1b1"/><path d="M6 10h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>'}
+      </h3>
+      <div>
+        <h3 class="text-lg font-semibold border-b pb-1">Definition</h3>
+        <p class="mt-1">${item.Definition||'–'}</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold border-b pb-1">Key Features</h3>
+        <p class="mt-1">${item['Key Features']||'–'}</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold border-b pb-1">Industries & Applications</h3>
+        <p class="mt-1">${item['Industries & Applications']||'–'}</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold border-b pb-1">Chemical Composition</h3>
+        ${chemComp}
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-lg font-semibold border-b pb-1">Mechanical Properties</h3>
+          <table class="min-w-full text-sm mt-2"><tbody>
+            <tr><td class="py-1">Yield strength</td><td class="py-1 pl-4">${item['Yield Strength (MPa)']||'–'}</td></tr>
+            <tr><td class="py-1">Tensile strength</td><td class="py-1 pl-4">${item['Ultimate Tensile Strength (MPa)']||'–'}</td></tr>
+            <tr><td class="py-1">Elongation at break</td><td class="py-1 pl-4">${item['Elongation at Break (%)'] ? item['Elongation at Break (%)'] + ' %' : '–'}</td></tr>
+            <tr><td class="py-1">Hardness (HV)</td><td class="py-1 pl-4">${item['Hardness (HV)']||'–'}</td></tr>
+            <tr><td class="py-1">Modulus of elasticity</td><td class="py-1 pl-4">${item['Modulus of Elasticity (GPa)']||'–'}</td></tr>
+          </tbody></table>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold border-b pb-1">Physical Properties</h3>
+          <table class="min-w-full text-sm mt-2"><tbody>
+            <tr><td class="py-1">Density</td><td class="py-1 pl-4">${item['Density (g/cm³)']||'–'}</td></tr>
+            <tr><td class="py-1">Electrical conductivity</td><td class="py-1 pl-4">${
+              (() => {
+                const val = item['Electrical Conductivity (MS/m or %IACS)'];
+                if (typeof val === 'undefined' || val === null || val === '') return '–';
+                // If value already contains 'MS/m' or '%IACS', don't append units
+                if (typeof val === 'string' && (val.includes('MS/m') || val.includes('%IACS'))) return val;
+                return val + ' MS/m or %IACS';
+              })()
+            }</td></tr>
+            <tr><td class="py-1">Thermal conductivity</td><td class="py-1 pl-4">${
+              (() => {
+                // Try both key variants (with and without narrow no-break space)
+                const val = item['Thermal Conductivity (W/m·K @25°C)'] ?? item['Thermal Conductivity (W/m·K @25 °C)'];
+                if (typeof val === 'undefined' || val === null || val === '') return '–';
+                if (typeof val === 'string' && val.includes('W/m·K')) return val;
+                return val + ' W/m·K';
+              })()
+            }</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>`;
+  modal.querySelector('#modal-close').onclick = (e) => {
+    e.stopPropagation(); // Prevent event bubbling
+    modal.classList.add('hidden');
+  };
+  modal.classList.remove('hidden');
+}
+
+
+
+      fetch('materialDatabase.json')
+        .then(r => r.json())
+        .then(db => {
+          cleanDb = db.filter(i => i.Material && i.Material !== 'Material' && i['Alloy Type'] && i['Alloy Type'] !== 'Alloy Type');
+          categories = [...new Set(cleanDb.map(i => i['Alloy Type']))];
+          categories.forEach(cat => materialsByCategory[cat] = cleanDb.filter(i => i['Alloy Type'] === cat));
+          const ctx = document.getElementById('materialChart').getContext('2d');
+          Chart.register(ChartDataLabels);
+          const chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: categories,
+              datasets: [{
+                data: categories.map(() => 1),
+                backgroundColor: pastel
+              }]
+            },
+            options: {
+              cutout: '50%', responsive: true,
+              plugins: {
+                legend: { display: false },
+                tooltip: { enabled: false },     
+                datalabels: {
+                  color: '#1b2123',
+                  font: { family: 'Open Sans', weight: '700', size: 24 },
+                  formatter: (v, ctx) => abbrev[categories[ctx.dataIndex]] || ''
+                }
+              },
+              onClick: (evt, items) => {
+                if (!items.length) return;
+                const idx = items[0].index;
+                selectedSlice = selectedSlice === idx ? null : idx;
+                chart.data.datasets[0].backgroundColor = pastel.map((c, i) =>
+                  selectedSlice != null && i !== selectedSlice ? hexToRgba(c, 0.3) : c
+                );
+                chart.update();
+                renderGrid();
+                renderScatterPlot();
+              }
+            }
+          });
+          spinner.style.display = 'none';
+          renderGrid();
+          renderScatterPlot();
+          document.addEventListener('click', e => {
+            // Don't reset if clicking on modal, scatter plot, or filtered materials
+            if (!e.target.closest('#chart-container') &&
+                !e.target.closest('#detail-modal') &&
+                !e.target.closest('#scatter-container') &&
+                !e.target.closest('#filtered-materials')) {
+              selectedSlice = null;
+              chart.data.datasets[0].backgroundColor = pastel;
+              chart.update();
+              renderGrid();
+              renderScatterPlot();
+            }
+          });
+        });
+
+// === Material Comparison Modal Logic ===
+    let compModal = document.getElementById('comparison-modal');
+    let compBtn = document.getElementById('compare-btn');
+    let compClose = document.getElementById('comparison-close');
+    let selectLeft = document.getElementById('select-left');
+    let selectRight = document.getElementById('select-right');
+    let leftInfo = document.getElementById('left-material-info');
+    let rightInfo = document.getElementById('right-material-info');
+    let compChartContainer = document.getElementById('comparison-chart-container');
+    let compRadar = null;
+    let leftMaterial = null, rightMaterial = null;
+
+    compBtn.onclick = () => {
+      compModal.classList.remove('hidden');
+      resetComparison();
+    };
+    compClose.onclick = () => compModal.classList.add('hidden');
+    function resetComparison() {
+      leftMaterial = null; rightMaterial = null;
+      leftInfo.innerHTML = '';
+      rightInfo.innerHTML = '';
+      compChartContainer.classList.add('hidden');
+      if (compRadar) compRadar.destroy(); compRadar = null;
+      // Always show both empty states on reset (force re-show even if previously hidden)
+      setTimeout(() => {
+        const leftEmpty = document.getElementById('left-empty-state');
+        const rightEmpty = document.getElementById('right-empty-state');
+        if (leftEmpty) leftEmpty.style.display = 'flex';
+        if (rightEmpty) rightEmpty.style.display = 'flex';
+        updateEmptyStates();
+      }, 0);
+    }
+    function renderMaterialSelect(panel, onSelect) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'w-full';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.placeholder = 'Search material...';
+      input.className = 'search-input w-full mb-2';
+      wrapper.appendChild(input);
+      const ul = document.createElement('ul');
+      ul.className = 'max-h-48 overflow-y-auto bg-[#23292b] rounded-xl border border-[#31373a] shadow-lg';
+      ul.style.color = '#fff';
+      ul.style.padding = '0.25rem 0';
+      cleanDb.forEach(mat => {
+        const li = document.createElement('li');
+        li.className = 'py-2 px-4 hover:bg-[#31373a] rounded-xl cursor-pointer transition';
+        li.style.margin = '0.1rem 0';
+        li.textContent = mat.Material;
+        li.onclick = () => onSelect(mat);
+        ul.appendChild(li);
+      });
+      input.oninput = () => {
+        const val = input.value.toLowerCase();
+        Array.from(ul.children).forEach(li => {
+          li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
+        });
+      };
+      wrapper.appendChild(ul);
+      panel.innerHTML = '';
+      panel.appendChild(wrapper);
+    }
+    selectLeft.onclick = () => {
+      document.getElementById('left-empty-state').style.display = 'none';
+      renderMaterialSelect(leftInfo, mat => {
+        leftMaterial = mat;
+        renderMaterialInfo(leftInfo, mat, 'left');
+        if (rightMaterial) showComparison();
+      });
+    };
+    selectRight.onclick = () => {
+      document.getElementById('right-empty-state').style.display = 'none';
+      renderMaterialSelect(rightInfo, mat => {
+        rightMaterial = mat;
+        renderMaterialInfo(rightInfo, mat, 'right');
+        if (leftMaterial) showComparison();
+      });
+    };
+    // Hide empty state if material is already selected (on modal open/reset)
+    function updateEmptyStates() {
+      document.getElementById('left-empty-state').style.display = leftMaterial ? 'none' : 'flex';
+      document.getElementById('right-empty-state').style.display = rightMaterial ? 'none' : 'flex';
+    }
+    // Call updateEmptyStates in resetComparison and after both selectLeft/selectRight
+    function renderMaterialInfo(container, mat, side) {
+      container.innerHTML = `<div class="flex flex-col items-stretch justify-start gap-2 h-full" style="margin:0;padding:0;min-height:220px;">
+        <div class="flex items-center gap-2 text-lg font-bold text-left" style="margin:0;min-height:2.5rem;align-items:center;">
+          <span style="margin:0;display:inline-block;vertical-align:middle;">${mat.Material}</span>
+          <button class="px-2 py-1 rounded bg-[#23292b] border border-[#31373a] text-xs text-secondary hover:text-[#2563eb] hover:border-[#2563eb] transition flex items-center gap-1" id="change-${side}" title="Change material" style="margin-bottom:0;align-self:center;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19.5 3 21l1.5-4L16.5 3.5z"/></svg>
+            Change
+          </button>
+        </div>
+        <div style="height: 0.5rem;"></div>
+        <table class="min-w-full text-xs mt-1" style="margin:0;"><tbody>
+        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Alloy Type</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Alloy Type']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Density</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${(mat['Density (g/cm³)']||'–')}</td></tr>
+        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Yield Strength</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Yield Strength (MPa)']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Tensile Strength</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Ultimate Tensile Strength (MPa)']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Elongation at Break</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Elongation at Break (%)'] ? mat['Elongation at Break (%)'] + ' %' : '–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Hardness (HV)</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Hardness (HV)']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Modulus of Elasticity</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Modulus of Elasticity (GPa)']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Electrical Conductivity</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Electrical Conductivity (MS/m or %IACS)']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Thermal Conductivity</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${(mat['Thermal Conductivity (W/m·K @25°C)'] ?? mat['Thermal Conductivity (W/m·K @25 °C)']) || '–'}</td></tr>
+      </tbody></table>`;
+      // Add change button event
+      const changeBtn = container.querySelector(`#change-${side}`);
+      changeBtn.onclick = () => {
+        if (side === 'left') {
+          selectLeft.style.display = '';
+          document.getElementById('guide-left').style.display = '';
+          renderMaterialSelect(leftInfo, mat => {
+            leftMaterial = mat;
+            renderMaterialInfo(leftInfo, mat, 'left');
+            selectLeft.style.display = 'none';
+            document.getElementById('guide-left').style.display = 'none';
+            if (rightMaterial) showComparison();
+          });
+        } else {
+          selectRight.style.display = '';
+          document.getElementById('guide-right').style.display = '';
+          renderMaterialSelect(rightInfo, mat => {
+            rightMaterial = mat;
+            renderMaterialInfo(rightInfo, mat, 'right');
+            selectRight.style.display = 'none';
+            document.getElementById('guide-right').style.display = 'none';
+            if (leftMaterial) showComparison();
+          });
+        }
+      };
+      updateEmptyStates(); // Call updateEmptyStates after rendering material info
+    }
+    function showComparison() {
+      compChartContainer.classList.remove('hidden');
+      // 100% Stacked Horizontal Bar Chart
+      const properties = [
+        'Yield Strength (MPa)',
+        'Tensile Strength (MPa)',
+        'Density (g/cm³)',
+        'Elongation at Break (%)',
+        'Hardness (HV)',
+        'Modulus of Elasticity (GPa)',
+        'Electrical Conductivity',
+        'Thermal Conductivity'
+      ];
+      function getVal(mat, key) {
+        const keyVariants = [
+          key,
+          key.replace(' ', ''),
+          key.replace(' ', ''),
+          key.replace('Strength', 'strength'),
+          key.replace('Tensile', 'Ultimate Tensile'),
+          key.replace('Density (g/cm³)', 'Density (g/cm3)'),
+          key.replace('Electrical Conductivity', 'Electrical Conductivity (MS/m or %IACS)'),
+          key.replace('Thermal Conductivity', 'Thermal Conductivity (W/m·K @25°C)'),
+          key.replace('Thermal Conductivity', 'Thermal Conductivity (W/m·K @25 °C)')
+        ];
+        let v = null;
+        for (const k of keyVariants) {
+          if (mat[k] !== undefined && mat[k] !== null && mat[k] !== '') {
+            v = mat[k];
+            break;
+          }
+        }
+        if (typeof v === 'string') {
+          const match = v.match(/[-+~]?\d*\.?\d+/);
+          v = match ? match[0].replace('~','') : '';
+        }
+        return v && !isNaN(parseFloat(v)) ? parseFloat(v) : 0;
+      }
+      const leftData = properties.map(l => getVal(leftMaterial, l));
+      const rightData = properties.map(l => getVal(rightMaterial, l));
+      // Calculate percentages for 100% stacked
+      const totalData = leftData.map((v, i) => v + rightData[i] || 1);
+      const leftPerc = leftData.map((v, i) => (v / totalData[i]) * 100);
+      const rightPerc = rightData.map((v, i) => (rightData[i] / totalData[i]) * 100);
+      // Remove previous chart if any
+      const canvas = document.getElementById('comparisonRadar');
+      if (compRadar) compRadar.destroy();
+      // Reset canvas size to match parent container
+      const chartContainer = canvas.parentNode;
+      // Remove any inline width/height set by Chart.js or previous renders
+      canvas.width = 0;
+      canvas.height = 0;
+      // Set canvas width/height to match container's width (full width of both panels)
+      const containerWidth = chartContainer.offsetWidth;
+      canvas.width = containerWidth;
+      canvas.height = 400;
+      canvas.style.width = '100%';
+      canvas.style.height = '400px';
+      const ctx = canvas.getContext('2d');
+      compRadar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: properties,
+          datasets: [
+            {
+              label: leftMaterial.Material,
+              data: leftPerc,
+              backgroundColor: '#2563eb',
+              datalabels: {
+                color: '#fff',
+                anchor: 'center',
+                align: 'center',
+                font: { size: 13, weight: 'bold' },
+                formatter: (v, ctx) => `${leftData[ctx.dataIndex]}`
+              }
+            },
+            {
+              label: rightMaterial.Material,
+              data: rightPerc,
+              backgroundColor: '#ff6584',
+              datalabels: {
+                color: '#fff',
+                anchor: 'center',
+                align: 'center',
+                font: { size: 13, weight: 'bold' },
+                formatter: (v, ctx) => `${rightData[ctx.dataIndex]}`
+              }
+            }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: '#fff',
+                font: { size: 16, weight: 'normal', family: 'Open Sans, sans-serif' },
+                usePointStyle: true,
+                pointStyle: 'circle',
+                padding: 16,
+                boxWidth: 14,
+                boxHeight: 14,
+                textAlign: 'center',
+                letterSpacing: '0.01em',
+              }
+            },
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function(context) {
+                  const idx = context.dataIndex;
+                  const isLeft = context.datasetIndex === 0;
+                  const val = isLeft ? leftData[idx] : rightData[idx];
+                  return `${context.dataset.label}: ${val}`;
+                }
+              }
+            },
+            datalabels: {
+              display: true
+            }
+          },
+          scales: {
+            x: {
+              stacked: true,
+              grid: { color: '#31373a' },
+              ticks: { display: false },
+              min: 0,
+              max: 100
+            },
+            y: {
+              stacked: true,
+              grid: { color: '#31373a' },
+              ticks: { color: '#fff', font: { size: 13 } }
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    }
+    // Close modal on outside click
+    compModal.addEventListener('click', e => {
+      if (e.target === compModal) compModal.classList.add('hidden');
+    });
+  }); // <-- Close DOMContentLoaded
   </script>
 </body>
 </html>
