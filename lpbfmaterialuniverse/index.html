@@ -183,17 +183,11 @@
 </head>
 <body class="antialiased">
   <div id="page-content" class="container mx-auto px-4 py-6 relative">
-    <!-- Desktop buttons - hidden on mobile -->
-    <div class="absolute top-4 right-4 flex space-x-2 z-20 hidden md:flex">
+    <div class="absolute top-4 right-4 flex space-x-2 z-20">
       <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-[#23292b] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#31373a]">Give Feedback</a>
       <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-[#2563eb] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#1e4db3]">Follow on LinkedIn</a>
     </div>
     <h1 class="text-4xl font-bold text-center mb-4">LPBF Material Universe</h1>
-    <!-- Mobile buttons - shown below header on mobile -->
-    <div class="flex justify-center space-x-2 mb-6 md:hidden">
-      <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-[#23292b] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#31373a]">Give Feedback</a>
-      <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-[#2563eb] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#1e4db3]">Follow on LinkedIn</a>
-    </div>
     <div class="flex justify-center mb-6">
       <input type="text" id="search" placeholder="Search material or property..." class="search-input w-full md:w-96 text-base" />
     </div>
@@ -216,8 +210,8 @@
       <div id="scatter-container" class="relative flex-1 min-w-0 mx-auto">
         <div class="w-full">
           <h3 class="text-base font-semibold mb-4 text-center" style="color: #1b2123; margin-top: 10px;">Material Properties Comparison</h3>
-          <div class="relative w-full max-w-[540px] mx-auto" style="aspect-ratio: 540/420;">
-            <canvas id="scatterChart" style="width: 100%; height: 100%;"></canvas>
+          <div class="relative w-[540px] h-[420px]">
+            <canvas id="scatterChart" width="540" height="420"></canvas>
           </div>
         </div>
       </div>
@@ -241,7 +235,7 @@
       <button id="comparison-close" class="absolute top-4 right-6 text-secondary hover:text-white text-2xl">&times;</button>
       <h2 class="text-base font-bold mb-6 text-center" style="font-size:1rem;">Material Comparison</h2>
       <div class="flex flex-col md:flex-row gap-6 items-start justify-center">
-        <div class="flex-1 min-w-0 md:min-w-[260px]">
+        <div class="flex-1 min-w-[260px]">
           <div id="comp-panel-left" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch min-h-[340px] shadow-lg justify-center">
             <div id="left-panel-content" class="flex flex-col items-stretch justify-start flex-1 w-full h-full relative">
               <div id="left-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
@@ -252,7 +246,7 @@
             </div>
           </div>
         </div>
-        <div class="flex-1 min-w-0 md:min-w-[260px]">
+        <div class="flex-1 min-w-[260px]">
           <div id="comp-panel-right" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch min-h-[340px] shadow-lg justify-center">
             <div id="right-panel-content" class="flex flex-col items-stretch justify-start flex-1 w-full h-full relative">
               <div id="right-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
@@ -265,8 +259,8 @@
         </div>
       </div>
       <div id="comparison-chart-container" class="mt-8 hidden w-full flex justify-center items-stretch">
-        <div class="bg-[#1b2123] rounded-2xl p-4 md:p-6 shadow-xl flex flex-col items-center w-full" style="max-width:none;">
-          <canvas id="comparisonRadar" style="display:block;width:100%;height:300px;max-height:400px;"></canvas>
+        <div class="bg-[#1b2123] rounded-2xl p-6 shadow-xl flex flex-col items-center w-full" style="max-width:none;">
+          <canvas id="comparisonRadar" style="display:block;width:100%;height:400px;"></canvas>
         </div>
       </div>
     </div>
@@ -461,8 +455,9 @@
             }]
           },
           options: {
-            responsive: true,
-            maintainAspectRatio: true,
+            responsive: false,
+            maintainAspectRatio: false,
+            aspectRatio: 2,
             layout: {
               padding: { left: 90, right: 90, bottom: 70, top: 30 }
             },
@@ -619,72 +614,16 @@ const pastel = [
             `;
             filteredMaterials.appendChild(noResultsSection);
           } else {
-            const section = document.createElement('div');
-            section.className = 'card section-' + selectedSlice;
-            const header = document.createElement('h2');
-            header.textContent = selectedCategory;
-            header.className = `mb-2 p-2 rounded-xl text-center font-semibold category-${selectedSlice}`;
-            section.appendChild(header);
-            const ul = document.createElement('ul');
-            section.appendChild(ul);
+          const section = document.createElement('div');
+          section.className = 'card section-' + selectedSlice;
+          const header = document.createElement('h2');
+          header.textContent = selectedCategory;
+          header.className = `mb-2 p-2 rounded-xl text-center font-semibold category-${selectedSlice}`;
+          section.appendChild(header);
+          const ul = document.createElement('ul');
+          section.appendChild(ul);
 
             matchingMaterials.forEach(item => {
-              const li = document.createElement('li');
-              li.className = 'flex items-center gap-1';
-
-              const materialSpan = document.createElement('span');
-              materialSpan.textContent = item.Material;
-              li.appendChild(materialSpan);
-
-              const commercialValue = item['Commercially Available'];
-              const isCommercial = (commercialValue === '1' || commercialValue === 1 || commercialValue === true || commercialValue === 'true' || commercialValue === 'Yes' || commercialValue === 'yes');
-              if (isCommercial) {
-                const commercialIcon = document.createElement('span');
-                commercialIcon.className = 'text-xs align-middle leading-none';
-                commercialIcon.innerHTML = `
-                  <svg class="commercial-check" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="10" cy="10" r="9" fill="#2563eb"/>
-                    <path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                `;
-                commercialIcon.title = 'Commercially Available';
-                li.appendChild(commercialIcon);
-              }
-
-              ul.appendChild(li);
-              li.addEventListener('click', () => showModal(item));
-            });
-
-            filteredMaterials.appendChild(section);
-          }
-        } else {
-          // Show all groups in the original 5-column layout
-          materialLists.classList.remove('hidden');
-          filteredView.classList.add('hidden');
-
-          materialLists.innerHTML = '';
-          const sectionMap = {};
-          let hasMatchingMaterials = false;
-
-          cleanDb.forEach(item => {
-            const cat = item['Alloy Type'];
-            if (searchTerm && !JSON.stringify(item).toLowerCase().includes(searchTerm)) return;
-            
-            hasMatchingMaterials = true;
-            let section = sectionMap[cat];
-            if (!section) {
-              section = document.createElement('div');
-              section.className = 'card section-' + categories.indexOf(cat);
-              const header = document.createElement('h2');
-              header.textContent = cat;
-              header.className = `mb-2 p-2 rounded-xl text-center font-semibold category-${categories.indexOf(cat)}`;
-              section.appendChild(header);
-              const ul = document.createElement('ul');
-              section.appendChild(ul);
-              materialLists.appendChild(section);
-              sectionMap[cat] = section;
-            }
-            const ul = section.querySelector('ul');
             const li = document.createElement('li');
             li.className = 'flex items-center gap-1';
 
@@ -710,6 +649,62 @@ const pastel = [
             ul.appendChild(li);
             li.addEventListener('click', () => showModal(item));
           });
+
+          filteredMaterials.appendChild(section);
+          }
+        } else {
+          // Show all groups in the original 5-column layout
+          materialLists.classList.remove('hidden');
+          filteredView.classList.add('hidden');
+
+        materialLists.innerHTML = '';
+        const sectionMap = {};
+          let hasMatchingMaterials = false;
+
+        cleanDb.forEach(item => {
+          const cat = item['Alloy Type'];
+          if (searchTerm && !JSON.stringify(item).toLowerCase().includes(searchTerm)) return;
+            
+            hasMatchingMaterials = true;
+          let section = sectionMap[cat];
+          if (!section) {
+            section = document.createElement('div');
+            section.className = 'card section-' + categories.indexOf(cat);
+            const header = document.createElement('h2');
+            header.textContent = cat;
+            header.className = `mb-2 p-2 rounded-xl text-center font-semibold category-${categories.indexOf(cat)}`;
+            section.appendChild(header);
+            const ul = document.createElement('ul');
+            section.appendChild(ul);
+            materialLists.appendChild(section);
+            sectionMap[cat] = section;
+          }
+          const ul = section.querySelector('ul');
+          const li = document.createElement('li');
+          li.className = 'flex items-center gap-1';
+
+          const materialSpan = document.createElement('span');
+          materialSpan.textContent = item.Material;
+          li.appendChild(materialSpan);
+
+          const commercialValue = item['Commercially Available'];
+          const isCommercial = (commercialValue === '1' || commercialValue === 1 || commercialValue === true || commercialValue === 'true' || commercialValue === 'Yes' || commercialValue === 'yes');
+          if (isCommercial) {
+            const commercialIcon = document.createElement('span');
+            commercialIcon.className = 'text-xs align-middle leading-none';
+            commercialIcon.innerHTML = `
+              <svg class="commercial-check" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="9" fill="#2563eb"/>
+                <path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            `;
+            commercialIcon.title = 'Commercially Available';
+            li.appendChild(commercialIcon);
+          }
+
+          ul.appendChild(li);
+          li.addEventListener('click', () => showModal(item));
+        });
 
           // Show no results message if no materials match the search
           if (searchTerm && !hasMatchingMaterials) {
@@ -1089,7 +1084,7 @@ const pastel = [
         },
         options: {
           indexAxis: 'y',
-          responsive: true,
+          responsive: false,
           plugins: {
             legend: {
               position: 'top',
