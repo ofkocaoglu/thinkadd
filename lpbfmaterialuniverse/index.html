@@ -194,8 +194,47 @@
     }
   </style>
 </head>
-<body class="antialiased">
-  <div id="page-content" class="container mx-auto px-4 py-6 relative">
+<body class="antialiased" style="visibility: hidden;">
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="fixed inset-0 bg-[#1b2123] flex items-center justify-center z-[9999] transition-opacity duration-300">
+    <div class="text-center relative">
+      <div class="spinner mb-4"></div>
+      <p class="text-white text-lg font-semibold">Loading LPBF Material Universe...</p>
+      <button onclick="hideLoadingScreen()" class="mt-4 text-secondary hover:text-white text-sm underline">Click to skip loading</button>
+    </div>
+  </div>
+  
+  <script>
+    // Function to hide loading screen
+    function hideLoadingScreen() {
+      const loadingScreen = document.getElementById('loading-screen');
+      const pageContent = document.getElementById('page-content');
+      
+      if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+        }, 300);
+      }
+      
+      if (pageContent) {
+        pageContent.classList.remove('hidden');
+      }
+      
+      // Show the body
+      document.body.style.visibility = 'visible';
+    }
+    
+    // Fallback: Hide loading screen after 5 seconds if it doesn't hide automatically
+    setTimeout(() => {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen && loadingScreen.style.display !== 'none') {
+        hideLoadingScreen();
+      }
+    }, 5000);
+  </script>
+  
+  <div id="page-content" class="container mx-auto px-4 py-6 relative hidden">
     <div class="absolute top-4 right-4 hidden md:flex space-x-2 z-20">
       <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-[#23292b] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#31373a]">Give Feedback</a>
       <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-[#2563eb] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#1e4db3]">Follow on LinkedIn</a>
@@ -856,6 +895,24 @@ const pastel = [
             }
           });
           spinner.style.display = 'none';
+          // Hide loading screen and show page content
+          const loadingScreen = document.getElementById('loading-screen');
+          const pageContent = document.getElementById('page-content');
+          
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+              loadingScreen.style.display = 'none';
+            }, 300);
+          }
+          
+          if (pageContent) {
+            pageContent.classList.remove('hidden');
+          }
+          
+          // Show the body
+          document.body.style.visibility = 'visible';
+          
           renderGrid();
           renderScatterPlot();
           document.addEventListener('click', e => {
@@ -897,13 +954,15 @@ const pastel = [
       compChartContainer.classList.add('hidden');
       if (compRadar) compRadar.destroy(); compRadar = null;
       // Always show both empty states on reset (force re-show even if previously hidden)
-      setTimeout(() => {
-        const leftEmpty = document.getElementById('left-empty-state');
-        const rightEmpty = document.getElementById('right-empty-state');
-        if (leftEmpty) leftEmpty.style.display = 'flex';
-        if (rightEmpty) rightEmpty.style.display = 'flex';
-        updateEmptyStates();
-      }, 0);
+      const leftEmpty = document.getElementById('left-empty-state');
+      const rightEmpty = document.getElementById('right-empty-state');
+      if (leftEmpty) leftEmpty.style.display = 'flex';
+      if (rightEmpty) rightEmpty.style.display = 'flex';
+      // Also ensure the guide text is visible
+      const guideLeft = document.getElementById('guide-left');
+      const guideRight = document.getElementById('guide-right');
+      if (guideLeft) guideLeft.style.display = 'block';
+      if (guideRight) guideRight.style.display = 'block';
     }
     function renderMaterialSelect(panel, onSelect) {
       const wrapper = document.createElement('div');
