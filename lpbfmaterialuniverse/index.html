@@ -953,16 +953,58 @@ const pastel = [
       rightInfo.innerHTML = '';
       compChartContainer.classList.add('hidden');
       if (compRadar) compRadar.destroy(); compRadar = null;
-      // Always show both empty states on reset (force re-show even if previously hidden)
-      const leftEmpty = document.getElementById('left-empty-state');
-      const rightEmpty = document.getElementById('right-empty-state');
-      if (leftEmpty) leftEmpty.style.display = 'flex';
-      if (rightEmpty) rightEmpty.style.display = 'flex';
-      // Also ensure the guide text is visible
-      const guideLeft = document.getElementById('guide-left');
-      const guideRight = document.getElementById('guide-right');
-      if (guideLeft) guideLeft.style.display = 'block';
-      if (guideRight) guideRight.style.display = 'block';
+      
+      // Reset the panel content to show empty states
+      const leftPanelContent = document.getElementById('left-panel-content');
+      const rightPanelContent = document.getElementById('right-panel-content');
+      
+      if (leftPanelContent) {
+        leftPanelContent.innerHTML = `
+          <div id="left-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
+            <button id="select-left" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
+            <div class="text-xs text-secondary mt-2" id="guide-left">Click "+" to add a material for comparison</div>
+          </div>
+          <div id="left-material-info" class="w-full"></div>
+        `;
+      }
+      
+      if (rightPanelContent) {
+        rightPanelContent.innerHTML = `
+          <div id="right-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
+            <button id="select-right" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
+            <div class="text-xs text-secondary mt-2" id="guide-right">Click "+" to add a material for comparison</div>
+          </div>
+          <div id="right-material-info" class="w-full"></div>
+        `;
+      }
+      
+      // Re-attach event listeners
+      const newSelectLeft = document.getElementById('select-left');
+      const newSelectRight = document.getElementById('select-right');
+      
+      if (newSelectLeft) {
+        newSelectLeft.onclick = () => {
+          document.getElementById('left-empty-state').style.display = 'none';
+          const leftMaterialInfo = document.getElementById('left-material-info');
+          renderMaterialSelect(leftMaterialInfo, mat => {
+            leftMaterial = mat;
+            renderMaterialInfo(leftMaterialInfo, mat, 'left');
+            if (rightMaterial) showComparison();
+          });
+        };
+      }
+      
+      if (newSelectRight) {
+        newSelectRight.onclick = () => {
+          document.getElementById('right-empty-state').style.display = 'none';
+          const rightMaterialInfo = document.getElementById('right-material-info');
+          renderMaterialSelect(rightMaterialInfo, mat => {
+            rightMaterial = mat;
+            renderMaterialInfo(rightMaterialInfo, mat, 'right');
+            if (rightMaterial) showComparison();
+          });
+        };
+      }
     }
     function renderMaterialSelect(panel, onSelect) {
       const wrapper = document.createElement('div');
@@ -1041,25 +1083,49 @@ const pastel = [
       const changeBtn = container.querySelector(`#change-${side}`);
       changeBtn.onclick = () => {
         if (side === 'left') {
-          selectLeft.style.display = '';
-          document.getElementById('guide-left').style.display = '';
-          renderMaterialSelect(leftInfo, mat => {
-            leftMaterial = mat;
-            renderMaterialInfo(leftInfo, mat, 'left');
-            selectLeft.style.display = 'none';
-            document.getElementById('guide-left').style.display = 'none';
-            if (rightMaterial) showComparison();
-          });
+          // Recreate the empty state and select button
+          const leftPanelContent = document.getElementById('left-panel-content');
+          leftPanelContent.innerHTML = `
+            <div id="left-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
+              <button id="select-left" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
+              <div class="text-xs text-secondary mt-2" id="guide-left">Click "+" to add a material for comparison</div>
+            </div>
+            <div id="left-material-info" class="w-full"></div>
+          `;
+          
+          // Re-attach event listener
+          const newSelectLeft = document.getElementById('select-left');
+          newSelectLeft.onclick = () => {
+            document.getElementById('left-empty-state').style.display = 'none';
+            const leftMaterialInfo = document.getElementById('left-material-info');
+            renderMaterialSelect(leftMaterialInfo, mat => {
+              leftMaterial = mat;
+              renderMaterialInfo(leftMaterialInfo, mat, 'left');
+              if (rightMaterial) showComparison();
+            });
+          };
         } else {
-          selectRight.style.display = '';
-          document.getElementById('guide-right').style.display = '';
-          renderMaterialSelect(rightInfo, mat => {
-            rightMaterial = mat;
-            renderMaterialInfo(rightInfo, mat, 'right');
-            selectRight.style.display = 'none';
-            document.getElementById('guide-right').style.display = 'none';
-            if (leftMaterial) showComparison();
-          });
+          // Recreate the empty state and select button
+          const rightPanelContent = document.getElementById('right-panel-content');
+          rightPanelContent.innerHTML = `
+            <div id="right-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
+              <button id="select-right" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
+              <div class="text-xs text-secondary mt-2" id="guide-right">Click "+" to add a material for comparison</div>
+            </div>
+            <div id="right-material-info" class="w-full"></div>
+          `;
+          
+          // Re-attach event listener
+          const newSelectRight = document.getElementById('select-right');
+          newSelectRight.onclick = () => {
+            document.getElementById('right-empty-state').style.display = 'none';
+            const rightMaterialInfo = document.getElementById('right-material-info');
+            renderMaterialSelect(rightMaterialInfo, mat => {
+              rightMaterial = mat;
+              renderMaterialInfo(rightMaterialInfo, mat, 'right');
+              if (rightMaterial) showComparison();
+            });
+          };
         }
       };
       updateEmptyStates(); // Call updateEmptyStates after rendering material info
