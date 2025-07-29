@@ -19,6 +19,8 @@
     /* Global Open Sans */
     *, html, body { font-family: 'Open Sans', sans-serif !important; }
     body { background: #1b2123; color: #fff; }
+    /* Smooth scrolling for better UX */
+    html { scroll-behavior: smooth; }
     .text-secondary { color: #98a1b1 !important; }
     .search-input { background: #23292b; color: #fff; border: 1px solid #31373a; border-radius: .75rem; padding: .6rem 1rem; }
     .search-input:focus { outline: none; border-color: #2563eb; }
@@ -537,9 +539,11 @@
 
         if (isSpecialGroup) {
           xKey = 'Electrical Conductivity (MS/m or %IACS)';
-          yKey = 'Thermal Conductivity (W/m·K @25°C)'; // <-- copy this from your JSON!
+          // Use the exact property name from the JSON
+          const thermalConductivityKey = 'Thermal Conductivity (W/m·K @25 °C)';
+          yKey = thermalConductivityKey;
           xLabel = 'Electrical Conductivity (MS/m or %IACS)';
-          yLabel = 'Thermal Conductivity (W/m·K @25°C)';
+          yLabel = thermalConductivityKey;
           tooltipLabel = (ctx) => [
             `Electrical: ${ctx.raw.x} MS/m or %IACS`,
             `Thermal: ${ctx.raw.y} W/m·K`
@@ -548,21 +552,49 @@
           function extractNumber(val) {
             if (typeof val === 'number') return val;
             if (!val) return NaN;
-            const match = String(val).match(/[-+]?\d*\.?\d+/);
-            return match ? parseFloat(match[0]) : NaN;
+            
+            const str = String(val).trim();
+            
+            // Handle null or empty values
+            if (!str || str === 'null' || str === 'undefined') return NaN;
+            
+            // Handle header rows or invalid data
+            if (str.includes('Electrical Conductivity') || str.includes('Thermal Conductivity')) return NaN;
+            
+            // Extract the first valid number from the string
+            // Look for patterns like "58 MS/m", "~23 MS/m", "≥16 MS/m", "361 W/m·K", etc.
+            const match = str.match(/(?:~|≥|≤)?\s*(\d+(?:\.\d+)?)/);
+            if (match) {
+              const num = parseFloat(match[1]);
+              return isNaN(num) ? NaN : num;
+            }
+            
+            return NaN;
           }
+          // Debug: Log all available properties for the first material
+          if (groupMaterials.length > 0) {
+            console.log('[DEBUG] Available properties for first material:', Object.keys(groupMaterials[0]));
+            console.log('[DEBUG] First material thermal conductivity property:', groupMaterials[0]['Thermal Conductivity (W/m·K @25 °C)']);
+          }
+          
           dataPoints = groupMaterials
             .filter(m => {
               const xVal = extractNumber(m[xKey]);
-              const yVal = extractNumber(m[yKey]);
+              // Find the thermal conductivity property by searching for it
+              const thermalKey = Object.keys(m).find(key => key.includes('Thermal') && key.includes('W/m'));
+              const yVal = thermalKey ? extractNumber(m[thermalKey]) : NaN;
+              console.log(`[DEBUG] Material: ${m.Material}, xKey: ${m[xKey]} -> ${xVal}, thermalKey: ${thermalKey}, yVal: ${m[thermalKey]} -> ${yVal}`);
               return !isNaN(xVal) && !isNaN(yVal);
             })
-            .map(m => ({
-              x: extractNumber(m[xKey]),
-              y: extractNumber(m[yKey]),
-              label: m.Material,
-              full: m
-            }));
+            .map(m => {
+              const thermalKey = Object.keys(m).find(key => key.includes('Thermal') && key.includes('W/m'));
+              return {
+                x: extractNumber(m[xKey]),
+                y: thermalKey ? extractNumber(m[thermalKey]) : NaN,
+                label: m.Material,
+                full: m
+              };
+            });
           console.log("Group:", group, "xKey:", xKey, "yKey:", yKey);
           console.log("Filtered materials:", groupMaterials);
           console.log("Special plot data:", dataPoints);
@@ -823,29 +855,22 @@ const pastel = [
         return `rgba(${r},${g},${b},${alpha})`;
       }
 
+      let lastSearchTerm = '';
       document.getElementById('search').addEventListener('input', e => { 
-        // Preserve scroll position and viewport information
-        const scrollPosition = window.scrollY;
-        const viewportHeight = window.innerHeight;
-        const originalContentHeight = document.documentElement.scrollHeight;
-        const originalScrollRatio = scrollPosition / Math.max(1, originalContentHeight - viewportHeight);
+        const newSearchTerm = e.target.value.toLowerCase();
         
-        searchTerm = e.target.value.toLowerCase(); 
+        // Only scroll if search term actually changed and we have results
+        const shouldScroll = lastSearchTerm !== newSearchTerm && newSearchTerm.length > 0;
+        
+        searchTerm = newSearchTerm; 
         renderGrid(); 
         
-        // Restore scroll position after content update
-        setTimeout(() => {
-          const newContentHeight = document.documentElement.scrollHeight;
-          const maxScroll = Math.max(0, newContentHeight - viewportHeight);
-          
-          // Calculate new scroll position based on the same relative position
-          const newScrollPosition = Math.round(originalScrollRatio * maxScroll);
-          
-          // Ensure scroll position is within bounds
-          const safeScrollPosition = Math.max(0, Math.min(newScrollPosition, maxScroll));
-          
-          window.scrollTo(0, safeScrollPosition);
-        }, 10);
+        // Only scroll on meaningful changes, not every keystroke
+        if (shouldScroll) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        lastSearchTerm = newSearchTerm;
       });
 
       function renderGrid() {
@@ -1097,11 +1122,7 @@ const pastel = [
               onClick: (evt, items) => {
                 if (!items.length) return;
                 
-                // Preserve scroll position and viewport information
-                const scrollPosition = window.scrollY;
-                const viewportHeight = window.innerHeight;
-                const originalContentHeight = document.documentElement.scrollHeight;
-                const originalScrollRatio = scrollPosition / Math.max(1, originalContentHeight - viewportHeight);
+
                 
                 const idx = items[0].index;
                 selectedSlice = selectedSlice === idx ? null : idx;
@@ -1111,20 +1132,6 @@ const pastel = [
                 chart.update();
                 renderGrid();
                 renderScatterPlot();
-                
-                // Restore scroll position after content update
-                setTimeout(() => {
-                  const newContentHeight = document.documentElement.scrollHeight;
-                  const maxScroll = Math.max(0, newContentHeight - viewportHeight);
-                  
-                  // Calculate new scroll position based on the same relative position
-                  const newScrollPosition = Math.round(originalScrollRatio * maxScroll);
-                  
-                  // Ensure scroll position is within bounds
-                  const safeScrollPosition = Math.max(0, Math.min(newScrollPosition, maxScroll));
-                  
-                  window.scrollTo(0, safeScrollPosition);
-                }, 10);
               }
             }
           });
@@ -1156,31 +1163,13 @@ const pastel = [
                 !e.target.closest('#scatter-container') &&
                 !e.target.closest('#filtered-materials')) {
               
-              // Preserve scroll position and viewport information
-              const scrollPosition = window.scrollY;
-              const viewportHeight = window.innerHeight;
-              const originalContentHeight = document.documentElement.scrollHeight;
-              const originalScrollRatio = scrollPosition / Math.max(1, originalContentHeight - viewportHeight);
+
               
               selectedSlice = null;
               chart.data.datasets[0].backgroundColor = pastel;
               chart.update();
               renderGrid();
               renderScatterPlot();
-              
-              // Restore scroll position after content update
-              setTimeout(() => {
-                const newContentHeight = document.documentElement.scrollHeight;
-                const maxScroll = Math.max(0, newContentHeight - viewportHeight);
-                
-                // Calculate new scroll position based on the same relative position
-                const newScrollPosition = Math.round(originalScrollRatio * maxScroll);
-                
-                // Ensure scroll position is within bounds
-                const safeScrollPosition = Math.max(0, Math.min(newScrollPosition, maxScroll));
-                
-                window.scrollTo(0, safeScrollPosition);
-              }, 10);
             }
           });
         });
@@ -2200,7 +2189,10 @@ const pastel = [
                   const unit = property.includes('MPa') ? 'MPa' : 
                               property.includes('%') ? '%' : 
                               property.includes('g/cm³') ? 'g/cm³' : 
-                              property.includes('HV') ? 'HV' : 'GPa';
+                              property.includes('HV') ? 'HV' : 
+                              property.includes('Electrical Conductivity') ? 'MS/m' : 
+                              property.includes('Thermal Conductivity') ? 'W/m·K' : 
+                              'GPa';
                   
                   return `${context.dataset.label}: ${formattedVal} ${unit}`;
                 }
@@ -2239,7 +2231,10 @@ const pastel = [
                 const unit = property.includes('MPa') ? 'MPa' : 
                             property.includes('%') ? '%' : 
                             property.includes('g/cm³') ? 'g/cm³' : 
-                            property.includes('HV') ? 'HV' : 'GPa';
+                            property.includes('HV') ? 'HV' : 
+                            property.includes('Electrical Conductivity') ? 'MS/m' : 
+                            property.includes('Thermal Conductivity') ? 'W/m·K' : 
+                            'GPa';
                 
                 return `${formattedVal} ${unit}`;
               }
