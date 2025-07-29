@@ -823,7 +823,30 @@ const pastel = [
         return `rgba(${r},${g},${b},${alpha})`;
       }
 
-      document.getElementById('search').addEventListener('input', e => { searchTerm = e.target.value.toLowerCase(); renderGrid(); });
+      document.getElementById('search').addEventListener('input', e => { 
+        // Preserve scroll position and viewport information
+        const scrollPosition = window.scrollY;
+        const viewportHeight = window.innerHeight;
+        const originalContentHeight = document.documentElement.scrollHeight;
+        const originalScrollRatio = scrollPosition / Math.max(1, originalContentHeight - viewportHeight);
+        
+        searchTerm = e.target.value.toLowerCase(); 
+        renderGrid(); 
+        
+        // Restore scroll position after content update
+        setTimeout(() => {
+          const newContentHeight = document.documentElement.scrollHeight;
+          const maxScroll = Math.max(0, newContentHeight - viewportHeight);
+          
+          // Calculate new scroll position based on the same relative position
+          const newScrollPosition = Math.round(originalScrollRatio * maxScroll);
+          
+          // Ensure scroll position is within bounds
+          const safeScrollPosition = Math.max(0, Math.min(newScrollPosition, maxScroll));
+          
+          window.scrollTo(0, safeScrollPosition);
+        }, 10);
+      });
 
       function renderGrid() {
         const filteredView = document.getElementById('filtered-view');
@@ -1073,6 +1096,13 @@ const pastel = [
               },
               onClick: (evt, items) => {
                 if (!items.length) return;
+                
+                // Preserve scroll position and viewport information
+                const scrollPosition = window.scrollY;
+                const viewportHeight = window.innerHeight;
+                const originalContentHeight = document.documentElement.scrollHeight;
+                const originalScrollRatio = scrollPosition / Math.max(1, originalContentHeight - viewportHeight);
+                
                 const idx = items[0].index;
                 selectedSlice = selectedSlice === idx ? null : idx;
                 chart.data.datasets[0].backgroundColor = pastel.map((c, i) =>
@@ -1081,6 +1111,20 @@ const pastel = [
                 chart.update();
                 renderGrid();
                 renderScatterPlot();
+                
+                // Restore scroll position after content update
+                setTimeout(() => {
+                  const newContentHeight = document.documentElement.scrollHeight;
+                  const maxScroll = Math.max(0, newContentHeight - viewportHeight);
+                  
+                  // Calculate new scroll position based on the same relative position
+                  const newScrollPosition = Math.round(originalScrollRatio * maxScroll);
+                  
+                  // Ensure scroll position is within bounds
+                  const safeScrollPosition = Math.max(0, Math.min(newScrollPosition, maxScroll));
+                  
+                  window.scrollTo(0, safeScrollPosition);
+                }, 10);
               }
             }
           });
@@ -1111,11 +1155,32 @@ const pastel = [
                 !e.target.closest('#detail-modal') &&
                 !e.target.closest('#scatter-container') &&
                 !e.target.closest('#filtered-materials')) {
+              
+              // Preserve scroll position and viewport information
+              const scrollPosition = window.scrollY;
+              const viewportHeight = window.innerHeight;
+              const originalContentHeight = document.documentElement.scrollHeight;
+              const originalScrollRatio = scrollPosition / Math.max(1, originalContentHeight - viewportHeight);
+              
               selectedSlice = null;
               chart.data.datasets[0].backgroundColor = pastel;
               chart.update();
               renderGrid();
               renderScatterPlot();
+              
+              // Restore scroll position after content update
+              setTimeout(() => {
+                const newContentHeight = document.documentElement.scrollHeight;
+                const maxScroll = Math.max(0, newContentHeight - viewportHeight);
+                
+                // Calculate new scroll position based on the same relative position
+                const newScrollPosition = Math.round(originalScrollRatio * maxScroll);
+                
+                // Ensure scroll position is within bounds
+                const safeScrollPosition = Math.max(0, Math.min(newScrollPosition, maxScroll));
+                
+                window.scrollTo(0, safeScrollPosition);
+              }, 10);
             }
           });
         });
