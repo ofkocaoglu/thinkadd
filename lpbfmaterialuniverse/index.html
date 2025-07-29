@@ -19,8 +19,6 @@
     /* Global Open Sans */
     *, html, body { font-family: 'Open Sans', sans-serif !important; }
     body { background: #1b2123; color: #fff; }
-    /* Smooth scrolling for better UX */
-    html { scroll-behavior: smooth; }
     .text-secondary { color: #98a1b1 !important; }
     .search-input { background: #23292b; color: #fff; border: 1px solid #31373a; border-radius: .75rem; padding: .6rem 1rem; }
     .search-input:focus { outline: none; border-color: #2563eb; }
@@ -316,12 +314,12 @@
         <span class="inline-block bg-[#22c55e] text-white text-xs font-bold rounded px-1 py-0.5">NEW</span>
         Material Comparison
       </button>
-      <button id="show-filters" class="bg-[#2563eb] text-white font-semibold py-2 px-4 rounded-xl hover:bg-[#1e4db3] transition flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
-        </svg>
-        Advanced Filters
-      </button>
+             <button id="show-filters" class="bg-[#2563eb] text-white font-semibold py-2 px-4 rounded-xl hover:bg-[#1e4db3] transition flex items-center gap-2">
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
+         </svg>
+         Filter by Properties
+       </button>
       <div class="relative">
         <input type="text" id="search" placeholder="Search material or property..." class="search-input w-80 text-base pl-10" />
         <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -440,8 +438,8 @@
     
 
     <div id="spinner" class="flex justify-center items-center py-12"><div class="spinner"></div></div>
-    <div id="materialLists" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-[1364px] mx-auto hidden"></div>
-    <div id="filtered-view" class="flex flex-col lg:flex-row gap-4 items-start hidden justify-center w-full max-w-[1364px] mx-auto">
+    <div id="materialLists" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-[1364px] mx-auto hidden" style="min-height: 800px;"></div>
+    <div id="filtered-view" class="flex flex-col lg:flex-row gap-4 items-start hidden justify-center w-full max-w-[1364px] mx-auto" style="min-height: 600px;">
               <div id="filtered-materials" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6 w-[260px]"></div>
       <div id="scatter-container" class="relative flex-1 min-w-0 mx-auto">
         <div class="w-full">
@@ -485,7 +483,7 @@
       <div class="flex flex-col md:flex-row gap-6 items-start justify-center">
         <div class="flex-1 min-w-[260px] w-full">
           <div id="comp-panel-left" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch shadow-lg">
-            <div id="left-panel-content" class="flex flex-col items-stretch w-full relative min-h-[200px]">
+                          <div id="left-panel-content" class="flex flex-col items-stretch w-full relative min-h-[280px]">
               <div id="left-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
                 <button id="select-left" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
                 <div class="text-xs text-secondary mt-2" id="guide-left">Click "+" to add a material for comparison</div>
@@ -496,7 +494,7 @@
         </div>
         <div class="flex-1 min-w-[260px] w-full">
           <div id="comp-panel-right" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch shadow-lg">
-            <div id="right-panel-content" class="flex flex-col items-stretch w-full relative min-h-[200px]">
+                          <div id="right-panel-content" class="flex flex-col items-stretch w-full relative min-h-[280px]">
               <div id="right-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
                 <button id="select-right" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
                 <div class="text-xs text-secondary mt-2" id="guide-right">Click "+" to add a material for comparison</div>
@@ -855,23 +853,10 @@ const pastel = [
         return `rgba(${r},${g},${b},${alpha})`;
       }
 
-      let lastSearchTerm = '';
-      document.getElementById('search').addEventListener('input', e => { 
-        const newSearchTerm = e.target.value.toLowerCase();
-        
-        // Only scroll if search term actually changed and we have results
-        const shouldScroll = lastSearchTerm !== newSearchTerm && newSearchTerm.length > 0;
-        
-        searchTerm = newSearchTerm; 
-        renderGrid(); 
-        
-        // Only scroll on meaningful changes, not every keystroke
-        if (shouldScroll) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        
-        lastSearchTerm = newSearchTerm;
-      });
+              document.getElementById('search').addEventListener('input', e => { 
+          searchTerm = e.target.value.toLowerCase(); 
+          renderGrid(); 
+        });
 
       function renderGrid() {
         const filteredView = document.getElementById('filtered-view');
@@ -1122,8 +1107,6 @@ const pastel = [
               onClick: (evt, items) => {
                 if (!items.length) return;
                 
-
-                
                 const idx = items[0].index;
                 selectedSlice = selectedSlice === idx ? null : idx;
                 chart.data.datasets[0].backgroundColor = pastel.map((c, i) =>
@@ -1163,8 +1146,6 @@ const pastel = [
                 !e.target.closest('#scatter-container') &&
                 !e.target.closest('#filtered-materials')) {
               
-
-              
               selectedSlice = null;
               chart.data.datasets[0].backgroundColor = pastel;
               chart.update();
@@ -1187,10 +1168,64 @@ const pastel = [
     let leftMaterial = null, rightMaterial = null;
 
     compBtn.onclick = () => {
+      // Add smooth animation to modal opening
       compModal.classList.remove('hidden');
+      compModal.style.opacity = '0';
+      compModal.style.transition = 'opacity 0.3s ease-out';
+      
+      // Get the modal content for separate animation
+      const modalContent = compModal.querySelector('.rounded-2xl');
+      if (modalContent) {
+        modalContent.style.opacity = '0';
+        modalContent.style.transform = 'scale(0.95) translateY(20px)';
+        modalContent.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+      }
+      
+      // Trigger the animations
+      setTimeout(() => {
+        compModal.style.opacity = '1';
+        if (modalContent) {
+          modalContent.style.opacity = '1';
+          modalContent.style.transform = 'scale(1) translateY(0)';
+        }
+      }, 10);
+      
       resetComparison();
     };
-    compClose.onclick = () => compModal.classList.add('hidden');
+    compClose.onclick = () => {
+      // Add smooth animation to modal closing
+      compModal.style.transition = 'opacity 0.2s ease-out';
+      compModal.style.opacity = '0';
+      
+      // Get the modal content for separate animation
+      const modalContent = compModal.querySelector('.rounded-2xl');
+      if (modalContent) {
+        modalContent.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
+        modalContent.style.opacity = '0';
+        modalContent.style.transform = 'scale(0.95) translateY(20px)';
+      }
+      
+      setTimeout(() => {
+        compModal.classList.add('hidden');
+        
+        // Clean up animation states
+        const containers = [leftInfo, rightInfo, compChartContainer];
+        containers.forEach(container => {
+          if (container) {
+            container.style.transition = 'none';
+            container.style.opacity = '';
+            container.style.transform = '';
+          }
+        });
+        
+        // Reset modal content styles
+        if (modalContent) {
+          modalContent.style.opacity = '';
+          modalContent.style.transform = '';
+          modalContent.style.transition = '';
+        }
+      }, 200);
+    };
     function resetComparison() {
       leftMaterial = null; rightMaterial = null;
       leftInfo.innerHTML = '';
@@ -1202,9 +1237,9 @@ const pastel = [
       const leftPanelContent = document.getElementById('left-panel-content');
       const rightPanelContent = document.getElementById('right-panel-content');
       
-      if (leftPanelContent) {
-        leftPanelContent.innerHTML = `
-          <div id="left-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
+              if (leftPanelContent) {
+          leftPanelContent.innerHTML = `
+            <div id="left-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10" style="min-height: 280px;">
             <button id="select-left" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
             <div class="text-xs text-secondary mt-2" id="guide-left">Click "+" to add a material for comparison</div>
           </div>
@@ -1212,9 +1247,9 @@ const pastel = [
         `;
       }
       
-      if (rightPanelContent) {
-        rightPanelContent.innerHTML = `
-          <div id="right-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
+              if (rightPanelContent) {
+          rightPanelContent.innerHTML = `
+            <div id="right-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10" style="min-height: 280px;">
             <button id="select-right" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
             <div class="text-xs text-secondary mt-2" id="guide-right">Click "+" to add a material for comparison</div>
           </div>
@@ -1253,15 +1288,20 @@ const pastel = [
     function renderMaterialSelect(panel, onSelect) {
       const wrapper = document.createElement('div');
       wrapper.className = 'w-full';
+      wrapper.style.opacity = '0';
+      wrapper.style.transform = 'translateY(10px)';
+      wrapper.style.transition = 'none';
+      wrapper.style.minHeight = '280px'; // Match the empty state container height
       const input = document.createElement('input');
       input.type = 'text';
       input.placeholder = 'Search material...';
       input.className = 'search-input w-full mb-2';
       wrapper.appendChild(input);
       const ul = document.createElement('ul');
-      ul.className = 'max-h-48 overflow-y-auto bg-[#23292b] rounded-xl border border-[#31373a] shadow-lg';
+      ul.className = 'overflow-y-auto bg-[#23292b] rounded-xl border border-[#31373a] shadow-lg';
       ul.style.color = '#fff';
       ul.style.padding = '0.25rem 0';
+      ul.style.maxHeight = '200px'; // Increased height to show 4 materials comfortably
       cleanDb.forEach(mat => {
         const li = document.createElement('li');
         li.className = 'py-2 px-4 hover:bg-[#31373a] rounded-xl cursor-pointer transition';
@@ -1279,22 +1319,41 @@ const pastel = [
       wrapper.appendChild(ul);
       panel.innerHTML = '';
       panel.appendChild(wrapper);
+      
+      // Animate the selection list in
+      setTimeout(() => {
+        wrapper.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+        wrapper.style.opacity = '1';
+        wrapper.style.transform = 'translateY(0)';
+      }, 50);
     }
     selectLeft.onclick = () => {
-      document.getElementById('left-empty-state').style.display = 'none';
-      renderMaterialSelect(leftInfo, mat => {
-        leftMaterial = mat;
-        renderMaterialInfo(leftInfo, mat, 'left');
-        if (rightMaterial) showComparison();
-      });
+      const emptyState = document.getElementById('left-empty-state');
+      emptyState.style.transition = 'opacity 0.3s ease-out';
+      emptyState.style.opacity = '0';
+      
+      setTimeout(() => {
+        emptyState.style.display = 'none';
+        renderMaterialSelect(leftInfo, mat => {
+          leftMaterial = mat;
+          renderMaterialInfo(leftInfo, mat, 'left');
+          if (rightMaterial) showComparison();
+        });
+      }, 300);
     };
     selectRight.onclick = () => {
-      document.getElementById('right-empty-state').style.display = 'none';
-      renderMaterialSelect(rightInfo, mat => {
-        rightMaterial = mat;
-        renderMaterialInfo(rightInfo, mat, 'right');
-        if (leftMaterial) showComparison();
-      });
+      const emptyState = document.getElementById('right-empty-state');
+      emptyState.style.transition = 'opacity 0.3s ease-out';
+      emptyState.style.opacity = '0';
+      
+      setTimeout(() => {
+        emptyState.style.display = 'none';
+        renderMaterialSelect(rightInfo, mat => {
+          rightMaterial = mat;
+          renderMaterialInfo(rightInfo, mat, 'right');
+          if (leftMaterial) showComparison();
+        });
+      }, 300);
     };
     // Hide empty state if material is already selected (on modal open/reset)
     function updateEmptyStates() {
@@ -1303,6 +1362,11 @@ const pastel = [
     }
     // Call updateEmptyStates in resetComparison and after both selectLeft/selectRight
     function renderMaterialInfo(container, mat, side) {
+      // Reset any previous animations
+      container.style.transition = 'none';
+      container.style.opacity = '0';
+      container.style.transform = 'translateX(-10px)';
+      
       container.innerHTML = `<div class="flex flex-col items-stretch justify-start gap-1" style="margin:0;padding:0;">
         <div class="flex items-center gap-2 text-lg font-bold text-left" style="margin:0;min-height:2.5rem;align-items:center;">
           <span style="margin:0;display:inline-block;vertical-align:middle;">${mat.Material}</span>
@@ -1337,10 +1401,30 @@ const pastel = [
           if (leftMaterial && rightMaterial) showComparison();
         });
       };
+      
+      // Animate the material info in
+      setTimeout(() => {
+        container.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+        container.style.opacity = '1';
+        container.style.transform = 'translateX(0)';
+      }, 50);
+      
       updateEmptyStates(); // Call updateEmptyStates after rendering material info
     }
     function showComparison() {
+      // Add fade-in animation to the chart container
       compChartContainer.classList.remove('hidden');
+      compChartContainer.style.transition = 'none';
+      compChartContainer.style.opacity = '0';
+      compChartContainer.style.transform = 'translateY(20px)';
+      
+      // Trigger the animation
+      setTimeout(() => {
+        compChartContainer.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        compChartContainer.style.opacity = '1';
+        compChartContainer.style.transform = 'translateY(0)';
+      }, 50);
+      
       // 100% Stacked Horizontal Bar Chart
       const properties = [
         'Yield Strength (MPa)',
@@ -1540,11 +1624,16 @@ const pastel = [
       // Commercial only checkbox
       document.getElementById('commercial-only').addEventListener('change', (e) => {
         propertyFilters.commercialOnly = e.target.checked;
+        console.log('Commercial only filter:', e.target.checked);
+        // Trigger re-render when checkbox changes
+        renderGrid();
+        renderScatterPlot();
       });
     }
 
     // Filter materials based on property ranges
     function filterMaterialsByProperties(materials) {
+      console.log('Filtering materials. Commercial only:', propertyFilters.commercialOnly, 'Total materials:', materials.length);
       return materials.filter(material => {
         // Extract numeric values from material properties
         const tensile = extractNumericValue(material['Ultimate Tensile Strength (MPa)']);
@@ -1560,7 +1649,11 @@ const pastel = [
                            material['Commercially Available'] === 'yes';
 
         // Check if material meets all filter criteria
-        if (propertyFilters.commercialOnly && !isCommercial) return false;
+        // If commercialOnly is checked, only show commercial materials
+        if (propertyFilters.commercialOnly && !isCommercial) {
+          console.log('Filtering out non-commercial material:', material.Material, 'Commercial value:', material['Commercially Available']);
+          return false;
+        }
         if (tensile < propertyFilters.tensile.min || tensile > propertyFilters.tensile.max) return false;
         if (elongation < propertyFilters.elongation.min || elongation > propertyFilters.elongation.max) return false;
         if (density < propertyFilters.density.min || density > propertyFilters.density.max) return false;
@@ -1748,24 +1841,17 @@ const pastel = [
       const button = document.getElementById('show-filters');
       
       if (filters.classList.contains('hidden')) {
-        // Show filters
+        // Simple show filters
         filters.classList.remove('hidden');
-        button.innerHTML = `
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-          </svg>
-          Hide Advanced Filters
-        `;
+        
+        // Make button look active
+        button.classList.add('bg-[#1e4db3]', 'ring-2', 'ring-[#3b82f6]', 'shadow-lg');
       } else {
-        // Hide filters
+        // Simple hide filters
         filters.classList.add('hidden');
-        button.innerHTML = `
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
-          </svg>
-          Advanced Filters
-        `;
+        
+        // Remove active state
+        button.classList.remove('bg-[#1e4db3]', 'ring-2', 'ring-[#3b82f6]', 'shadow-lg');
       }
     });
 
@@ -1774,13 +1860,7 @@ const pastel = [
       const button = document.getElementById('show-filters');
       
       filters.classList.add('hidden');
-      button.innerHTML = `
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-        </svg>
-        Advanced Filters
-      `;
+      button.classList.remove('bg-[#1e4db3]', 'ring-2', 'ring-[#3b82f6]', 'shadow-lg');
     });
 
     document.getElementById('apply-filters').addEventListener('click', () => {
