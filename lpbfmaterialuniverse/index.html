@@ -192,6 +192,67 @@
       scrollbar-color: #808080 #31373a;
       scrollbar-width: thick;
     }
+    
+    /* Slider Styles */
+    .slider {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    
+    .slider::-webkit-slider-track {
+      background: #31373a;
+      height: 8px;
+      border-radius: 4px;
+    }
+    
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      background: #2563eb;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .slider::-webkit-slider-thumb:hover {
+      background: #1e4db3;
+    }
+    
+    .slider::-moz-range-track {
+      background: #31373a;
+      height: 8px;
+      border-radius: 4px;
+      border: none;
+    }
+    
+    .slider::-moz-range-thumb {
+      background: #2563eb;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .slider::-moz-range-thumb:hover {
+      background: #1e4db3;
+    }
+    
+    /* Filter group spacing */
+    .filter-group {
+      padding: 0.5rem;
+      background: #1b2123;
+      border-radius: 0.5rem;
+      border: 1px solid #31373a;
+      min-width: 0;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body class="antialiased" style="visibility: hidden;">
@@ -234,35 +295,152 @@
     }, 5000);
   </script>
   
-  <div id="page-content" class="container mx-auto px-4 py-6 relative hidden">
+  <div id="page-content" class="container mx-auto px-4 py-8 relative hidden">
     <div class="absolute top-4 right-4 hidden md:flex space-x-2 z-20">
       <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-[#23292b] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#31373a]">Give Feedback</a>
       <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-[#2563eb] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#1e4db3]">Follow on LinkedIn</a>
     </div>
-    <h1 class="text-4xl font-bold text-center mb-4">LPBF Material Universe</h1>
-    <div class="flex justify-center space-x-2 mb-4 md:hidden">
+    <h1 class="text-4xl font-bold text-center mb-8">LPBF Material Universe</h1>
+    <div class="flex justify-center space-x-2 mb-6 md:hidden">
       <a href="mailto:omerfkocaoglu@gmail.com" class="btn bg-[#23292b] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#31373a]">Give Feedback</a>
       <a href="https://www.linkedin.com/in/omerfkocaoglu/" target="_blank" class="btn bg-[#2563eb] text-white text-sm py-1 px-3 rounded-xl hover:bg-[#1e4db3]">Follow on LinkedIn</a>
-    </div>
-    <div class="flex justify-center mb-6">
-      <input type="text" id="search" placeholder="Search material or property..." class="search-input w-full md:w-96 text-base" />
-    </div>
-    <div class="flex justify-center mb-8 items-center gap-2">
-      <span class="inline-block bg-[#22c55e] text-white text-xs font-bold rounded px-2 py-1 mr-2 align-middle">NEW</span>
-      <button id="compare-btn" class="bg-[#2563eb] text-white font-semibold py-2 px-6 rounded-xl hover:bg-[#1e4db3] transition">Material Comparison</button>
     </div>
     <div id="chart-container" class="relative max-w-md mx-auto mb-8">
       <canvas id="materialChart"></canvas>
       <img src="lpbf.svg" alt="LPBF Logo" />
     </div>
+    <div class="flex justify-center mb-8 items-center gap-6">
+      <button id="compare-btn" class="bg-[#2563eb] text-white font-semibold py-2 px-6 rounded-xl hover:bg-[#1e4db3] transition flex items-center gap-2">
+        <span class="inline-block bg-[#22c55e] text-white text-xs font-bold rounded px-1 py-0.5">NEW</span>
+        Material Comparison
+      </button>
+      <button id="show-filters" class="bg-[#2563eb] text-white font-semibold py-2 px-4 rounded-xl hover:bg-[#1e4db3] transition flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
+        </svg>
+        Advanced Filters
+      </button>
+      <div class="relative">
+        <input type="text" id="search" placeholder="Search material or property..." class="search-input w-80 text-base pl-10" />
+        <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+    </div>
     
-    <p class="text-xs text-secondary text-center max-w-3xl mx-auto mb-6">
-      Commercially available materials are indicated with <span class="text-[#2563eb]">blue checkmark icons</span>; click a pie chart slice to filter materials below. Click same slice or outside to reset filter. Click a material to view details.
-    </p>
+    <!-- Property Range Slider Filters -->
+    <div id="property-filters" class="mb-8 max-w-3xl mx-auto hidden overflow-hidden" style="position: relative; z-index: 10;">
+      <div class="bg-[#23292b] rounded-xl p-3 shadow-lg">
+        <h3 class="text-base font-semibold mb-3 text-center text-white">Property Filters</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 overflow-hidden">
+          <!-- Tensile Strength Filter -->
+          <div class="filter-group">
+            <label class="block text-xs font-medium text-secondary mb-1">Tensile Strength (MPa)</label>
+            <div class="flex items-center gap-2 min-w-0">
+              <input type="range" id="tensile-min" min="0" max="2500" value="0" step="50" class="flex-1 h-2 bg-[#31373a] rounded-lg appearance-none cursor-pointer slider min-w-0">
+              <input type="range" id="tensile-max" min="0" max="2500" value="2500" step="50" class="flex-1 h-2 bg-[#31373a] rounded-lg appearance-none cursor-pointer slider min-w-0">
+            </div>
+            <div class="flex justify-between text-xs text-secondary mt-1">
+              <span id="tensile-min-val">0</span>
+              <span id="tensile-max-val">2500</span>
+            </div>
+          </div>
+          
+          <!-- Elongation Filter -->
+          <div class="filter-group">
+            <label class="block text-xs font-medium text-secondary mb-1">Elongation (%)</label>
+            <div class="flex items-center gap-2 min-w-0">
+              <input type="range" id="elongation-min" min="0" max="50" value="0" step="1" class="flex-1 h-2 bg-[#31373a] rounded-lg appearance-none cursor-pointer slider min-w-0">
+              <input type="range" id="elongation-max" min="0" max="50" value="50" step="1" class="flex-1 h-2 bg-[#31373a] rounded-lg appearance-none cursor-pointer slider min-w-0">
+            </div>
+            <div class="flex justify-between text-xs text-secondary mt-1">
+              <span id="elongation-min-val">0</span>
+              <span id="elongation-max-val">50</span>
+            </div>
+          </div>
+          
+          <!-- Density Filter -->
+          <div class="filter-group">
+            <label class="block text-xs font-medium text-secondary mb-1">Density (g/cm³)</label>
+            <div class="flex items-center gap-2 min-w-0">
+              <input type="range" id="density-min" min="1" max="20" value="1" step="0.5" class="flex-1 h-2 bg-[#31373a] rounded-lg appearance-none cursor-pointer slider min-w-0">
+              <input type="range" id="density-max" min="1" max="20" value="20" step="0.5" class="flex-1 h-2 bg-[#31373a] rounded-lg appearance-none cursor-pointer slider min-w-0">
+            </div>
+            <div class="flex justify-between text-xs text-secondary mt-1">
+              <span id="density-min-val">1.0</span>
+              <span id="density-max-val">20.0</span>
+            </div>
+          </div>
+          
+          <!-- Yield Strength Filter -->
+          <div class="filter-group">
+            <label class="block text-xs font-medium text-secondary mb-1">Yield Strength (MPa)</label>
+            <div class="flex items-center gap-2 min-w-0">
+              <input type="range" id="yield-min" min="0" max="2000" value="0" step="50" class="flex-1 h-2 bg-[#31373a] rounded-lg appearance-none cursor-pointer slider min-w-0">
+              <input type="range" id="yield-max" min="0" max="2000" value="2000" step="50" class="flex-1 h-2 bg-[#31373a] rounded-lg appearance-none cursor-pointer slider min-w-0">
+            </div>
+            <div class="flex justify-between text-xs text-secondary mt-1">
+              <span id="yield-min-val">0</span>
+              <span id="yield-max-val">2000</span>
+            </div>
+          </div>
+          
+          <!-- Hardness Filter -->
+          <div class="filter-group">
+            <label class="block text-xs font-medium text-secondary mb-1">Hardness (HV)</label>
+            <div class="flex items-center gap-2 min-w-0">
+              <input type="range" id="hardness-min" min="0" max="800" value="0" step="25" class="flex-1 h-2 bg-[#31373a] rounded-lg appearance-none cursor-pointer slider min-w-0">
+              <input type="range" id="hardness-max" min="0" max="800" value="800" step="25" class="flex-1 h-2 bg-[#31373a] rounded-lg appearance-none cursor-pointer slider min-w-0">
+            </div>
+            <div class="flex justify-between text-xs text-secondary mt-1">
+              <span id="hardness-min-val">0</span>
+              <span id="hardness-max-val">800</span>
+            </div>
+          </div>
+          
+          <!-- Commercial Availability Filter -->
+          <div class="filter-group">
+            <label class="block text-xs font-medium text-secondary mb-1">Commercial Availability</label>
+            <div class="flex items-center gap-4 mt-1">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="commercial-only" class="w-4 h-4 text-[#2563eb] bg-[#31373a] border-[#31373a] rounded focus:ring-[#2563eb]">
+                <span class="text-xs text-secondary">Commercial Only</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex justify-center gap-3 mt-3 flex-wrap">
+          <button id="apply-filters" class="bg-[#2563eb] text-white font-semibold py-2 px-4 rounded-xl hover:bg-[#1e4db3] transition flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Apply Filters
+          </button>
+          <button id="reset-filters" class="bg-[#23292b] text-white font-semibold py-2 px-4 rounded-xl hover:bg-[#31373a] transition border border-[#31373a] flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            Reset
+          </button>
+          <button id="toggle-filters" class="bg-[#23292b] text-white font-semibold py-2 px-4 rounded-xl hover:bg-[#31373a] transition border border-[#31373a] flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+            Hide Filters
+          </button>
+        </div>
+      </div>
+    </div>
+    
+
+    
+
     <div id="spinner" class="flex justify-center items-center py-12"><div class="spinner"></div></div>
-    <div id="materialLists" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-[1364px] mx-auto hidden"></div>
+    <div id="materialLists" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-[1364px] mx-auto hidden"></div>
     <div id="filtered-view" class="flex flex-col lg:flex-row gap-4 items-start hidden justify-center w-full max-w-[1364px] mx-auto">
-      <div id="filtered-materials" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 w-[260px]"></div>
+              <div id="filtered-materials" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6 w-[260px]"></div>
       <div id="scatter-container" class="relative flex-1 min-w-0 mx-auto">
         <div class="w-full">
           <h3 class="text-base font-semibold mb-4 text-center" style="color: #1b2123; margin-top: 10px;">Material Properties Comparison</h3>
@@ -280,10 +458,22 @@
     </div>
   </div>
   <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
-    <div class="rounded-2xl shadow-2xl overflow-y-auto max-h-[80vh] max-w-2xl w-full mx-4 md:mx-auto p-6 text-white relative">
+    <div class="rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh] max-w-4xl w-full mx-4 md:mx-auto p-6 text-white relative">
       <button id="modal-close" class="absolute top-4 right-6 text-secondary hover:text-white text-2xl">&times;</button>
       <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
+      <div class="flex flex-col lg:flex-row gap-6">
+        <div class="flex-1">
       <div id="modal-content" class="space-y-4 text-sm"></div>
+        </div>
+        <div class="flex-1">
+          <div id="ai-recommendations" class="bg-[#23292b] rounded-xl p-3 shadow-lg h-full flex flex-col">
+            <h3 class="text-base font-semibold mb-3 text-center text-white">AI Material Recommendations</h3>
+            <div id="recommendation-content" class="text-center text-secondary flex-1 flex flex-col">
+              <p class="text-xs">Select a material to get AI-powered recommendations for similar materials.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div id="comparison-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
@@ -292,22 +482,22 @@
       <h2 class="text-base font-bold mb-6 text-center" style="font-size:1rem;">Material Comparison</h2>
       <div class="flex flex-col md:flex-row gap-6 items-start justify-center">
         <div class="flex-1 min-w-[260px] w-full">
-          <div id="comp-panel-left" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch min-h-[340px] shadow-lg justify-center">
-            <div id="left-panel-content" class="flex flex-col items-stretch justify-start flex-1 w-full h-full relative">
+          <div id="comp-panel-left" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch shadow-lg">
+            <div id="left-panel-content" class="flex flex-col items-stretch w-full relative min-h-[200px]">
               <div id="left-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
                 <button id="select-left" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
-                <div class="text-xs text-secondary mt-2" id="guide-left">Click “+” to add a material for comparison</div>
+                <div class="text-xs text-secondary mt-2" id="guide-left">Click "+" to add a material for comparison</div>
               </div>
               <div id="left-material-info" class="w-full"></div>
             </div>
           </div>
         </div>
         <div class="flex-1 min-w-[260px] w-full">
-          <div id="comp-panel-right" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch min-h-[340px] shadow-lg justify-center">
-            <div id="right-panel-content" class="flex flex-col items-stretch justify-start flex-1 w-full h-full relative">
+          <div id="comp-panel-right" class="bg-[#1b2123] rounded-xl p-4 flex flex-col items-stretch shadow-lg">
+            <div id="right-panel-content" class="flex flex-col items-stretch w-full relative min-h-[200px]">
               <div id="right-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
                 <button id="select-right" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
-                <div class="text-xs text-secondary mt-2" id="guide-right">Click “+” to add a material for comparison</div>
+                <div class="text-xs text-secondary mt-2" id="guide-right">Click "+" to add a material for comparison</div>
               </div>
               <div id="right-material-info" class="w-full"></div>
             </div>
@@ -316,7 +506,7 @@
       </div>
       <div id="comparison-chart-container" class="mt-8 hidden w-full flex justify-center items-stretch">
         <div class="bg-[#1b2123] rounded-2xl p-6 shadow-xl flex flex-col items-center w-full" style="max-width:none;">
-          <div class="w-full" style="aspect-ratio: 16/9;">
+          <div class="w-full" style="aspect-ratio: 1/1;">
             <canvas id="comparisonRadar" style="display:block;width:100%;height:100%;"></canvas>
           </div>
         </div>
@@ -347,9 +537,9 @@
 
         if (isSpecialGroup) {
           xKey = 'Electrical Conductivity (MS/m or %IACS)';
-          yKey = 'Thermal Conductivity (W/m·K @25 °C)'; // <-- copy this from your JSON!
+          yKey = 'Thermal Conductivity (W/m·K @25°C)'; // <-- copy this from your JSON!
           xLabel = 'Electrical Conductivity (MS/m or %IACS)';
-          yLabel = 'Thermal Conductivity (W/m·K @25 °C)';
+          yLabel = 'Thermal Conductivity (W/m·K @25°C)';
           tooltipLabel = (ctx) => [
             `Electrical: ${ctx.raw.x} MS/m or %IACS`,
             `Thermal: ${ctx.raw.y} W/m·K`
@@ -1059,7 +1249,7 @@ const pastel = [
     }
     // Call updateEmptyStates in resetComparison and after both selectLeft/selectRight
     function renderMaterialInfo(container, mat, side) {
-      container.innerHTML = `<div class="flex flex-col items-stretch justify-start gap-2 h-full" style="margin:0;padding:0;min-height:220px;">
+      container.innerHTML = `<div class="flex flex-col items-stretch justify-start gap-1" style="margin:0;padding:0;">
         <div class="flex items-center gap-2 text-lg font-bold text-left" style="margin:0;min-height:2.5rem;align-items:center;">
           <span style="margin:0;display:inline-block;vertical-align:middle;">${mat.Material}</span>
           <button class="px-2 py-1 rounded bg-[#23292b] border border-[#31373a] text-xs text-secondary hover:text-[#2563eb] hover:border-[#2563eb] transition flex items-center gap-1" id="change-${side}" title="Change material" style="margin-bottom:0;align-self:center;">
@@ -1067,66 +1257,31 @@ const pastel = [
             Change
           </button>
         </div>
-        <div style="height: 0.5rem;"></div>
-        <table class="min-w-full text-xs mt-1" style="margin:0;"><tbody>
-        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Alloy Type</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Alloy Type']||'–'}</td></tr>
-        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Density</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${(mat['Density (g/cm³)']||'–')}</td></tr>
-        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Yield Strength</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Yield Strength (MPa)']||'–'}</td></tr>
-        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Tensile Strength</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Ultimate Tensile Strength (MPa)']||'–'}</td></tr>
-        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Elongation at Break</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Elongation at Break (%)'] ? mat['Elongation at Break (%)'] + ' %' : '–'}</td></tr>
-        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Hardness (HV)</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Hardness (HV)']||'–'}</td></tr>
-        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Modulus of Elasticity</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Modulus of Elasticity (GPa)']||'–'}</td></tr>
-        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Electrical Conductivity</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${mat['Electrical Conductivity (MS/m or %IACS)']||'–'}</td></tr>
-        <tr><td class="py-1 text-secondary font-normal" style="font-size:0.92rem;">Thermal Conductivity</td><td class="py-1 pl-4 text-secondary" style="font-size:1rem;">${(mat['Thermal Conductivity (W/m·K @25°C)'] ?? mat['Thermal Conductivity (W/m·K @25 °C)']) || '–'}</td></tr>
+        <div style="height: 0.25rem;"></div>
+        <table class="min-w-full text-xs" style="margin:0;"><tbody>
+        <tr><td class="py-1 text-secondary font-medium" style="font-size:0.75rem;color:#9ca3af;">Alloy Type</td><td class="py-1 pl-4 text-white" style="font-size:0.8rem;font-weight:500;">${mat['Alloy Type']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-medium" style="font-size:0.75rem;color:#9ca3af;">Density</td><td class="py-1 pl-4 text-white" style="font-size:0.8rem;font-weight:500;">${(mat['Density (g/cm³)']||'–')}</td></tr>
+        <tr><td class="py-1 text-secondary font-medium" style="font-size:0.75rem;color:#9ca3af;">Yield Strength</td><td class="py-1 pl-4 text-white" style="font-size:0.8rem;font-weight:500;">${mat['Yield Strength (MPa)']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-medium" style="font-size:0.75rem;color:#9ca3af;">Tensile Strength</td><td class="py-1 pl-4 text-white" style="font-size:0.8rem;font-weight:500;">${mat['Ultimate Tensile Strength (MPa)']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-medium" style="font-size:0.75rem;color:#9ca3af;">Elongation at Break</td><td class="py-1 pl-4 text-white" style="font-size:0.8rem;font-weight:500;">${mat['Elongation at Break (%)'] ? mat['Elongation at Break (%)'] + ' %' : '–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-medium" style="font-size:0.75rem;color:#9ca3af;">Hardness (HV)</td><td class="py-1 pl-4 text-white" style="font-size:0.8rem;font-weight:500;">${mat['Hardness (HV)']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-medium" style="font-size:0.75rem;color:#9ca3af;">Modulus of Elasticity</td><td class="py-1 pl-4 text-white" style="font-size:0.8rem;font-weight:500;">${mat['Modulus of Elasticity (GPa)']||'–'}</td></tr>
+        <tr><td class="py-1 text-secondary font-medium" style="font-size:0.75rem;color:#9ca3af;">Electrical Conductivity</td><td class="py-1 pl-4 text-white" style="font-size:0.8rem;font-weight:500;">${mat['Electrical Conductivity (MS/m or %IACS)']||'–'}</td></tr>
+                 <tr><td class="py-1 text-secondary font-medium" style="font-size:0.75rem;color:#9ca3af;">Thermal Conductivity</td><td class="py-1 pl-4 text-white" style="font-size:0.8rem;font-weight:500;">${(mat['Thermal Conductivity (W/m·K @25°C)'] ?? mat['Thermal Conductivity (W/m·K @25 °C)']) || '–'}</td></tr>
       </tbody></table>`;
       // Add change button event
       const changeBtn = container.querySelector(`#change-${side}`);
       changeBtn.onclick = () => {
-        if (side === 'left') {
-          // Recreate the empty state and select button
-          const leftPanelContent = document.getElementById('left-panel-content');
-          leftPanelContent.innerHTML = `
-            <div id="left-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
-              <button id="select-left" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
-              <div class="text-xs text-secondary mt-2" id="guide-left">Click "+" to add a material for comparison</div>
-            </div>
-            <div id="left-material-info" class="w-full"></div>
-          `;
-          
-          // Re-attach event listener
-          const newSelectLeft = document.getElementById('select-left');
-          newSelectLeft.onclick = () => {
-            document.getElementById('left-empty-state').style.display = 'none';
-            const leftMaterialInfo = document.getElementById('left-material-info');
-            renderMaterialSelect(leftMaterialInfo, mat => {
-              leftMaterial = mat;
-              renderMaterialInfo(leftMaterialInfo, mat, 'left');
-              if (rightMaterial) showComparison();
-            });
-          };
-        } else {
-          // Recreate the empty state and select button
-          const rightPanelContent = document.getElementById('right-panel-content');
-          rightPanelContent.innerHTML = `
-            <div id="right-empty-state" class="absolute inset-0 flex flex-col items-center justify-center w-full h-full z-10">
-              <button id="select-right" class="text-4xl text-secondary hover:text-[#2563eb] focus:outline-none bg-[#23292b] rounded-full w-14 h-14 flex items-center justify-center shadow transition"><span>+</span></button>
-              <div class="text-xs text-secondary mt-2" id="guide-right">Click "+" to add a material for comparison</div>
-            </div>
-            <div id="right-material-info" class="w-full"></div>
-          `;
-          
-          // Re-attach event listener
-          const newSelectRight = document.getElementById('select-right');
-          newSelectRight.onclick = () => {
-            document.getElementById('right-empty-state').style.display = 'none';
-            const rightMaterialInfo = document.getElementById('right-material-info');
-            renderMaterialSelect(rightMaterialInfo, mat => {
-              rightMaterial = mat;
-              renderMaterialInfo(rightMaterialInfo, mat, 'right');
-              if (rightMaterial) showComparison();
-            });
-          };
-        }
+        // Directly show material selection list
+        renderMaterialSelect(container, mat => {
+          if (side === 'left') {
+            leftMaterial = mat;
+          } else {
+            rightMaterial = mat;
+          }
+          renderMaterialInfo(container, mat, side);
+          if (leftMaterial && rightMaterial) showComparison();
+        });
       };
       updateEmptyStates(); // Call updateEmptyStates after rendering material info
     }
@@ -1274,6 +1429,788 @@ const pastel = [
     compModal.addEventListener('click', e => {
       if (e.target === compModal) compModal.classList.add('hidden');
     });
+
+    // === Property Range Slider Filters ===
+    let propertyFilters = {
+      tensile: { min: 0, max: 2500 },
+      elongation: { min: 0, max: 50 },
+      density: { min: 1, max: 20 },
+      yield: { min: 0, max: 2000 },
+      hardness: { min: 0, max: 800 },
+      commercialOnly: false
+    };
+
+    // Initialize slider event listeners
+    function initializeSliders() {
+      const sliders = [
+        { min: 'tensile-min', max: 'tensile-max', valMin: 'tensile-min-val', valMax: 'tensile-max-val', prop: 'tensile' },
+        { min: 'elongation-min', max: 'elongation-max', valMin: 'elongation-min-val', valMax: 'elongation-max-val', prop: 'elongation' },
+        { min: 'density-min', max: 'density-max', valMin: 'density-min-val', valMax: 'density-max-val', prop: 'density' },
+        { min: 'yield-min', max: 'yield-max', valMin: 'yield-min-val', valMax: 'yield-max-val', prop: 'yield' },
+        { min: 'hardness-min', max: 'hardness-max', valMin: 'hardness-min-val', valMax: 'hardness-max-val', prop: 'hardness' }
+      ];
+
+      sliders.forEach(slider => {
+        const minSlider = document.getElementById(slider.min);
+        const maxSlider = document.getElementById(slider.max);
+        const minVal = document.getElementById(slider.valMin);
+        const maxVal = document.getElementById(slider.valMax);
+
+        minSlider.addEventListener('input', (e) => {
+          const value = parseFloat(e.target.value);
+          propertyFilters[slider.prop].min = value;
+          minVal.textContent = slider.prop === 'density' ? value.toFixed(1) : value;
+          
+          // Ensure min doesn't exceed max
+          if (value > parseFloat(maxSlider.value)) {
+            maxSlider.value = value;
+            propertyFilters[slider.prop].max = value;
+            maxVal.textContent = slider.prop === 'density' ? value.toFixed(1) : value;
+          }
+        });
+
+        maxSlider.addEventListener('input', (e) => {
+          const value = parseFloat(e.target.value);
+          propertyFilters[slider.prop].max = value;
+          maxVal.textContent = slider.prop === 'density' ? value.toFixed(1) : value;
+          
+          // Ensure max doesn't go below min
+          if (value < parseFloat(minSlider.value)) {
+            minSlider.value = value;
+            propertyFilters[slider.prop].min = value;
+            minVal.textContent = slider.prop === 'density' ? value.toFixed(1) : value;
+          }
+        });
+      });
+
+      // Commercial only checkbox
+      document.getElementById('commercial-only').addEventListener('change', (e) => {
+        propertyFilters.commercialOnly = e.target.checked;
+      });
+    }
+
+    // Filter materials based on property ranges
+    function filterMaterialsByProperties(materials) {
+      return materials.filter(material => {
+        // Extract numeric values from material properties
+        const tensile = extractNumericValue(material['Ultimate Tensile Strength (MPa)']);
+        const elongation = extractNumericValue(material['Elongation at Break (%)']);
+        const density = extractNumericValue(material['Density (g/cm³)']);
+        const yield = extractNumericValue(material['Yield Strength (MPa)']);
+        const hardness = extractNumericValue(material['Hardness (HV)']);
+        const isCommercial = material['Commercially Available'] === 1 || 
+                           material['Commercially Available'] === true || 
+                           material['Commercially Available'] === '1' ||
+                           material['Commercially Available'] === 'true' ||
+                           material['Commercially Available'] === 'Yes' ||
+                           material['Commercially Available'] === 'yes';
+
+        // Check if material meets all filter criteria
+        if (propertyFilters.commercialOnly && !isCommercial) return false;
+        if (tensile < propertyFilters.tensile.min || tensile > propertyFilters.tensile.max) return false;
+        if (elongation < propertyFilters.elongation.min || elongation > propertyFilters.elongation.max) return false;
+        if (density < propertyFilters.density.min || density > propertyFilters.density.max) return false;
+        if (yield < propertyFilters.yield.min || yield > propertyFilters.yield.max) return false;
+        if (hardness < propertyFilters.hardness.min || hardness > propertyFilters.hardness.max) return false;
+
+        return true;
+      });
+    }
+
+    // Helper function to extract numeric values from strings
+    function extractNumericValue(value) {
+      if (typeof value === 'number') return value;
+      if (!value) return 0;
+      
+      // Handle ranges like "6-10" by taking the average
+      if (typeof value === 'string' && value.includes('-')) {
+        const parts = value.split('-').map(part => parseFloat(part.match(/[\d.]+/)?.[0] || 0));
+        return parts.reduce((a, b) => a + b, 0) / parts.length;
+      }
+      
+      // Extract first number from string
+      const match = String(value).match(/[\d.]+/);
+      return match ? parseFloat(match[0]) : 0;
+    }
+
+    // === AI Recommendation Engine ===
+    let selectedMaterialForRecommendation = null;
+
+    function calculateMaterialSimilarity(material1, material2) {
+      const properties = [
+        'Ultimate Tensile Strength (MPa)',
+        'Yield Strength (MPa)',
+        'Elongation at Break (%)',
+        'Density (g/cm³)',
+        'Hardness (HV)',
+        'Modulus of Elasticity (GPa)'
+      ];
+
+      let similarityScore = 0;
+      let validProperties = 0;
+      let totalProperties = properties.length;
+
+      properties.forEach(prop => {
+        const val1 = extractNumericValue(material1[prop]);
+        const val2 = extractNumericValue(material2[prop]);
+        
+        if (val1 > 0 && val2 > 0) {
+          // Calculate similarity based on percentage difference
+          const avgVal = (val1 + val2) / 2;
+          const difference = Math.abs(val1 - val2);
+          const percentageDifference = difference / avgVal;
+          
+          // Use a more sensitive exponential decay for more realistic similarity scores
+          // Increased sensitivity: exp(-percentageDifference * 3.5) instead of 2
+          const similarity = Math.exp(-percentageDifference * 3.5);
+          
+          // Apply property-specific weighting with more differentiation
+          let weight = 1.0;
+          if (prop.includes('Tensile') || prop.includes('Yield')) {
+            weight = 1.4; // Higher weight for strength properties
+          } else if (prop.includes('Density')) {
+            weight = 0.6; // Lower weight for density
+          } else if (prop.includes('Elongation')) {
+            weight = 1.3; // Higher weight for ductility
+          } else if (prop.includes('Hardness')) {
+            weight = 1.2; // Medium-high weight for hardness
+          } else if (prop.includes('Modulus')) {
+            weight = 0.8; // Lower weight for modulus (less critical for similarity)
+          }
+          
+          similarityScore += similarity * weight;
+          validProperties++;
+        }
+        // If either value is missing (0 or invalid), don't add to validProperties
+      });
+
+      // Require at least 3 valid properties for meaningful comparison
+      if (validProperties < 3) {
+        return 0; // Return 0 similarity if not enough data
+      }
+
+      // Calculate weighted average similarity score
+      let baseScore = similarityScore / validProperties;
+      
+      // Penalize for missing properties (reduce score based on missing data ratio)
+      const missingRatio = (totalProperties - validProperties) / totalProperties;
+      baseScore = baseScore * (1 - missingRatio * 0.4); // Increased penalty to 40%
+
+      // Very small bonus for same alloy type (reduced further)
+      if (material1['Alloy Type'] === material2['Alloy Type']) {
+        baseScore += 0.01; // Reduced bonus to 1%
+      }
+
+      // Additional penalty for very similar materials to prevent 100% scores
+      // This ensures even very similar materials don't get 100% unless they're nearly identical
+      if (baseScore > 0.95) {
+        baseScore = 0.95 + (baseScore - 0.95) * 0.3; // Reduce scores above 95%
+      }
+
+      // Cap the similarity score at 1.0 (100%)
+      return Math.min(baseScore, 1.0);
+    }
+
+    function getMaterialRecommendations(baseMaterial, allMaterials, count = 5) {
+      const similarities = allMaterials
+        .filter(m => m.Material !== baseMaterial.Material)
+        .map(material => ({
+          material: material,
+          similarity: calculateMaterialSimilarity(baseMaterial, material)
+        }))
+        .sort((a, b) => b.similarity - a.similarity)
+        .slice(0, count);
+
+      return similarities;
+    }
+
+    function showRecommendations(material) {
+      selectedMaterialForRecommendation = material;
+      const recommendations = getMaterialRecommendations(material, cleanDb, 5);
+      
+      // Debug: Log the first few recommendations
+      console.log('AI Recommendations for:', material.Material);
+      recommendations.slice(0, 3).forEach((rec, index) => {
+        console.log(`${index + 1}. ${rec.material.Material}: ${(rec.similarity * 100).toFixed(1)}%`);
+      });
+      const recommendationContent = document.getElementById('recommendation-content');
+      const aiRecommendations = document.getElementById('ai-recommendations');
+
+      let html = `
+        <div class="text-left flex-1 flex flex-col">
+          <p class="text-white font-semibold mb-3 text-sm">Based on <span class="text-[#2563eb]">${material.Material}</span> (${material['Alloy Type']})</p>
+          <p class="text-xs text-secondary mb-3">AI recommends these materials due to similar mechanical properties, chemical composition, and application characteristics.</p>
+          <div class="flex flex-col gap-2 flex-1">
+      `;
+
+      recommendations.forEach((rec, index) => {
+        const similarityPercent = Math.min(Math.round(rec.similarity * 100), 100);
+        const isCommercial = rec.material['Commercially Available'] === 1 || 
+                           rec.material['Commercially Available'] === true || 
+                           rec.material['Commercially Available'] === '1' ||
+                           rec.material['Commercially Available'] === 'true' ||
+                           rec.material['Commercially Available'] === 'Yes' ||
+                           rec.material['Commercially Available'] === 'yes';
+
+                 html += `
+           <div class="bg-[#1b2123] rounded-lg p-2 border border-[#31373a] hover:border-[#2563eb] transition cursor-pointer recommendation-item" data-material-index="${cleanDb.findIndex(m => m.Material === rec.material.Material)}">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-semibold text-white text-sm">${rec.material.Material}</span>
+              ${isCommercial ? '<span class="text-[#2563eb] text-xs">✓ Commercial</span>' : ''}
+            </div>
+            <p class="text-xs text-secondary mb-1">${rec.material['Alloy Type']}</p>
+            <div class="flex items-center gap-2">
+              <div class="flex-1 bg-[#31373a] rounded-full h-1.5">
+                <div class="bg-[#2563eb] h-1.5 rounded-full" style="width: ${similarityPercent}%"></div>
+              </div>
+              <span class="text-xs text-secondary">${similarityPercent}%</span>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `
+          </div>
+          <p class="text-xs text-secondary mt-2 text-center mt-auto">Click on any recommendation to view detailed properties</p>
+        </div>
+      `;
+
+             recommendationContent.innerHTML = html;
+       
+       // Add event listeners for recommendation items
+       document.querySelectorAll('.recommendation-item').forEach(item => {
+         item.addEventListener('click', () => {
+           const materialIndex = parseInt(item.getAttribute('data-material-index'));
+           const material = cleanDb[materialIndex];
+           showModal(material);
+           showRecommendations(material);
+         });
+       });
+     }
+
+    // === Filter UI Controls ===
+    document.getElementById('show-filters').addEventListener('click', () => {
+      const filters = document.getElementById('property-filters');
+      const button = document.getElementById('show-filters');
+      
+      if (filters.classList.contains('hidden')) {
+        // Show filters
+        filters.classList.remove('hidden');
+        button.innerHTML = `
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+          </svg>
+          Hide Advanced Filters
+        `;
+      } else {
+        // Hide filters
+        filters.classList.add('hidden');
+        button.innerHTML = `
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
+          </svg>
+          Advanced Filters
+        `;
+      }
+    });
+
+    document.getElementById('toggle-filters').addEventListener('click', () => {
+      const filters = document.getElementById('property-filters');
+      const button = document.getElementById('show-filters');
+      
+      filters.classList.add('hidden');
+      button.innerHTML = `
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+        Advanced Filters
+      `;
+    });
+
+    document.getElementById('apply-filters').addEventListener('click', () => {
+      // Preserve scroll position and viewport information
+      const scrollPosition = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const originalContentHeight = document.documentElement.scrollHeight;
+      const originalScrollRatio = scrollPosition / Math.max(1, originalContentHeight - viewportHeight);
+      
+      renderGrid();
+      renderScatterPlot();
+      
+      // Restore scroll position after content update
+      setTimeout(() => {
+        const newContentHeight = document.documentElement.scrollHeight;
+        const maxScroll = Math.max(0, newContentHeight - viewportHeight);
+        
+        // Calculate new scroll position based on the same relative position
+        const newScrollPosition = Math.round(originalScrollRatio * maxScroll);
+        
+        // Ensure scroll position is within bounds
+        const safeScrollPosition = Math.max(0, Math.min(newScrollPosition, maxScroll));
+        
+        window.scrollTo(0, safeScrollPosition);
+      }, 10);
+    });
+
+    document.getElementById('reset-filters').addEventListener('click', (e) => {
+      // Prevent any default scroll behavior
+      e.preventDefault();
+      
+      // Preserve scroll position and viewport information
+      const scrollPosition = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const originalContentHeight = document.documentElement.scrollHeight;
+      const originalScrollRatio = scrollPosition / Math.max(1, originalContentHeight - viewportHeight);
+      
+      // Reset all sliders to default values
+      propertyFilters = {
+        tensile: { min: 0, max: 2500 },
+        elongation: { min: 0, max: 50 },
+        density: { min: 1, max: 20 },
+        yield: { min: 0, max: 2000 },
+        hardness: { min: 0, max: 800 },
+        commercialOnly: false
+      };
+
+      // Reset slider elements without triggering scroll
+      const sliders = [
+        { id: 'tensile-min', value: 0 },
+        { id: 'tensile-max', value: 2500 },
+        { id: 'elongation-min', value: 0 },
+        { id: 'elongation-max', value: 50 },
+        { id: 'density-min', value: 1 },
+        { id: 'density-max', value: 20 },
+        { id: 'yield-min', value: 0 },
+        { id: 'yield-max', value: 2000 },
+        { id: 'hardness-min', value: 0 },
+        { id: 'hardness-max', value: 800 }
+      ];
+
+      sliders.forEach(slider => {
+        const element = document.getElementById(slider.id);
+        if (element) {
+          element.value = slider.value;
+        }
+      });
+
+      // Reset checkbox
+      const commercialCheckbox = document.getElementById('commercial-only');
+      if (commercialCheckbox) {
+        commercialCheckbox.checked = false;
+      }
+
+      // Update display values
+      const displayValues = [
+        { id: 'tensile-min-val', value: '0' },
+        { id: 'tensile-max-val', value: '2500' },
+        { id: 'elongation-min-val', value: '0' },
+        { id: 'elongation-max-val', value: '50' },
+        { id: 'density-min-val', value: '1.0' },
+        { id: 'density-max-val', value: '20.0' },
+        { id: 'yield-min-val', value: '0' },
+        { id: 'yield-max-val', value: '2000' },
+        { id: 'hardness-min-val', value: '0' },
+        { id: 'hardness-max-val', value: '800' }
+      ];
+
+      displayValues.forEach(item => {
+        const element = document.getElementById(item.id);
+        if (element) {
+          element.textContent = item.value;
+        }
+      });
+
+      // Render grid and scatter plot
+      renderGrid();
+      renderScatterPlot();
+      
+      // Restore scroll position after content update with longer delay
+      setTimeout(() => {
+        const newContentHeight = document.documentElement.scrollHeight;
+        const maxScroll = Math.max(0, newContentHeight - viewportHeight);
+        
+        // Calculate new scroll position based on the same relative position
+        const newScrollPosition = Math.round(originalScrollRatio * maxScroll);
+        
+        // Ensure scroll position is within bounds
+        const safeScrollPosition = Math.max(0, Math.min(newScrollPosition, maxScroll));
+        
+        window.scrollTo(0, safeScrollPosition);
+      }, 50);
+    });
+
+    // === Update existing functions to use filters ===
+    const originalRenderGrid = renderGrid;
+    renderGrid = function() {
+      let filteredMaterials = cleanDb;
+      
+      // Apply property filters
+      filteredMaterials = filterMaterialsByProperties(filteredMaterials);
+      
+      // Apply search filter
+      if (searchTerm) {
+        filteredMaterials = filteredMaterials.filter(item => 
+          JSON.stringify(item).toLowerCase().includes(searchTerm)
+        );
+      }
+
+      const filteredView = document.getElementById('filtered-view');
+      const filteredMaterialsList = document.getElementById('filtered-materials');
+
+      if (selectedSlice != null) {
+        // Show filtered view with selected group and scatter plot
+        materialLists.classList.add('hidden');
+        filteredView.classList.remove('hidden');
+
+        // Render only the selected group in the filtered view
+        filteredMaterialsList.innerHTML = '';
+        const selectedCategory = categories[selectedSlice];
+        const selectedMaterials = filteredMaterials.filter(item => item['Alloy Type'] === selectedCategory);
+
+        if (selectedMaterials.length === 0) {
+          // Show no results message for filtered view
+          const noResultsSection = document.createElement('div');
+          noResultsSection.className = 'card';
+          noResultsSection.innerHTML = `
+            <div class="text-center py-8">
+              <p class="text-secondary text-lg mb-2">No materials match the current filters.</p>
+              <p class="text-secondary text-sm">Try adjusting your property filters or search terms.</p>
+            </div>
+          `;
+          filteredMaterialsList.appendChild(noResultsSection);
+        } else {
+          const section = document.createElement('div');
+          section.className = 'card section-' + selectedSlice;
+          const header = document.createElement('h2');
+          header.textContent = selectedCategory;
+          header.className = `mb-2 p-2 rounded-xl text-center font-semibold category-${selectedSlice}`;
+          section.appendChild(header);
+          const ul = document.createElement('ul');
+          section.appendChild(ul);
+
+          selectedMaterials.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'flex items-center gap-1';
+
+            const materialSpan = document.createElement('span');
+            materialSpan.textContent = item.Material;
+            li.appendChild(materialSpan);
+
+            const commercialValue = item['Commercially Available'];
+            const isCommercial = (commercialValue === '1' || commercialValue === 1 || commercialValue === true || commercialValue === 'true' || commercialValue === 'Yes' || commercialValue === 'yes');
+            if (isCommercial) {
+              const commercialIcon = document.createElement('span');
+              commercialIcon.className = 'text-xs align-middle leading-none';
+              commercialIcon.innerHTML = `
+                <svg class="commercial-check" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="10" cy="10" r="9" fill="#2563eb"/>
+                  <path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              `;
+              commercialIcon.title = 'Commercially Available';
+              li.appendChild(commercialIcon);
+            }
+
+            ul.appendChild(li);
+            li.addEventListener('click', () => {
+              showModal(item);
+              showRecommendations(item);
+            });
+          });
+
+          filteredMaterialsList.appendChild(section);
+        }
+      } else {
+        // Show all groups in the original 5-column layout
+        materialLists.classList.remove('hidden');
+        filteredView.classList.add('hidden');
+
+        materialLists.innerHTML = '';
+        const sectionMap = {};
+        let hasMatchingMaterials = false;
+
+        filteredMaterials.forEach(item => {
+          hasMatchingMaterials = true;
+          let section = sectionMap[item['Alloy Type']];
+          if (!section) {
+            section = document.createElement('div');
+            section.className = 'card section-' + categories.indexOf(item['Alloy Type']);
+            const header = document.createElement('h2');
+            header.textContent = item['Alloy Type'];
+            header.className = `mb-2 p-2 rounded-xl text-center font-semibold category-${categories.indexOf(item['Alloy Type'])}`;
+            section.appendChild(header);
+            const ul = document.createElement('ul');
+            section.appendChild(ul);
+            materialLists.appendChild(section);
+            sectionMap[item['Alloy Type']] = section;
+          }
+          const ul = section.querySelector('ul');
+          const li = document.createElement('li');
+          li.className = 'flex items-center gap-1';
+
+          const materialSpan = document.createElement('span');
+          materialSpan.textContent = item.Material;
+          li.appendChild(materialSpan);
+
+          const commercialValue = item['Commercially Available'];
+          const isCommercial = (commercialValue === '1' || commercialValue === 1 || commercialValue === true || commercialValue === 'true' || commercialValue === 'Yes' || commercialValue === 'yes');
+          if (isCommercial) {
+            const commercialIcon = document.createElement('span');
+            commercialIcon.className = 'text-xs align-middle leading-none';
+            commercialIcon.innerHTML = `
+              <svg class="commercial-check" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="9" fill="#2563eb"/>
+                <path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            `;
+            commercialIcon.title = 'Commercially Available';
+            li.appendChild(commercialIcon);
+          }
+
+          ul.appendChild(li);
+          li.addEventListener('click', () => {
+            showModal(item);
+            showRecommendations(item);
+          });
+        });
+
+        // Show no results message if no materials match the filters
+        if (!hasMatchingMaterials) {
+          const noResultsSection = document.createElement('div');
+          noResultsSection.className = 'card col-span-full';
+          noResultsSection.innerHTML = `
+            <div class="text-center py-8">
+              <p class="text-secondary text-lg mb-2">No materials match the current filters.</p>
+              <p class="text-secondary text-sm">Try adjusting your property filters or search terms.</p>
+            </div>
+          `;
+          materialLists.appendChild(noResultsSection);
+        }
+      }
+    };
+
+    // === Update comparison chart to use radar chart ===
+    function showComparison() {
+      compChartContainer.classList.remove('hidden');
+      
+      const properties = [
+        'Yield Strength (MPa)',
+        'Ultimate Tensile Strength (MPa)',
+        'Elongation at Break (%)',
+        'Density (g/cm³)',
+        'Hardness (HV)',
+        'Modulus of Elasticity (GPa)',
+        'Electrical Conductivity',
+        'Thermal Conductivity'
+      ];
+
+      function getVal(mat, key) {
+        const keyVariants = [
+          key,
+          key.replace(' ', ''),
+          key.replace(' ', ''),
+          key.replace('Strength', 'strength'),
+          key.replace('Tensile', 'Ultimate Tensile'),
+          key.replace('Density (g/cm³)', 'Density (g/cm3)'),
+          key.replace('Electrical Conductivity', 'Electrical Conductivity (MS/m or %IACS)'),
+          key.replace('Thermal Conductivity', 'Thermal Conductivity (W/m·K @25°C)'),
+          key.replace('Thermal Conductivity', 'Thermal Conductivity (W/m·K @25 °C)')
+        ];
+        let v = null;
+        for (const k of keyVariants) {
+          if (mat[k] !== undefined && mat[k] !== null && mat[k] !== '') {
+            v = mat[k];
+            break;
+          }
+        }
+        if (typeof v === 'string') {
+          const match = v.match(/[-+]?\d*\.?\d+/);
+          v = match ? match[0].replace('~','') : '';
+        }
+        return v && !isNaN(parseFloat(v)) ? parseFloat(v) : 0;
+      }
+
+      const leftData = properties.map(l => getVal(leftMaterial, l));
+      const rightData = properties.map(l => getVal(rightMaterial, l));
+
+      // Calculate dynamic limits for each property with buffer above highest value
+      const dynamicLimits = properties.map((_, index) => {
+        const maxVal = Math.max(leftData[index], rightData[index]);
+        // Add 20% buffer above the highest value, minimum 10% of the value
+        const buffer = Math.max(maxVal * 0.2, maxVal * 0.1);
+        return Math.ceil(maxVal + buffer);
+      });
+
+      // Normalize data to dynamic scale for better radar chart visualization
+      const normalizedLeftData = leftData.map((val, index) => Math.round((val / dynamicLimits[index]) * 100));
+      const normalizedRightData = rightData.map((val, index) => Math.round((val / dynamicLimits[index]) * 100));
+
+      // Remove previous chart if any
+      const canvas = document.getElementById('comparisonRadar');
+      if (compRadar) compRadar.destroy();
+
+      // Reset canvas size to match parent container
+      const container = canvas.parentElement;
+      const containerWidth = container.clientWidth;
+      const containerHeight = container.clientHeight;
+      canvas.width = containerWidth;
+      canvas.height = containerHeight;
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      const ctx = canvas.getContext('2d');
+
+      compRadar = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: properties.map(p => p.replace(' (MPa)', '').replace(' (%)', '').replace(' (g/cm³)', '').replace(' (HV)', '').replace(' (GPa)', '')),
+          datasets: [
+            {
+              label: leftMaterial.Material,
+              data: normalizedLeftData,
+              backgroundColor: 'rgba(37, 99, 235, 0.2)',
+              borderColor: '#2563eb',
+              borderWidth: 2,
+              pointBackgroundColor: '#2563eb',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: '#2563eb'
+            },
+            {
+              label: rightMaterial.Material,
+              data: normalizedRightData,
+              backgroundColor: 'rgba(245, 58, 98, 0.2)',
+              borderColor: '#F53A62',
+              borderWidth: 2,
+              pointBackgroundColor: '#F53A62',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: '#F53A62'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: '#fff',
+                font: { size: 14, weight: 'normal', family: 'Open Sans, sans-serif' },
+                usePointStyle: true,
+                pointStyle: 'circle',
+                padding: 16,
+                boxWidth: 12,
+                boxHeight: 12
+              }
+            },
+            tooltip: {
+              backgroundColor: '#1b2123',
+              titleColor: '#fff',
+              bodyColor: '#98a1b1',
+              borderColor: '#31373a',
+              borderWidth: 1,
+              cornerRadius: 8,
+              padding: 12,
+              callbacks: {
+                label: function(context) {
+                  const idx = context.dataIndex;
+                  const isLeft = context.datasetIndex === 0;
+                  const actualVal = isLeft ? leftData[idx] : rightData[idx];
+                  const property = properties[idx];
+                  const maxLimit = dynamicLimits[idx];
+                  
+                  // Format the value based on property type
+                  let formattedVal;
+                  if (property.includes('Density')) {
+                    formattedVal = actualVal.toFixed(1);
+                  } else if (property.includes('Elongation')) {
+                    formattedVal = Math.round(actualVal);
+                  } else {
+                    formattedVal = Math.round(actualVal);
+                  }
+                  
+                  const unit = property.includes('MPa') ? 'MPa' : 
+                              property.includes('%') ? '%' : 
+                              property.includes('g/cm³') ? 'g/cm³' : 
+                              property.includes('HV') ? 'HV' : 'GPa';
+                  
+                  return `${context.dataset.label}: ${formattedVal} ${unit}`;
+                }
+              }
+            },
+            datalabels: {
+              color: '#fff',
+              font: { size: 11, weight: 'bold', family: 'Open Sans, sans-serif' },
+              anchor: 'center',
+              align: 'center',
+              offset: 0,
+              backgroundColor: 'rgba(27, 33, 35, 0.9)',
+              borderRadius: 4,
+              padding: {
+                top: 2,
+                bottom: 2,
+                left: 4,
+                right: 4
+              },
+              formatter: function(value, context) {
+                const idx = context.dataIndex;
+                const isLeft = context.datasetIndex === 0;
+                const actualVal = isLeft ? leftData[idx] : rightData[idx];
+                const property = properties[idx];
+                
+                // Format the value based on property type
+                let formattedVal;
+                if (property.includes('Density')) {
+                  formattedVal = actualVal.toFixed(1);
+                } else if (property.includes('Elongation')) {
+                  formattedVal = Math.round(actualVal);
+                } else {
+                  formattedVal = Math.round(actualVal);
+                }
+                
+                const unit = property.includes('MPa') ? 'MPa' : 
+                            property.includes('%') ? '%' : 
+                            property.includes('g/cm³') ? 'g/cm³' : 
+                            property.includes('HV') ? 'HV' : 'GPa';
+                
+                return `${formattedVal} ${unit}`;
+              }
+            }
+          },
+          scales: {
+            r: {
+              beginAtZero: true,
+              max: 100,
+              grid: {
+                color: '#31373a',
+                lineWidth: 1
+              },
+              angleLines: {
+                color: '#31373a',
+                lineWidth: 1
+              },
+              pointLabels: {
+                color: '#98a1b1',
+                font: { size: 12, family: 'Open Sans, sans-serif' }
+              },
+              ticks: {
+                color: '#98a1b1',
+                font: { size: 10 },
+                backdropColor: 'transparent',
+                stepSize: 20
+              }
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    }
+
+    // Initialize sliders after data is loaded
+    initializeSliders();
   }); // <-- Close DOMContentLoaded
   </script>
 </body>
