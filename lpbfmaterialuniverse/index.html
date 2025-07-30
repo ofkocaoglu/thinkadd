@@ -7,6 +7,18 @@
   <!-- Open Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com" defer></script>
+  <script>
+    // Suppress Tailwind CDN warning
+    window.addEventListener('load', function() {
+      const originalWarn = console.warn;
+      console.warn = function(...args) {
+        if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) {
+          return; // Suppress Tailwind CDN warning
+        }
+        originalWarn.apply(console, args);
+      };
+    });
+  </script>
   <style>
     /* Modal heading border thicker and spacing */
     #detail-modal > div h3 {
@@ -293,14 +305,6 @@
         box-sizing: border-box !important;
       }
       
-      /* Ensure search input doesn't overflow on very small screens */
-      @media (max-width: 480px) {
-        .search-input {
-          font-size: 16px !important; /* Prevents zoom on iOS */
-          padding: 0.5rem 0.75rem !important;
-        }
-      }
-      
       /* Filter buttons container - stack vertically on mobile */
       .flex.justify-center.gap-3.mt-3.flex-wrap {
         flex-direction: column !important;
@@ -315,15 +319,22 @@
       }
       
       /* Header buttons - stack vertically on mobile */
-      .flex.justify-center.space-x-2.mb-6.md\\:hidden {
+      .flex.justify-center.space-x-2.mb-6.md\:hidden {
         flex-direction: column !important;
         gap: 0.5rem !important;
         align-items: stretch !important;
+        justify-content: center !important;
       }
       
-      .flex.justify-center.space-x-2.mb-6.md\\:hidden > a {
+      .flex.justify-center.space-x-2.mb-6.md\:hidden > a {
         width: 100% !important;
         text-align: center !important;
+        display: block !important;
+        margin: 0 !important;
+        padding: 0.5rem 1rem !important;
+        border-radius: 0.75rem !important;
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
       }
       
       /* Ensure buttons don't overflow their containers */
@@ -331,15 +342,6 @@
         white-space: nowrap !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;
-      }
-      
-      /* Adjust button text size on very small screens */
-      @media (max-width: 480px) {
-        button, .btn {
-          font-size: 0.875rem !important;
-          padding-left: 0.75rem !important;
-          padding-right: 0.75rem !important;
-        }
       }
       
       /* Comparison modal improvements for mobile */
@@ -372,6 +374,20 @@
       #comparison-modal > div {
         padding: 1rem !important;
         margin: 0.5rem !important;
+      }
+    }
+    
+    /* Additional mobile improvements for very small screens */
+    @media (max-width: 480px) {
+      .search-input {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+        padding: 0.5rem 0.75rem !important;
+      }
+      
+      button, .btn {
+        font-size: 0.875rem !important;
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
       }
     }
   </style>
@@ -654,7 +670,7 @@
 
         let dataPoints, xLabel, yLabel, xKey, yKey, tooltipLabel;
         const isSpecialGroup = group === 'Copper Alloys' || group === 'Precious Metals';
-        console.log("Group:", group, "Is special:", isSpecialGroup);
+        // console.log("Group:", group, "Is special:", isSpecialGroup);
 
         if (isSpecialGroup) {
           xKey = 'Electrical Conductivity (MS/m or %IACS)';
@@ -692,8 +708,8 @@
           }
           // Debug: Log all available properties for the first material
           if (groupMaterials.length > 0) {
-            console.log('[DEBUG] Available properties for first material:', Object.keys(groupMaterials[0]));
-            console.log('[DEBUG] First material thermal conductivity property:', groupMaterials[0]['Thermal Conductivity (W/m·K @25 °C)']);
+            // console.log('[DEBUG] Available properties for first material:', Object.keys(groupMaterials[0]));
+            // console.log('[DEBUG] First material thermal conductivity property:', groupMaterials[0]['Thermal Conductivity (W/m·K @25 °C)']);
           }
           
           dataPoints = groupMaterials
@@ -702,7 +718,7 @@
               // Find the thermal conductivity property by searching for it
               const thermalKey = Object.keys(m).find(key => key.includes('Thermal') && key.includes('W/m'));
               const yVal = thermalKey ? extractNumber(m[thermalKey]) : NaN;
-              console.log(`[DEBUG] Material: ${m.Material}, xKey: ${m[xKey]} -> ${xVal}, thermalKey: ${thermalKey}, yVal: ${m[thermalKey]} -> ${yVal}`);
+              // console.log(`[DEBUG] Material: ${m.Material}, xKey: ${m[xKey]} -> ${xVal}, thermalKey: ${thermalKey}, yVal: ${m[thermalKey]} -> ${yVal}`);
               return !isNaN(xVal) && !isNaN(yVal);
             })
             .map(m => {
@@ -714,9 +730,9 @@
                 full: m
               };
             });
-          console.log("Group:", group, "xKey:", xKey, "yKey:", yKey);
-          console.log("Filtered materials:", groupMaterials);
-          console.log("Special plot data:", dataPoints);
+          // console.log("Group:", group, "xKey:", xKey, "yKey:", yKey);
+          // console.log("Filtered materials:", groupMaterials);
+          // console.log("Special plot data:", dataPoints);
           if (dataPoints.length === 0) {
             console.warn(`[DEBUG] No data for group ${group} with keys: ${xKey}, ${yKey}`);
           }
@@ -744,18 +760,18 @@
               label: m.Material,
               full: m
             }));
-          console.log(`[DEBUG] Group: ${group}, xKey: ${xKey}, yKey: ${yKey}, dataPoints:`, dataPoints);
+          // console.log(`[DEBUG] Group: ${group}, xKey: ${xKey}, yKey: ${yKey}, dataPoints:`, dataPoints);
           if (dataPoints.length === 0) {
             console.warn(`[DEBUG] No data for group ${group} with keys: ${xKey}, ${yKey}`);
           }
         }
 
-        console.log('Scatter data for group:', group, dataPoints);
-        console.log('All materials in group:', groupMaterials.map(m => ({
-          material: m.Material,
-          elongation: m['Elongation at Break (%)'],
-          strength: m['Ultimate Tensile Strength (MPa)']
-        })));
+        // console.log('Scatter data for group:', group, dataPoints);
+        // console.log('All materials in group:', groupMaterials.map(m => ({
+        //   material: m.Material,
+        //   elongation: m['Elongation at Break (%)'],
+        //   strength: m['Ultimate Tensile Strength (MPa)']
+        // })));
 
         if (dataPoints.length === 0) {
           scatterContainer.classList.remove('hidden');
@@ -1198,13 +1214,20 @@ const pastel = [
 
 
       fetch('materialDatabase.json')
-        .then(r => r.json())
+        .then(r => {
+          if (!r.ok) {
+            throw new Error(`HTTP error! status: ${r.status}`);
+          }
+          return r.json();
+        })
         .then(db => {
           cleanDb = db.filter(i => i.Material && i.Material !== 'Material' && i['Alloy Type'] && i['Alloy Type'] !== 'Alloy Type');
           categories = [...new Set(cleanDb.map(i => i['Alloy Type']))];
           categories.forEach(cat => materialsByCategory[cat] = cleanDb.filter(i => i['Alloy Type'] === cat));
           const ctx = document.getElementById('materialChart').getContext('2d');
-          Chart.register(ChartDataLabels);
+          if (typeof Chart !== 'undefined' && typeof ChartDataLabels !== 'undefined') {
+            Chart.register(ChartDataLabels);
+          }
           const chart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -1274,6 +1297,10 @@ const pastel = [
               renderScatterPlot();
             }
           });
+        })
+        .catch(error => {
+          console.error('Error loading material database:', error);
+          spinner.innerHTML = '<div class="text-center text-red-400">Error loading data. Please refresh the page.</div>';
         });
 
 // === Material Comparison Modal Logic ===
@@ -1745,7 +1772,7 @@ const pastel = [
       // Commercial only checkbox
       document.getElementById('commercial-only').addEventListener('change', (e) => {
         propertyFilters.commercialOnly = e.target.checked;
-        console.log('Commercial only filter:', e.target.checked);
+        // console.log('Commercial only filter:', e.target.checked);
         // Trigger re-render when checkbox changes
         renderGrid();
         renderScatterPlot();
@@ -1754,7 +1781,7 @@ const pastel = [
 
     // Filter materials based on property ranges
     function filterMaterialsByProperties(materials) {
-      console.log('Filtering materials. Commercial only:', propertyFilters.commercialOnly, 'Total materials:', materials.length);
+      // console.log('Filtering materials. Commercial only:', propertyFilters.commercialOnly, 'Total materials:', materials.length);
       return materials.filter(material => {
         // Extract numeric values from material properties
         const tensile = extractNumericValue(material['Ultimate Tensile Strength (MPa)']);
@@ -1772,7 +1799,7 @@ const pastel = [
         // Check if material meets all filter criteria
         // If commercialOnly is checked, only show commercial materials
         if (propertyFilters.commercialOnly && !isCommercial) {
-          console.log('Filtering out non-commercial material:', material.Material, 'Commercial value:', material['Commercially Available']);
+          // console.log('Filtering out non-commercial material:', material.Material, 'Commercial value:', material['Commercially Available']);
           return false;
         }
         if (tensile < propertyFilters.tensile.min || tensile > propertyFilters.tensile.max) return false;
@@ -1897,10 +1924,10 @@ const pastel = [
       const recommendations = getMaterialRecommendations(material, cleanDb, 5);
       
       // Debug: Log the first few recommendations
-      console.log('AI Recommendations for:', material.Material);
-      recommendations.slice(0, 3).forEach((rec, index) => {
-        console.log(`${index + 1}. ${rec.material.Material}: ${(rec.similarity * 100).toFixed(1)}%`);
-      });
+      // console.log('AI Recommendations for:', material.Material);
+      // recommendations.slice(0, 3).forEach((rec, index) => {
+      //   console.log(`${index + 1}. ${rec.material.Material}: ${(rec.similarity * 100).toFixed(1)}%`);
+      // });
       const recommendationContent = document.getElementById('recommendation-content');
       const aiRecommendations = document.getElementById('ai-recommendations');
 
