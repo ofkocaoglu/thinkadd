@@ -147,7 +147,7 @@
     "Hardness (HV)": "127 HV",
     "Modulus of Elasticity (GPa)": "70 GPa",
     "Definition": "Heat-treatable Al alloy by EOS tailored for AM, offering a high-strength & high-elongation balance. Chemical makeup undisclosed (“Al5X1”), but designed to print crack-free and respond to aging.",
-    "Key Features": "400.0%",
+    "Key Features": "Excellent strength-ductility combo (≥400 MPa UTS, ≥13% elongation); good corrosion resistance (anodizable); no hot cracking, easy to process; parts can be electropolished. Intended as a cost-competitive high-strength alternative to Scalmalloy.",
     "Industries & Applications": "Aerospace, automotive, marine structures requiring lightweight strength (e.g. bracketry, structural frames); general lightweight designs needing both toughness and strength.",
     "Thermal Conductivity (W/m·K @25 °C)": "132 W/m·K (aged)",
     "Electrical Conductivity (MS/m or %IACS)": "~20 MS/m (~34% IACS)"
@@ -249,7 +249,7 @@
     "Hardness (HV)": "150 HV",
     "Modulus of Elasticity (GPa)": "71 GPa",
     "Definition": "Printable variant of 7050 aluminium (a 7xxx-series alloy) developed by Elementum3D. RAM2 doping enables crack-free LPBF processing of this ultra high-strength aerospace alloy.",
-    "Key Features": "7050.0%",
+    "Key Features": "Very high strength (near wrought 7050-T76 levels) with good toughness; retains strength at moderately high temps; poor as-printed ductility but reasonable after aging (~8–10%); requires heat treatment to reach full strength; susceptible to corrosion (requires coatings) like other 7xxx.",
     "Industries & Applications": "Aerospace structural parts (e.g. fittings, spars) that traditionally use 7050-T7x, now produced by AM; motorsport components needing maximum strength-to-weight; not generally for corrosive environments without protection.",
     "Thermal Conductivity (W/m·K @25 °C)": "~130 W/m·K",
     "Electrical Conductivity (MS/m or %IACS)": "~18 MS/m (~30% IACS)"
@@ -419,7 +419,7 @@
     "Hardness (HV)": "~120 HV",
     "Modulus of Elasticity (GPa)": "~90 GPa (est.)",
     "Definition": "18 karat yellow gold – an alloy of ~75% Au with silver and copper (typical ~12–15% each) giving a yellow hue.",
-    "Key Features": "75.0%",
+    "Key Features": "Good corrosion resistance (noble metal content ~75%); improved strength/hardness over pure gold due to alloying; excellent electrical/thermal conductivity for an alloy (still high, but lower than pure gold); ideal balance of rich gold color and durability.",
     "Industries & Applications": "Fine jewelry and watches (the most common gold alloy in high-end jewelry), decorative artifacts. Occasionally used in electronics or dental alloys when a combination of gold content and strength is needed.",
     "Thermal Conductivity (W/m·K @25 °C)": "~300 W/m·K (high)",
     "Electrical Conductivity (MS/m or %IACS)": "~20 MS/m"
@@ -488,7 +488,7 @@
     "Modulus of Elasticity (GPa)": "~530 GPa",
     "Definition": "Iridium – a very dense, hard platinum-group metal (whitish-silver). It is among the densest elements and has a very high melting point.",
     "Key Features": "Most corrosion-resistant metal (unaffected by virtually all acids, even aqua regia); extremely high hardness and stiffness; brittle in bulk (low ductility, can crack under stress); high melting point (used in high-temp applications). Its electrical and thermal conductivity are decent but lower than Rh/Pt (due to its resistivity).",
-    "Industries & Applications": "90.0%",
+    "Industries & Applications": "Specialized uses: electrical spark plugs electrodes (fine wires of Ir for durability), crucibles for high-temperature crystal growth, electrodes in the chlor-alkali process, alloyed with platinum for standard weights and measures (e.g. the 90%Pt–10%Ir kilogram standard), and in medical devices (e.g. radiation therapy sources, small Ir wires).",
     "Thermal Conductivity (W/m·K @25 °C)": "~145 W/m·K",
     "Electrical Conductivity (MS/m or %IACS)": "~18 MS/m (~30% IACS)"
   },
@@ -504,7 +504,7 @@
     "Hardness (HV)": "~160 HV",
     "Modulus of Elasticity (GPa)": "~170 GPa (est.)",
     "Definition": "950 Platinum – Gold – Indium alloy. A jewelry casting alloy consisting of 95% Pt with small additions of gold and indium (C. Hafner patented).",
-    "Key Features": "95.0%",
+    "Key Features": "Designed for improved castability (lower melting point than pure Pt) and hardness in platinum jewelry. Excellent corrosion resistance (mostly noble content ~95% Pt + Au); good hardness (~160 HV) for holding fine details and polish; weldable and formable (a “universal” alloy for casting or forging).",
     "Industries & Applications": "High-end jewelry (platinum jewelry that needs finer casting detail or improved hardness). Suitable for 3D-printed jewelry (SLM/DMLS of platinum) and casting delicate platinum pieces. Not used widely outside jewelry due to cost.",
     "Thermal Conductivity (W/m·K @25 °C)": "~80 W/m·K (est.)",
     "Electrical Conductivity (MS/m or %IACS)": "~10 MS/m"
@@ -708,7 +708,7 @@
     "Hardness (HV)": "~260 HV",
     "Modulus of Elasticity (GPa)": "~320 GPa",
     "Definition": "A titanium-zirconium-molybdenum alloy (TZM) that is precipitation-hardened for higher strength. It retains the base Mo’s high melting point (2620 °C) but with improved mechanical properties at temperature.",
-    "Key Features": "30.0%",
+    "Key Features": "~30% stronger than pure Mo at room and elevated temps, with better creep resistance and weldability. Maintains strength up to ~1100–1300 °C, has low vapor pressure and good thermal conductivity, though slightly less than pure Mo.",
     "Industries & Applications": "Used in die casting molds, extrusion dies, furnace structural parts, nuclear reactor components, and aerospace applications such as nozzle throat inserts and high-temperature fasteners – wherever high-strength, high-temp stability is required.",
     "Thermal Conductivity (W/m·K @25 °C)": "~130 W/m·K",
     "Electrical Conductivity (MS/m or %IACS)": "~15 MS/m (~25% IACS)"
@@ -946,7 +946,7 @@
     "Hardness (HV)": "~290–430 HV  (hardened)",
     "Modulus of Elasticity (GPa)": "135 GPa",
     "Definition": "Precipitation-hardenable high-performance copper alloy optimized for thermal-critical SLM tool inserts",
-    "Key Features": "99.5%",
+    "Key Features": "High strength, high wear resistance, good corrosion resistance, excellent thermal/electrical conductivity; SLM densification >99.5% feasible; thermal conductivity retained post-ageing",
     "Industries & Applications": "Injection mold inserts, cooling channels, die-casting tools, heat exchangers",
     "Thermal Conductivity (W/m·K @25 °C)": "160 W/m·K",
     "Electrical Conductivity (MS/m or %IACS)": "≥16 MS/m (≥27.6 % IACS)"
@@ -1412,6 +1412,23 @@
   },
   {
     "Alloy Type": "Tool Steels & Others",
+    "Material": "THOR44",
+    "Commercially Available": 1,
+    "Chemical Composition": "Fe balance, 16–18% Cr, 0.95–1.20% C, <0.75% Mo, <1.00% Si, <1.00% Mn",
+    "Density (g/cm³)": "7.80 g/cm³",
+    "Yield Strength (MPa)": "924 MPa",
+    "Ultimate Tensile Strength (MPa)": "1249 MPa",
+    "Elongation at Break (%)": "3.6",
+    "Hardness (HV)": "479 HV",
+    "Modulus of Elasticity (GPa)": null,
+    "Definition": "High-carbon martensitic stainless steel for LPBF additive manufacturing. Offers high hardness, wear resistance, and corrosion resistance.",
+    "Key Features": "Hardest tool steel in LPBF (up to 63 HRC), corrosion & wear resistant, ~50% better thermal conductivity than M300, no Co/Ni, sustainably produced.",
+    "Industries & Applications": "Tooling (dies, molds), ball/roller bearings, valve parts, gears, food tools, knife blades, surgical instruments",
+    "Thermal Conductivity (W/m·K @25 °C)": "24.2 W/m·K",
+    "Electrical Conductivity (MS/m or %IACS)": null
+  },
+  {
+    "Alloy Type": "Tool Steels & Others",
     "Material": "16MnCr5",
     "Commercially Available": 0,
     "Chemical Composition": "Fe balance, 12–13% Cr, 3% Ni, 1% Mo, 1% Al, <0.03% C",
@@ -1663,23 +1680,6 @@
     "Key Features": "Heat resistance, oxidation resistance",
     "Industries & Applications": "Ovens, exhaust systems",
     "Thermal Conductivity (W/m·K @25 °C)": "15.6 W/m·K",
-    "Electrical Conductivity (MS/m or %IACS)": null
-  },
-  {
-    "Alloy Type": "Stainless Steels",
-    "Material": "THOR44",
-    "Commercially Available": 1,
-    "Chemical Composition": "Fe balance, 16–18% Cr, 0.95–1.20% C, <0.75% Mo, <1.00% Si, <1.00% Mn",
-    "Density (g/cm³)": "7.80 g/cm³",
-    "Yield Strength (MPa)": "924 MPa",
-    "Ultimate Tensile Strength (MPa)": "1249 MPa",
-    "Elongation at Break (%)": "3.6",
-    "Hardness (HV)": "479 HV",
-    "Modulus of Elasticity (GPa)": null,
-    "Definition": "High-carbon martensitic stainless steel for LPBF additive manufacturing. Offers high hardness, wear resistance, and corrosion resistance.",
-    "Key Features": "63.0%",
-    "Industries & Applications": "Tooling (dies, molds), ball/roller bearings, valve parts, gears, food tools, knife blades, surgical instruments",
-    "Thermal Conductivity (W/m·K @25 °C)": "24.2 W/m·K",
     "Electrical Conductivity (MS/m or %IACS)": null
   },
   {
