@@ -43,6 +43,18 @@
         height: auto !important;
         max-width: 100% !important;
       }
+      
+      /* Improve scatter plot container on mobile */
+      #scatter-container .relative.w-\[540px\].h-\[420px\] {
+        width: 100% !important;
+        height: 300px !important;
+        max-width: 100% !important;
+      }
+      
+      #scatter-container .relative.w-\[540px\].h-\[420px\] canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
     }
     #materialLists li.commercial:hover, #filtered-materials li.commercial:hover { color: #5ea5ff; }
     /* Category header backgrounds matching pastel palette */
@@ -252,6 +264,115 @@
       border: 1px solid #31373a;
       min-width: 0;
       overflow: hidden;
+    }
+    
+    /* Mobile responsive improvements for buttons */
+    @media (max-width: 767px) {
+      /* Main action buttons container - stack vertically on mobile */
+      .flex.justify-center.mb-8.items-center.gap-6 {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        align-items: stretch !important;
+      }
+      
+      /* Make buttons full width on mobile */
+      .flex.justify-center.mb-8.items-center.gap-6 > button,
+      .flex.justify-center.mb-8.items-center.gap-6 > div {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      
+      /* Adjust search input width on mobile */
+      .flex.justify-center.mb-8.items-center.gap-6 .relative {
+        width: 100% !important;
+      }
+      
+      .flex.justify-center.mb-8.items-center.gap-6 .search-input {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      
+      /* Ensure search input doesn't overflow on very small screens */
+      @media (max-width: 480px) {
+        .search-input {
+          font-size: 16px !important; /* Prevents zoom on iOS */
+          padding: 0.5rem 0.75rem !important;
+        }
+      }
+      
+      /* Filter buttons container - stack vertically on mobile */
+      .flex.justify-center.gap-3.mt-3.flex-wrap {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        align-items: stretch !important;
+      }
+      
+      /* Make filter buttons full width on mobile */
+      .flex.justify-center.gap-3.mt-3.flex-wrap > button {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      
+      /* Header buttons - stack vertically on mobile */
+      .flex.justify-center.space-x-2.mb-6.md\\:hidden {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        align-items: stretch !important;
+      }
+      
+      .flex.justify-center.space-x-2.mb-6.md\\:hidden > a {
+        width: 100% !important;
+        text-align: center !important;
+      }
+      
+      /* Ensure buttons don't overflow their containers */
+      button, .btn {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      
+      /* Adjust button text size on very small screens */
+      @media (max-width: 480px) {
+        button, .btn {
+          font-size: 0.875rem !important;
+          padding-left: 0.75rem !important;
+          padding-right: 0.75rem !important;
+        }
+      }
+      
+      /* Comparison modal improvements for mobile */
+      #comparison-modal > div > div:first-child {
+        flex-direction: column !important;
+        gap: 1rem !important;
+      }
+      
+      #comparison-modal .flex-1 {
+        min-width: auto !important;
+        width: 100% !important;
+      }
+      
+      /* Modal content improvements for mobile */
+      #detail-modal > div > div:first-child {
+        flex-direction: column !important;
+        gap: 1rem !important;
+      }
+      
+      /* Ensure modal buttons don't overflow */
+      #detail-modal button,
+      #comparison-modal button {
+        max-width: 100% !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      
+      /* Improve modal padding on mobile */
+      #detail-modal > div,
+      #comparison-modal > div {
+        padding: 1rem !important;
+        margin: 0.5rem !important;
+      }
     }
   </style>
 </head>
